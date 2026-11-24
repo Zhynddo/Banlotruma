@@ -1,0 +1,9 @@
+{
+  "appId": "vn.banlotruma.app",
+  "appName": "Bán Lộ Trừ Ma",
+  "webDir": "dist",
+  "backgroundColor": "#020b05",
+  "android": {
+    "allowMixedContent": false
+  }
+}

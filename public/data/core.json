@@ -1,0 +1,4161 @@
+[
+ {
+  "id": "spell.han-thu",
+  "type": "spell",
+  "name": "Hàn Thủ",
+  "summary": null,
+  "body": "1d8 Âm. Mục tiêu không hồi máu tới đầu lượt sau của bạn",
+  "tags": [
+   "Âm",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 0,
+   "thi": "Action · 60ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Chill Touch",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.dong-tho",
+  "type": "spell",
+  "name": "Động Thổ",
+  "summary": null,
+  "body": "Đào, đắp hoặc san một khối đất 5ft. Có thể biến thành địa hình khó",
+  "tags": [
+   "Âm",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Mold Earth",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.duong-quang",
+  "type": "spell",
+  "name": "Dương Quang",
+  "summary": null,
+  "body": "Thắng Mẫn hoặc chịu 1d8 Dương",
+  "tags": [
+   "Dương",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 0,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Sacred Flame",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thien-huu",
+  "type": "spell",
+  "name": "Thiên Hựu",
+  "summary": null,
+  "body": "Mục tiêu cộng 1d4 vào một lần kiểm tra kỹ năng",
+  "tags": [
+   "Dương",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 0,
+   "thi": "Action · chạm · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Guidance",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.niem-ho",
+  "type": "spell",
+  "name": "Niệm Hộ",
+  "summary": null,
+  "body": "Một người cộng 1d4 vào lần Trấn Vía hoặc Định Thần kế tiếp",
+  "tags": [
+   "Khẩu",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Resistance",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.quat-ta",
+  "type": "spell",
+  "name": "Quát Tà",
+  "summary": null,
+  "body": "Thắng Tuệ hoặc chịu 1d6 Dương, và đòn kế của nó bị nghịch",
+  "tags": [
+   "Khẩu",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 0,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Vicious Mockery",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.kiem-chi",
+  "type": "spell",
+  "name": "Kiếm Chỉ",
+  "summary": null,
+  "body": "1d8 Dương",
+  "tags": [
+   "Thủ",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 0,
+   "thi": "Action · 60ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Fire Bolt",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.cach-khong-thu",
+  "type": "spell",
+  "name": "Cách Không Thủ",
+  "summary": null,
+  "body": "Bàn tay linh vô hình nhấc, mở, kéo vật tới 5kg",
+  "tags": [
+   "Thủ",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Mage Hand",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.diem-huyet",
+  "type": "spell",
+  "name": "Điểm Huyết",
+  "summary": null,
+  "body": "Bôi máu lên một vũ khí: nó đánh trúng vong (tính là Dương)",
+  "tags": [
+   "Huyết",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · chạm · 1 phút · 1 máu",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.nhat-tru-huong",
+  "type": "spell",
+  "name": "Nhất Trụ Hương",
+  "summary": null,
+  "body": "Thắp một nén nhang. Vong có Chấp từ 2 trở xuống không vào được 5ft quanh nén",
+  "tags": [
+   "Hương",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 0,
+   "thi": "Action · tại chỗ · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.luu-hon",
+  "type": "spell",
+  "name": "Lưu Hồn",
+  "summary": null,
+  "body": "Một người đang Hấp Hối được ổn định ngay",
+  "tags": [
+   "Hương",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 0,
+   "thi": "Action · chạm",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Spare the Dying",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.lien-tam",
+  "type": "spell",
+  "name": "Liên Tâm",
+  "summary": null,
+  "body": "Hai người móc ngón tay: biết hướng của nhau, nói thầm được với nhau trong 1 dặm",
+  "tags": [
+   "Khế",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 0,
+   "thi": "Action · chạm · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Message",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.ap-linh",
+  "type": "spell",
+  "name": "Áp Linh",
+  "summary": null,
+  "body": "1d6 Dương. Mục tiêu −10ft di chuyển tới hết lượt sau của nó",
+  "tags": [
+   "Trấn",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Ray of Frost",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.diem-tuyen",
+  "type": "spell",
+  "name": "Diêm Tuyến",
+  "summary": null,
+  "body": "Rắc một đường muối dài 10ft. Vong chạm vào đường phải dừng di chuyển tới hết lượt",
+  "tags": [
+   "Trấn",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 0,
+   "thi": "Action · 10ft · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thinh-thu",
+  "type": "spell",
+  "name": "Thỉnh Thủ",
+  "summary": null,
+  "body": "Linh vặt nhập tay: đòn tay không hoặc vũ khí cầm tay dùng mod chính, gây 1d8 Dương",
+  "tags": [
+   "Nhập",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · bản thân · 1 phút",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": "Shillelagh",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thong-am",
+  "type": "spell",
+  "name": "Thông Âm",
+  "summary": null,
+  "body": "Gọi một vong không thù địch, hoặc đang giả vờ không thù địch. Biết tên thì gọi đích danh, không thì GM chọn ngẫu nhiên. Tung Thông Linh chống DC 10 (15 nếu vong cũ hay ở xa). Thắng thì hỏi một câu, nó có thể nói dối. Thắng cách 5 thì biết nó có giả vờ không. Vong thù địch thật thì không trả lời, nhưng bạn biết hướng của nó",
+  "tags": [
+   "Nhập",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 0,
+   "thi": "Action · trong cõi",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.phong-hon",
+  "type": "spell",
+  "name": "Phóng Hồn",
+  "summary": null,
+  "body": "Thắng Tuệ hoặc chịu 1d8 Dương. Xuyên vật che chắn",
+  "tags": [
+   "Xuất",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Toll the Dead",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.xuat-nhan",
+  "type": "spell",
+  "name": "Xuất Nhãn",
+  "summary": null,
+  "body": "Thấy và nghe từ một điểm bạn chọn trong 30ft, xuyên tường",
+  "tags": [
+   "Xuất",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · 30ft · tới cuối lượt sau",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.vat-ngu",
+  "type": "spell",
+  "name": "Vật Ngữ",
+  "summary": null,
+  "body": "Một món đồ cũ cho bạn thấy hoặc nghe lại vài giây của khoảnh khắc mạnh nhất nó từng chứng kiến",
+  "tags": [
+   "Cổ",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Cổ"
+   ],
+   "gia": 0,
+   "thi": "Action · chạm",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.ngan-cham",
+  "type": "spell",
+  "name": "Ngân Châm",
+  "summary": null,
+  "body": "1d6 Dương (kim bạc trừ tà). Vong trúng thì không xuyên vật được tới hết lượt sau",
+  "tags": [
+   "Kim",
+   "Cấp thấp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Kim"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Magic Stone",
+   "muc": "12.1",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.dia-phuoc",
+  "type": "spell",
+  "name": "Địa Phược",
+  "summary": null,
+  "body": "Vùng 20ft đất mềm níu chân, thành địa hình khó. Ai trong vùng thắng Lực hoặc đứng yên, tung lại cuối mỗi lượt. Vong lơ lửng thì không bị",
+  "tags": [
+   "Âm",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Entangle",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.am-vu",
+  "type": "spell",
+  "name": "Âm Vụ",
+  "summary": null,
+  "body": "Sương âm bán kính 20ft, che khuất hoàn toàn",
+  "tags": [
+   "Âm",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft · 1 giờ, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Fog Cloud",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.tam-long",
+  "type": "spell",
+  "name": "Tầm Long",
+  "summary": null,
+  "body": "Biết hướng Âm Biên, mạch nước, mồ mả gần nhất trong 1 dặm",
+  "tags": [
+   "Âm",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 1,
+   "thi": "10 phút · bản thân",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Locate Object",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.dan-tinh",
+  "type": "spell",
+  "name": "Dẫn Tinh",
+  "summary": null,
+  "body": "3d6 Dương. Đòn kế tiếp lên mục tiêu, trước hết lượt sau của bạn, được thuận",
+  "tags": [
+   "Dương",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 2,
+   "thi": "Action · 60ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Guiding Bolt",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.chieu-yeu",
+  "type": "spell",
+  "name": "Chiếu Yêu",
+  "summary": null,
+  "body": "Khối 20ft. Mỗi sinh vật thắng Mẫn hoặc phát sáng: không vô hình được, đòn lên nó được thuận. Vong vô hình phải hiện hình",
+  "tags": [
+   "Dương",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Faerie Fire",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.hoi-duong",
+  "type": "spell",
+  "name": "Hồi Dương",
+  "summary": null,
+  "body": "Hồi 1d6 + mod chính máu",
+  "tags": [
+   "Dương",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 1,
+   "thi": "Action · chạm",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Cure Wounds",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.sac-lenh",
+  "type": "spell",
+  "name": "Sắc Lệnh",
+  "summary": null,
+  "body": "Ra một lệnh một chữ: Lui, Hiện, Đứng hoặc Nói. Thắng Tuệ hoặc làm theo trong lượt sau. Gọi tên thật thì vong bị nghịch",
+  "tags": [
+   "Khẩu",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Command",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.gia-ho-chu",
+  "type": "spell",
+  "name": "Gia Hộ Chú",
+  "summary": null,
+  "body": "Tối đa 3 người cộng 1d4 vào AR và saving throw",
+  "tags": [
+   "Khẩu",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Bless",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.me-ngu",
+  "type": "spell",
+  "name": "Mê Ngữ",
+  "summary": null,
+  "body": "Một người sống thắng Tuệ hoặc coi bạn là bạn. Bị bạn hoặc đồng đội làm hại thì hết. Không áp lên vong",
+  "tags": [
+   "Khẩu",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Charm Person",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.ngu-loi-an",
+  "type": "spell",
+  "name": "Ngũ Lôi Ấn",
+  "summary": null,
+  "body": "Thắng Mẫn hoặc chịu 3d6 Dương, thắng thì chịu nửa",
+  "tags": [
+   "Thủ",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 2,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.kim-cang-an",
+  "type": "spell",
+  "name": "Kim Cang Ấn",
+  "summary": null,
+  "body": "AC +3 tới đầu lượt sau của bạn, kể cả chống đòn đó",
+  "tags": [
+   "Thủ",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 1,
+   "thi": "Reaction khi bị đánh trúng",
+   "hanh_dong": "Reaction khi bị đánh trúng",
+   "duy_tri": false,
+   "goc": "Shield",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.lien-hoa-an",
+  "type": "spell",
+  "name": "Liên Hoa Ấn",
+  "summary": null,
+  "body": "Gỡ sợ hãi hoặc mê hoặc trên một người. Người đó thuận Định Thần trong 1 phút",
+  "tags": [
+   "Thủ",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 1,
+   "thi": "Action · chạm",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Lesser Restoration",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.huyet-tien",
+  "type": "spell",
+  "name": "Huyết Tiễn",
+  "summary": null,
+  "body": "3d6 Âm",
+  "tags": [
+   "Huyết",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 2,
+   "thi": "Action · 60ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Chromatic Orb",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.huyet-nguyen",
+  "type": "spell",
+  "name": "Huyết Nguyền",
+  "summary": null,
+  "body": "Đánh dấu một mục tiêu: đòn của bạn lên nó thêm 1d6 Âm. Nó chết hoặc tan thì chuyển dấu sang mục tiêu khác bằng bonus action",
+  "tags": [
+   "Huyết",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 1,
+   "thi": "Bonus action · 60ft · 1 giờ, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Hex",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.huyet-y",
+  "type": "spell",
+  "name": "Huyết Y",
+  "summary": null,
+  "body": "Máu ảo 1d4 + 4",
+  "tags": [
+   "Huyết",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 1,
+   "thi": "Action · bản thân · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "False Life",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.huong-ho",
+  "type": "spell",
+  "name": "Hương Hộ",
+  "summary": null,
+  "body": "Một đồng đội: kẻ muốn đánh họ phải thắng Tuệ, không thì chọn mục tiêu khác. Hết nếu họ tấn công",
+  "tags": [
+   "Hương",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 1,
+   "thi": "Bonus action · 30ft · 1 phút",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": "Sanctuary",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thi-thuc",
+  "type": "spell",
+  "name": "Thí Thực",
+  "summary": null,
+  "body": "Đặt bát cháo hoặc gạo muối. Vong có Chấp từ mod chính trở xuống trong 30ft thua d20 + Chấp thì ngồi ăn, không hành động tới hết phép, trừ khi bị làm hại",
+  "tags": [
+   "Hương",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Calm Emotions",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.tinh-ue",
+  "type": "spell",
+  "name": "Tịnh Uế",
+  "summary": null,
+  "body": "Tẩy uế đồ ăn, nước, hoặc một món đồ. Yểm bậc Sơ trên món đó tan",
+  "tags": [
+   "Hương",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 1,
+   "thi": "10 phút · chạm",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Purify Food and Drink",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.buoc-vong",
+  "type": "spell",
+  "name": "Buộc Vong",
+  "summary": null,
+  "body": "Vong thua d20 + Chấp thì bị buộc vào một chỗ, không đi xa quá 15ft",
+  "tags": [
+   "Khế",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.buoc-via",
+  "type": "spell",
+  "name": "Buộc Vía",
+  "summary": null,
+  "body": "Buộc chỉ đỏ: đứt thay một lần mất vía. Mỗi người một sợi",
+  "tags": [
+   "Khế",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 1,
+   "thi": "10 phút · chạm · tới khi đứt",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.dong-menh",
+  "type": "spell",
+  "name": "Đồng Mệnh",
+  "summary": null,
+  "body": "Một đồng đội +1 AC và saving throw. Mỗi khi họ chịu sát thương, bạn chịu thay một nửa",
+  "tags": [
+   "Khế",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 2,
+   "thi": "Action · chạm · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Warding Bond",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.vach-bien",
+  "type": "spell",
+  "name": "Vạch Biên",
+  "summary": null,
+  "body": "Dây mực thành Âm Biên: đường 30ft hoặc vòng bán kính 15ft. Vong muốn vượt phải có Uế từ 7 trở lên, hoặc thắng d20 + Chấp chống DC",
+  "tags": [
+   "Trấn",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.dinh-than",
+  "type": "spell",
+  "name": "Định Thân",
+  "summary": null,
+  "body": "Thắng Tuệ hoặc đứng yên, không hành động được. Tung lại cuối mỗi lượt",
+  "tags": [
+   "Trấn",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 2,
+   "thi": "Action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Hold Person",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.tran-mon",
+  "type": "spell",
+  "name": "Trấn Môn",
+  "summary": null,
+  "body": "Dán lên một cửa, hoặc một khu 20ft. Vong vào thì bạn biết, và nó bị nghịch ở lượt đầu tiên",
+  "tags": [
+   "Trấn",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 1,
+   "thi": "1 phút · chạm · 8 giờ",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": "Alarm",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thinh-to",
+  "type": "spell",
+  "name": "Thỉnh Tổ",
+  "summary": null,
+  "body": "Ông tổ nghề nhập giúp: thuận mọi kiểm tra của một kỹ năng",
+  "tags": [
+   "Nhập",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 1,
+   "thi": "Action · chạm · 1 giờ, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Enhance Ability",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.ho-nhap",
+  "type": "spell",
+  "name": "Hổ Nhập",
+  "summary": null,
+  "body": "Ông Ba Mươi nhập: thuận kiểm tra Lực, di chuyển +10ft, đòn tay không 1d8 + Lực Dương",
+  "tags": [
+   "Nhập",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 2,
+   "thi": "Bonus action · bản thân · 1 phút, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": null,
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thong-ngu",
+  "type": "spell",
+  "name": "Thông Ngữ",
+  "summary": null,
+  "body": "Hiểu mọi tiếng nói, đọc được chữ cổ",
+  "tags": [
+   "Nhập",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 1,
+   "thi": "Action · bản thân · 1 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Comprehend Languages",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.goi-hon",
+  "type": "spell",
+  "name": "Gọi Hồn",
+  "summary": null,
+  "body": "Hỏi người chết 3 câu. Cần xác hoặc vật của họ, chết chưa quá 49 ngày",
+  "tags": [
+   "Xuất",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 2,
+   "thi": "10 phút · chạm",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Speak with Dead",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.muon-mat",
+  "type": "spell",
+  "name": "Mượn Mắt",
+  "summary": null,
+  "body": "Nhìn qua mắt một con vật, hoặc một người đang ngủ",
+  "tags": [
+   "Xuất",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 1,
+   "thi": "Action · 1 dặm · 10 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Beast Sense",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.hon-bo",
+  "type": "spell",
+  "name": "Hồn Bộ",
+  "summary": null,
+  "body": "Dịch chuyển tới một chỗ bạn thấy được trong 30ft",
+  "tags": [
+   "Xuất",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 2,
+   "thi": "Bonus action · 30ft",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": "Misty Step",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thuc-khi",
+  "type": "spell",
+  "name": "Thức Khí",
+  "summary": null,
+  "body": "Biết công dụng, số lần còn lại và tính nết của một pháp bảo",
+  "tags": [
+   "Cổ",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Cổ"
+   ],
+   "gia": 1,
+   "thi": "1 phút · chạm",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": "Identify",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.hoi-anh",
+  "type": "spell",
+  "name": "Hồi Ảnh",
+  "summary": null,
+  "body": "Thấy cảnh mờ của chuyện đã xảy ra trong 30ft quanh mình, trong 24 giờ trước",
+  "tags": [
+   "Cổ",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Cổ"
+   ],
+   "gia": 1,
+   "thi": "1 phút · bản thân",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.co-ho",
+  "type": "spell",
+  "name": "Cổ Hộ",
+  "summary": null,
+  "body": "Một người đang đeo đồ cổ: AC +2",
+  "tags": [
+   "Cổ",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Cổ"
+   ],
+   "gia": 1,
+   "thi": "Bonus action · chạm · 10 phút, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Shield of Faith",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.khai-quang",
+  "type": "spell",
+  "name": "Khai Quang",
+  "summary": null,
+  "body": "Một binh khí +1 AR và +1 sát thương, đánh trúng vong (sát thương lên vong tính là Dương)",
+  "tags": [
+   "Kim",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Kim"
+   ],
+   "gia": 1,
+   "thi": "Bonus action · chạm · 1 giờ, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Magic Weapon",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.kim-thanh",
+  "type": "spell",
+  "name": "Kim Thanh",
+  "summary": null,
+  "body": "Thắng Thể hoặc chịu 2d6 Kim và bị đẩy 10ft. Thắng thì chịu nửa, không bị đẩy. Không chạm vong",
+  "tags": [
+   "Kim",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Kim"
+   ],
+   "gia": 1,
+   "thi": "Action · khối 15ft từ bạn",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Thunderwave",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thiet-toa",
+  "type": "spell",
+  "name": "Thiết Tỏa",
+  "summary": null,
+  "body": "Xích bạc quấn: mục tiêu đứng yên. Thắng Lực ở cuối lượt để thoát",
+  "tags": [
+   "Kim",
+   "Sơ"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Kim"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · AR · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Ensnaring Strike",
+   "muc": "12.2",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.bao-binh-an",
+  "type": "spell",
+  "name": "Bảo Bình Ấn",
+  "summary": null,
+  "body": "Một đoạn Âm Biên dài 60ft thành chắc: vong không vượt qua được, kể cả khi Uế từ 7 trở lên",
+  "tags": [
+   "Thủ",
+   "Trấn",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Thủ",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft · 1 giờ, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.chan-dia-an",
+  "type": "spell",
+  "name": "Chấn Địa Ấn",
+  "summary": null,
+  "body": "Khối 20ft. Thắng Mẫn hoặc chịu 3d6 Thổ và ngã. Vong không mất máu, nhưng thua thì bị trấn sát đất trong 1 phút: không bay, −10ft",
+  "tags": [
+   "Thủ",
+   "Âm",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Thủ",
+    "Âm"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Erupting Earth",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.ho-loi",
+  "type": "spell",
+  "name": "Hô Lôi",
+  "summary": null,
+  "body": "Mỗi lượt dùng action gọi sét xuống một điểm: vùng 5ft, thắng Mẫn hoặc chịu 3d6 Dương",
+  "tags": [
+   "Dương",
+   "Thủ",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Dương",
+    "Thủ"
+   ],
+   "gia": 3,
+   "thi": "Action · 120ft · 10 phút, duy trì · ngoài trời",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Call Lightning",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.pha-chu",
+  "type": "spell",
+  "name": "Phá Chú",
+  "summary": null,
+  "body": "Gỡ một bùa, bùa ngải, phép hoặc lời nguyền bậc Trung trở xuống. Bậc cao hơn thì tung mod chính chống DC",
+  "tags": [
+   "Khẩu",
+   "Khế",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Khẩu",
+    "Khế"
+   ],
+   "gia": 3,
+   "thi": "Action · chạm",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Remove Curse",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.phong-cam",
+  "type": "spell",
+  "name": "Phong Cấm",
+  "summary": null,
+  "body": "Vong có Chấp từ mod chính + 2 trở xuống thì bị Thu. Cao hơn thì bị phong 1 phút, tung d20 + Chấp mỗi cuối lượt để thoát",
+  "tags": [
+   "Trấn",
+   "Khẩu",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Trấn",
+    "Khẩu"
+   ],
+   "gia": 3,
+   "thi": "Action · 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.khe-uoc-am",
+  "type": "spell",
+  "name": "Khế Ước Âm",
+  "summary": null,
+  "body": "Giao kèo với vong: Chấp tạm về 0 tới hạn kèo. Bạn thất hứa thì mất 2 Phúc, Chấp trở lại và +2. Vong phạm kèo thì mất 1d6 Chấp",
+  "tags": [
+   "Khế",
+   "Khẩu",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Khế",
+    "Khẩu"
+   ],
+   "gia": 3,
+   "thi": "1 phút",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.tung-chu-vang-sanh",
+  "type": "spell",
+  "name": "Tụng Chú Vãng Sanh",
+  "summary": null,
+  "body": "Mọi vong trong vùng Chấp −1. Mỗi vong chịu tối đa một lần mỗi ngày",
+  "tags": [
+   "Khẩu",
+   "Hương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Khẩu",
+    "Hương"
+   ],
+   "gia": 3,
+   "thi": "1 phút · vùng 30ft",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.minh-oan",
+  "type": "spell",
+  "name": "Minh Oan",
+  "summary": null,
+  "body": "Chấp −1d4, biết tên thật thì −1d6. Về 0 thì vong đi đầu thai: +1 Phúc, Uế −1",
+  "tags": [
+   "Hương",
+   "Khẩu",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Hương",
+    "Khẩu"
+   ],
+   "gia": 3,
+   "thi": "Action · 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.rut-vong",
+  "type": "spell",
+  "name": "Rút Vong",
+  "summary": null,
+  "body": "Giật vong đang nhập một người sang thân mình. Vong thắng d20 + Chấp thì không rút được",
+  "tags": [
+   "Nhập",
+   "Khẩu",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Nhập",
+    "Khẩu"
+   ],
+   "gia": 3,
+   "thi": "Action · 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.tan-hon",
+  "type": "spell",
+  "name": "Tán Hồn",
+  "summary": null,
+  "body": "Mọi vong có Chấp từ mod chính trở xuống tan tạm thời. Không tăng Uế, không mất Phúc",
+  "tags": [
+   "Hương",
+   "Dương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Hương",
+    "Dương"
+   ],
+   "gia": 3,
+   "thi": "Action · 100ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.phat-quang",
+  "type": "spell",
+  "name": "Phật Quang",
+  "summary": null,
+  "body": "Kẻ địch đi vào vùng hoặc bắt đầu lượt trong vùng: thắng Tuệ hoặc chịu 3d6 Dương, thắng thì chịu nửa. Di chuyển trong vùng chậm một nửa",
+  "tags": [
+   "Dương",
+   "Hương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Dương",
+    "Hương"
+   ],
+   "gia": 3,
+   "thi": "Action · vùng 15ft quanh bạn · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Spirit Guardians",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.hat-van",
+  "type": "spell",
+  "name": "Hát Văn",
+  "summary": null,
+  "body": "Giá, hoặc một lần nhập tự nguyện, kéo dài thành 1 giờ. Người nghe thuận Định Thần",
+  "tags": [
+   "Nhập",
+   "Hương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Nhập",
+    "Hương"
+   ],
+   "gia": 3,
+   "thi": "1 phút",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.tuong-ho",
+  "type": "spell",
+  "name": "Tượng Hộ",
+  "summary": null,
+  "body": "Cúng một tượng hoặc bài vị cổ. Trong 15ft quanh nó, đồng đội thuận Trấn Vía, vong muốn vào phải thắng d20 + Chấp",
+  "tags": [
+   "Cổ",
+   "Hương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Cổ",
+    "Hương"
+   ],
+   "gia": 3,
+   "thi": "10 phút · chạm · 1 giờ",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Glyph of Warding",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.hoa-am-duong",
+  "type": "spell",
+  "name": "Hòa Âm Dương",
+  "summary": null,
+  "body": "Trong vùng, thế cõi tính là Bình",
+  "tags": [
+   "Âm",
+   "Dương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Âm",
+    "Dương"
+   ],
+   "gia": 3,
+   "thi": "Action · vùng 30ft quanh bạn · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.dia-vong",
+  "type": "spell",
+  "name": "Địa Võng",
+  "summary": null,
+  "body": "Vùng 20ft mọc gai: địa hình khó, mỗi 5ft đi qua chịu 2d4 Mộc",
+  "tags": [
+   "Âm",
+   "Trấn",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Âm",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "Action · 120ft · 10 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Spike Growth",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.du-hon",
+  "type": "spell",
+  "name": "Du Hồn",
+  "summary": null,
+  "body": "Hồn xuất nửa: đi xuyên tường mỏng (dưới 1ft), đi trên mặt nước. Vong luôn thấy bạn",
+  "tags": [
+   "Xuất",
+   "Âm",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Xuất",
+    "Âm"
+   ],
+   "gia": 3,
+   "thi": "Action · bản thân · 10 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Gaseous Form",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thien-ly-nhan",
+  "type": "spell",
+  "name": "Thiên Lý Nhãn",
+  "summary": null,
+  "body": "Thấy và nghe ở một nơi bạn từng đến, trong 1 dặm",
+  "tags": [
+   "Xuất",
+   "Dương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Xuất",
+    "Dương"
+   ],
+   "gia": 3,
+   "thi": "10 phút · 1 dặm · 10 phút, duy trì",
+   "hanh_dong": "10 phút",
+   "duy_tri": true,
+   "goc": "Clairvoyance",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.xa-hon",
+  "type": "spell",
+  "name": "Xả Hồn",
+  "summary": null,
+  "body": "3d6 Nguyền Hồn. Bạn chịu 1d6 Nguyền Hồn",
+  "tags": [
+   "Xuất",
+   "Huyết",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Xuất",
+    "Huyết"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.huyet-minh",
+  "type": "spell",
+  "name": "Huyết Minh",
+  "summary": null,
+  "body": "Cùng uống bát máu ăn thề. Mỗi người được tung lại một lần saving throw trong ngày. Ai phản thề thì mất 1 vía",
+  "tags": [
+   "Huyết",
+   "Khế",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Huyết",
+    "Khế"
+   ],
+   "gia": 3,
+   "thi": "10 phút · tối đa 4 người · 1 ngày",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.cuong-huyet",
+  "type": "spell",
+  "name": "Cuồng Huyết",
+  "summary": null,
+  "body": "Mồi máu cho ác linh nhập: Lực và Thể +2 (tối đa 20), đòn thêm 1d6 Âm. Cuối mỗi lượt Trấn Vía DC 10, thua thì lượt sau GM điều khiển bạn",
+  "tags": [
+   "Huyết",
+   "Nhập",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Huyết",
+    "Nhập"
+   ],
+   "gia": 3,
+   "thi": "Bonus action · bản thân · 1 phút, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Rage",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.huyet-khoa",
+  "type": "spell",
+  "name": "Huyết Khóa",
+  "summary": null,
+  "body": "Vẽ máu thành vòng quanh một vong. Thua d20 + Chấp thì nó không bắt vía, không nhập được",
+  "tags": [
+   "Huyết",
+   "Trấn",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Huyết",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "Action · 30ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": null,
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.phi-kiem",
+  "type": "spell",
+  "name": "Phi Kiếm",
+  "summary": null,
+  "body": "Một thanh kiếm ảo bay. Lúc thi và mỗi lượt sau (bonus action): AR, 1d8 + mod chính Kim. Sát thương lên vong tính là Dương",
+  "tags": [
+   "Cổ",
+   "Kim",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Cổ",
+    "Kim"
+   ],
+   "gia": 3,
+   "thi": "Bonus action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Spiritual Weapon",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.thiet-bich",
+  "type": "spell",
+  "name": "Thiết Bích",
+  "summary": null,
+  "body": "Dựng tường kim khí dài 30ft, cao 10ft. Chặn cả vật lẫn vong",
+  "tags": [
+   "Kim",
+   "Trấn",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Kim",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft · 10 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Wall of Force",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.kim-quang",
+  "type": "spell",
+  "name": "Kim Quang",
+  "summary": null,
+  "body": "Binh khí của tối đa 3 người phát sáng, đánh trúng thêm 1d6 Dương",
+  "tags": [
+   "Kim",
+   "Dương",
+   "Trung"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Kim",
+    "Dương"
+   ],
+   "gia": 3,
+   "thi": "Action · 30ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Crusader’s Mantle",
+   "muc": "12.3",
+   "nhap": false
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "spell.am-phong",
+  "type": "spell",
+  "name": "Âm Phong",
+  "summary": null,
+  "body": "Thắng Thể hoặc chịu 1d6 Âm và −5ft di chuyển tới hết lượt sau của nó",
+  "tags": [
+   "Âm",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Frostbite",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.nhat-an",
+  "type": "spell",
+  "name": "Nhật Ấn",
+  "summary": null,
+  "body": "Một vật sáng như đuốc, bán kính 20ft. Vong vô hình đứng trong vùng sáng hiện bóng mờ",
+  "tags": [
+   "Dương",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · chạm · 1 giờ",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": "Light",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.niem-danh",
+  "type": "spell",
+  "name": "Niệm Danh",
+  "summary": null,
+  "body": "Gọi đúng tên thật một vong: biết nó có trong 60ft không. Nếu có, nó không ẩn được tới hết lượt sau",
+  "tags": [
+   "Khẩu",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 0,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.phat-thu",
+  "type": "spell",
+  "name": "Phất Thủ",
+  "summary": null,
+  "body": "Một vong hoặc yêu quỷ thua d20 + Chấp (yêu quỷ: Lực) thì bị đẩy lùi 10ft",
+  "tags": [
+   "Thủ",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 0,
+   "thi": "Action · 10ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Thorn Whip",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.huyet-kien",
+  "type": "spell",
+  "name": "Huyết Kiến",
+  "summary": null,
+  "body": "Nhỏ máu lên mi mắt: thấy vong vô hình trong 30ft",
+  "tags": [
+   "Huyết",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · bản thân · 1 phút · 1 máu",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": "See Invisibility",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.huong-dan",
+  "type": "spell",
+  "name": "Hương Dẫn",
+  "summary": null,
+  "body": "Khói nhang bay về phía vong gần nhất trong 60ft, hoặc xác người chết gần nhất",
+  "tags": [
+   "Hương",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 0,
+   "thi": "Action · tại chỗ · 10 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.khe-ngon",
+  "type": "spell",
+  "name": "Khế Ngôn",
+  "summary": null,
+  "body": "Hai người bắt tay hứa một điều. Ai phạm lời thì người kia biết ngay",
+  "tags": [
+   "Khế",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 0,
+   "thi": "Action · chạm · 1 ngày",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.de-bong",
+  "type": "spell",
+  "name": "Đè Bóng",
+  "summary": null,
+  "body": "1d6 Dương. Vong trúng thì không bay, không lơ lửng được tới hết lượt sau",
+  "tags": [
+   "Trấn",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.hu-anh",
+  "type": "spell",
+  "name": "Hư Ảnh",
+  "summary": null,
+  "body": "Tạo một bóng mờ của bạn trong 30ft. Không đánh được. Vong tưởng là thật cho tới khi chạm vào",
+  "tags": [
+   "Xuất",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 0,
+   "thi": "Action · 30ft · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Minor Illusion",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.linh-khau",
+  "type": "spell",
+  "name": "Linh Khẩu",
+  "summary": null,
+  "body": "Cho linh vặt nhập một con vật nhỏ: hỏi nó một câu về những gì nó thấy trong ngày",
+  "tags": [
+   "Nhập",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 0,
+   "thi": "Action · chạm · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Speak with Animals",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.thuc-vat",
+  "type": "spell",
+  "name": "Thức Vật",
+  "summary": null,
+  "body": "Biết món đồ có từng thuộc về người đã chết không, và người đó chết êm hay chết oan",
+  "tags": [
+   "Cổ",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Cổ"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · chạm",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.toi-kim",
+  "type": "spell",
+  "name": "Tôi Kim",
+  "summary": null,
+  "body": "Một binh khí kim khí sắc lại: +1 sát thương",
+  "tags": [
+   "Kim",
+   "Cấp thấp",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Cấp thấp",
+   "tinh": [
+    "Kim"
+   ],
+   "gia": 0,
+   "thi": "Bonus action · chạm · 1 phút",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.am-khi-trien",
+  "type": "spell",
+  "name": "Âm Khí Triền",
+  "summary": null,
+  "body": "2d8 Âm. Mục tiêu bị nghịch ở lần saving throw kế tiếp",
+  "tags": [
+   "Âm",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 2,
+   "thi": "Action · 60ft · AR",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Ray of Sickness",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.van-mo",
+  "type": "spell",
+  "name": "Vấn Mộ",
+  "summary": null,
+  "body": "Biết người dưới mộ là nam hay nữ, chết bao lâu, chết êm hay chết oan (tính là bằng chứng)",
+  "tags": [
+   "Âm",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Âm"
+   ],
+   "gia": 1,
+   "thi": "10 phút · chạm mộ",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.thai-duong-chieu",
+  "type": "spell",
+  "name": "Thái Dương Chiếu",
+  "summary": null,
+  "body": "Thắng Mẫn hoặc chịu 2d8 Dương, thắng thì chịu nửa",
+  "tags": [
+   "Dương",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 2,
+   "thi": "Action · đường 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Burning Hands",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.ho-duong",
+  "type": "spell",
+  "name": "Hộ Dương",
+  "summary": null,
+  "body": "Một người kháng Âm",
+  "tags": [
+   "Dương",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Dương"
+   ],
+   "gia": 1,
+   "thi": "Action · chạm · 1 giờ, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Protection from Energy",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.mac-ngon",
+  "type": "spell",
+  "name": "Mặc Ngôn",
+  "summary": null,
+  "body": "Một mục tiêu thắng Tuệ hoặc câm: không thi phép bằng lời, vong không gọi hội được",
+  "tags": [
+   "Khẩu",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Silence",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.ho-danh",
+  "type": "spell",
+  "name": "Hô Danh",
+  "summary": null,
+  "body": "Cần biết tên thật. Vong thua d20 + Chấp thì đứng sững: mất reaction, đòn kế tiếp của nó bị nghịch",
+  "tags": [
+   "Khẩu",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khẩu"
+   ],
+   "gia": 2,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.lien-chau-an",
+  "type": "spell",
+  "name": "Liên Châu Ấn",
+  "summary": null,
+  "body": "Ba tia ấn tự trúng, mỗi tia 1d4 + 1 Dương, chia cho các mục tiêu tùy ý",
+  "tags": [
+   "Thủ",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Magic Missile",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.phong-mon-an",
+  "type": "spell",
+  "name": "Phong Môn Ấn",
+  "summary": null,
+  "body": "Khóa một cửa, chỉ bạn mở được. Vong muốn xuyên qua phải thắng d20 + Chấp",
+  "tags": [
+   "Thủ",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Thủ"
+   ],
+   "gia": 1,
+   "thi": "Action · chạm · 8 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Arcane Lock",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.huyet-lien",
+  "type": "spell",
+  "name": "Huyết Liên",
+  "summary": null,
+  "body": "Truyền máu: bạn mất tối đa 5 máu, một người khác hồi gấp đôi số đó",
+  "tags": [
+   "Huyết",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 1,
+   "thi": "Action · chạm",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.huyet-dau",
+  "type": "spell",
+  "name": "Huyết Dấu",
+  "summary": null,
+  "body": "Vẽ dấu máu lên một người hoặc vật: luôn biết hướng của nó trong cõi",
+  "tags": [
+   "Huyết",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Huyết"
+   ],
+   "gia": 1,
+   "thi": "10 phút · chạm · 7 ngày",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.thinh-huong",
+  "type": "spell",
+  "name": "Thỉnh Hương",
+  "summary": null,
+  "body": "Tối đa 3 đồng đội nhận máu ảo 1d4 + mod chính",
+  "tags": [
+   "Hương",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 1,
+   "thi": "Action · 30ft · 1 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Aid",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.khoi-che",
+  "type": "spell",
+  "name": "Khói Che",
+  "summary": null,
+  "body": "Vong bị nghịch khi bắt vía bạn",
+  "tags": [
+   "Hương",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Hương"
+   ],
+   "gia": 1,
+   "thi": "Bonus action · bản thân · 1 phút",
+   "hanh_dong": "Bonus action",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.the-doc",
+  "type": "spell",
+  "name": "Thề Độc",
+  "summary": null,
+  "body": "Một người sống tự nguyện thề không nói dối bạn. Nói dối thì mất 1d6 máu và bạn biết",
+  "tags": [
+   "Khế",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 1,
+   "thi": "1 phút · chạm · 1 ngày",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": "Zone of Truth",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.ket-duyen-am",
+  "type": "spell",
+  "name": "Kết Duyên Âm",
+  "summary": null,
+  "body": "Nối chỉ đỏ với một vong thân thiện: nó báo khi có kẻ đến gần bạn trong 60ft",
+  "tags": [
+   "Khế",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Khế"
+   ],
+   "gia": 2,
+   "thi": "10 phút · chạm · tới nghỉ dài",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Find Familiar",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.tran-trach",
+  "type": "spell",
+  "name": "Trấn Trạch",
+  "summary": null,
+  "body": "Vong có Chấp từ mod chính trở xuống không vào được nhà. Vong mạnh hơn vào thì bị nghịch mọi đòn",
+  "tags": [
+   "Trấn",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Trấn"
+   ],
+   "gia": 2,
+   "thi": "1 giờ · một ngôi nhà · 24 giờ",
+   "hanh_dong": "1 giờ",
+   "duy_tri": false,
+   "goc": "Hallow",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.xa-nhap",
+  "type": "spell",
+  "name": "Xà Nhập",
+  "summary": null,
+  "body": "Thuận Thân pháp và Ẩn pháp, leo trèo bằng tốc độ thường",
+  "tags": [
+   "Nhập",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 1,
+   "thi": "Bonus action · bản thân · 1 phút, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Spider Climb",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.muon-giong",
+  "type": "spell",
+  "name": "Mượn Giọng",
+  "summary": null,
+  "body": "Nói bằng giọng một người đã chết mà bạn từng gặp, hoặc có vật của họ",
+  "tags": [
+   "Nhập",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Nhập"
+   ],
+   "gia": 1,
+   "thi": "Action · bản thân · 10 phút",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Disguise Self",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.hon-khieu",
+  "type": "spell",
+  "name": "Hồn Khiếu",
+  "summary": null,
+  "body": "Thắng Tuệ hoặc chịu 2d6 Dương và không dùng được reaction tới đầu lượt sau của bạn",
+  "tags": [
+   "Xuất",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Xuất"
+   ],
+   "gia": 1,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Dissonant Whispers",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.co-vat-ho-chu",
+  "type": "spell",
+  "name": "Cổ Vật Hộ Chủ",
+  "summary": null,
+  "body": "Sát thương đòn đó giảm 1d6 + mod chính",
+  "tags": [
+   "Cổ",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Cổ"
+   ],
+   "gia": 1,
+   "thi": "Reaction khi bị đánh trúng, đang đeo đồ cổ",
+   "hanh_dong": "Reaction khi bị đánh trúng, đang đeo đồ cổ",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.thiet-giap",
+  "type": "spell",
+  "name": "Thiết Giáp",
+  "summary": null,
+  "body": "AC +2. Không cộng dồn với đồ hộ thân",
+  "tags": [
+   "Kim",
+   "Sơ",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Sơ",
+   "tinh": [
+    "Kim"
+   ],
+   "gia": 1,
+   "thi": "Action · bản thân · 8 giờ",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Mage Armor",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.that-tinh-tran",
+  "type": "spell",
+  "name": "Thất Tinh Trận",
+  "summary": null,
+  "body": "Bảy điểm sáng vây vùng 30ft. Vong bắt đầu lượt trong vùng chịu 2d6 Dương. Thua d20 + Chấp thì không ra khỏi vùng được",
+  "tags": [
+   "Dương",
+   "Trấn",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Dương",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.huyet-vu",
+  "type": "spell",
+  "name": "Huyết Vụ",
+  "summary": null,
+  "body": "Sương máu bán kính 15ft, che khuất. Kẻ địch bắt đầu lượt trong đó thắng Thể hoặc chịu 2d6 Âm",
+  "tags": [
+   "Huyết",
+   "Âm",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Huyết",
+    "Âm"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft · 1 phút, duy trì",
+   "hanh_dong": "Action",
+   "duy_tri": true,
+   "goc": "Stinking Cloud",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.dinh-hon-chu",
+  "type": "spell",
+  "name": "Định Hồn Chú",
+  "summary": null,
+  "body": "Vong đang nhập một người thua d20 + Chấp thì bị đẩy ra, và không nhập lại người đó trong 24 giờ",
+  "tags": [
+   "Khẩu",
+   "Trấn",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Khẩu",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "Action · 30ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Dispel Evil and Good",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.ngu-hanh-luan",
+  "type": "spell",
+  "name": "Ngũ Hành Luân",
+  "summary": null,
+  "body": "Chọn một Hành. Một yêu quỷ thắng Thể hoặc chịu 4d6 sát thương Hành đó, thắng thì chịu nửa. Không chạm vong",
+  "tags": [
+   "Thủ",
+   "Âm",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Thủ",
+    "Âm"
+   ],
+   "gia": 3,
+   "thi": "Action · 60ft",
+   "hanh_dong": "Action",
+   "duy_tri": false,
+   "goc": "Chromatic Orb",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.hoi-hon",
+  "type": "spell",
+  "name": "Hồi Hồn",
+  "summary": null,
+  "body": "Một người vừa mất hồn trong vòng 1 phút lấy lại 1 hồn. Mỗi người một lần mỗi nghỉ dài",
+  "tags": [
+   "Hương",
+   "Xuất",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Hương",
+    "Xuất"
+   ],
+   "gia": 3,
+   "thi": "1 phút · chạm",
+   "hanh_dong": "1 phút",
+   "duy_tri": false,
+   "goc": "Revivify",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.vong-dan-lo",
+  "type": "spell",
+  "name": "Vong Dẫn Lộ",
+  "summary": null,
+  "body": "Cho một vong của cõi nhập nhẹ. Nó dẫn bạn tới nơi nó chết, hoặc nơi chôn xác nó",
+  "tags": [
+   "Nhập",
+   "Âm",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Nhập",
+    "Âm"
+   ],
+   "gia": 3,
+   "thi": "10 phút · bản thân · 1 giờ",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Find the Path",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.huyet-bao",
+  "type": "spell",
+  "name": "Huyết Báo",
+  "summary": null,
+  "body": "Kẻ vừa đánh bạn chịu sát thương Âm bằng nửa số máu bạn vừa mất",
+  "tags": [
+   "Huyết",
+   "Khế",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Huyết",
+    "Khế"
+   ],
+   "gia": 3,
+   "thi": "Reaction khi bị đánh trúng · 60ft",
+   "hanh_dong": "Reaction khi bị đánh trúng",
+   "duy_tri": false,
+   "goc": "Hellish Rebuke",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.kim-than",
+  "type": "spell",
+  "name": "Kim Thân",
+  "summary": null,
+  "body": "Da cứng như đồng: kháng Kim, Mộc, Thổ, AC +1",
+  "tags": [
+   "Kim",
+   "Nhập",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Kim",
+    "Nhập"
+   ],
+   "gia": 3,
+   "thi": "Bonus action · bản thân · 1 phút, duy trì",
+   "hanh_dong": "Bonus action",
+   "duy_tri": true,
+   "goc": "Stoneskin",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.co-kinh-phan-chieu",
+  "type": "spell",
+  "name": "Cổ Kính Phản Chiếu",
+  "summary": null,
+  "body": "Tung d20 + mod chính chống DC phép. Thắng thì phép dội ngược về kẻ thi",
+  "tags": [
+   "Cổ",
+   "Dương",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Cổ",
+    "Dương"
+   ],
+   "gia": 3,
+   "thi": "Reaction khi bị phép đơn mục tiêu nhắm · cầm gương cổ",
+   "hanh_dong": "Reaction khi bị phép đơn mục tiêu nhắm",
+   "duy_tri": false,
+   "goc": "Counterspell",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.nhap-mong",
+  "type": "spell",
+  "name": "Nhập Mộng",
+  "summary": null,
+  "body": "Vào giấc mơ của một người bạn biết tên. Nói chuyện được, họ nhớ khi tỉnh",
+  "tags": [
+   "Xuất",
+   "Khế",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Xuất",
+    "Khế"
+   ],
+   "gia": 3,
+   "thi": "10 phút · 1 dặm · một giấc mơ",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Dream",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.tiep-huong",
+  "type": "spell",
+  "name": "Tiếp Hương",
+  "summary": null,
+  "body": "Tụng kinh tiếp hương: mức Hương của cõi +1 khi phép còn. Người trong vùng thuận Định Thần",
+  "tags": [
+   "Hương",
+   "Khẩu",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Hương",
+    "Khẩu"
+   ],
+   "gia": 3,
+   "thi": "10 phút · vùng 60ft · 8 giờ",
+   "hanh_dong": "10 phút",
+   "duy_tri": false,
+   "goc": "Prayer of Healing",
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.tran-long-mach",
+  "type": "spell",
+  "name": "Trấn Long Mạch",
+  "summary": null,
+  "body": "Ghim long mạch: Thiên Tinh trong ngày không ảnh hưởng tới cõi",
+  "tags": [
+   "Âm",
+   "Trấn",
+   "Trung",
+   "nháp"
+  ],
+  "data": {
+   "bac": "Trung",
+   "tinh": [
+    "Âm",
+    "Trấn"
+   ],
+   "gia": 3,
+   "thi": "1 giờ · trong cõi · 24 giờ",
+   "hanh_dong": "1 giờ",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.6",
+   "nhap": true
+  },
+  "source": "Bổ sung 22/11 (nháp)"
+ },
+ {
+  "id": "spell.tran-bat-mon",
+  "type": "spell",
+  "name": "Trận Bát Môn",
+  "summary": null,
+  "body": "Cắm 4 lá bùa ở bốn góc, dây chéo chia thành tám cửa. Bán kính 30ft, giữ 1 giờ. Người lập phải đứng trong trận. Mỗi lượt dùng một action để mở một cửa lên một mục tiêu trong trận. Tám cửa: Khai: Gỡ một bùa, phép hoặc lời nguyền; Hưu: Lần chí mạng kế tiếp nhắm vào đồng đội (kể cả bắt vía) thành đòn thường; Sinh: Hồi 1d6 + thông thạo máu, mỗi người một lần mỗi trận; Thương: 1d8 Dương, đẩy lùi 10ft; Đỗ: Một đồng đội vô hình với vong đến lượt sau của người lập; Cảnh: Đọc ý nghĩ bề mặt, hoặc lấy một manh mối từ vong; Tử: Đòn kế tiếp của đồng đội lên vong ăn cả sát thương Ngũ Hành; Kinh: Kẻ địch thắng Tuệ, thua thì đòn kế tiếp của nó bị nghịch.",
+  "tags": [
+   "Trấn",
+   "Âm",
+   "Khế",
+   "Cao"
+  ],
+  "data": {
+   "bac": "Cao",
+   "tinh": [
+    "Trấn",
+    "Âm",
+    "Khế"
+   ],
+   "gia": 4,
+   "thi": "Action mở một cửa mỗi lượt · bán kính 30ft · 1 giờ",
+   "hanh_dong": "Action mở một cửa mỗi lượt",
+   "duy_tri": false,
+   "goc": null,
+   "muc": "12.4",
+   "nhap": false,
+   "cua": [
+    {
+     "cua": "Khai",
+     "mo": "Gỡ một bùa, phép hoặc lời nguyền"
+    },
+    {
+     "cua": "Hưu",
+     "mo": "Lần chí mạng kế tiếp nhắm vào đồng đội (kể cả bắt vía) thành đòn thường"
+    },
+    {
+     "cua": "Sinh",
+     "mo": "Hồi 1d6 + thông thạo máu, mỗi người một lần mỗi trận"
+    },
+    {
+     "cua": "Thương",
+     "mo": "1d8 Dương, đẩy lùi 10ft"
+    },
+    {
+     "cua": "Đỗ",
+     "mo": "Một đồng đội vô hình với vong đến lượt sau của người lập"
+    },
+    {
+     "cua": "Cảnh",
+     "mo": "Đọc ý nghĩ bề mặt, hoặc lấy một manh mối từ vong"
+    },
+    {
+     "cua": "Tử",
+     "mo": "Đòn kế tiếp của đồng đội lên vong ăn cả sát thương Ngũ Hành"
+    },
+    {
+     "cua": "Kinh",
+     "mo": "Kẻ địch thắng Tuệ, thua thì đòn kế tiếp của nó bị nghịch"
+    }
+   ],
+   "ghi_chu": "Trận Bát Môn cần 3 tính theo luật bậc Cao. Tui tạm thêm Khế làm tính thứ ba; bạn đổi được."
+  },
+  "source": "Bản tổng hợp 21/11 (nháp)"
+ },
+ {
+  "id": "rite.goi-via",
+  "type": "rite",
+  "name": "Gọi vía",
+  "summary": null,
+  "body": "Lấy lại một vía đã mất",
+  "tags": [
+   "Hương",
+   "nghi lễ"
+  ],
+  "data": {
+   "tinh": [
+    "Hương"
+   ],
+   "thoi_gian": "Lễ thường",
+   "muc": "12.5"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "rite.cung-co-hon",
+  "type": "rite",
+  "name": "Cúng cô hồn",
+  "summary": null,
+  "body": "Uế −1",
+  "tags": [
+   "Hương",
+   "nghi lễ"
+  ],
+  "data": {
+   "tinh": [
+    "Hương"
+   ],
+   "thoi_gian": "1 giờ",
+   "muc": "12.5"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "rite.dang-sao-giai-han",
+  "type": "rite",
+  "name": "Dâng sao giải hạn",
+  "summary": null,
+  "body": "Lấy lại 1 năm thọ (Đại lễ: 1d4 năm). Mỗi người một lần mỗi năm",
+  "tags": [
+   "Hương",
+   "nghi lễ"
+  ],
+  "data": {
+   "tinh": [
+    "Hương"
+   ],
+   "thoi_gian": "Lễ thường hoặc Đại lễ",
+   "muc": "12.5"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "rite.hat-ke-su-tich",
+  "type": "rite",
+  "name": "Hát kể sự tích",
+  "summary": null,
+  "body": "Mức Hương +1",
+  "tags": [
+   "Hương",
+   "nghi lễ"
+  ],
+  "data": {
+   "tinh": [
+    "Hương"
+   ],
+   "thoi_gian": "1 giờ",
+   "muc": "12.5"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "rite.van-linh",
+  "type": "rite",
+  "name": "Vấn Linh",
+  "summary": null,
+  "body": "Khấn một thần hoặc ma rồi xin keo. Thánh keo: hỏi 3 câu. Tiếu keo: hỏi 1 câu. Âm keo: kẻ khác giả danh trả lời. Thần trả lời thật nhưng ngắn. Ma trả lời đủ nhưng có thể dối, và đòi Uế +1 hoặc một lời hứa",
+  "tags": [
+   "Nhập",
+   "Hương",
+   "nghi lễ"
+  ],
+  "data": {
+   "tinh": [
+    "Nhập",
+    "Hương"
+   ],
+   "thoi_gian": "10 phút, mỗi nghỉ dài một lần",
+   "muc": "12.5"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-dong",
+  "type": "can",
+  "name": "Căn Đồng",
+  "summary": null,
+  "body": "Được: Thuận khi cho thần, linh nhập. Phép Nhập DC +1\nMất: Phải trình đồng đúng lệ. Bỏ quá một tháng thì nghỉ dài không hồi linh lực",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 1,
+   "duoc": "Thuận khi cho thần, linh nhập. Phép Nhập DC +1",
+   "mat": "Phải trình đồng đúng lệ. Bỏ quá một tháng thì nghỉ dài không hồi linh lực",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-dong-ho",
+  "type": "can",
+  "name": "Căn Dòng Họ",
+  "summary": null,
+  "body": "Được: Thêm một phép Sơ cấp, thừa kế một pháp bảo\nMất: Kẻ thù cũ, hoặc món nợ tổ tiên",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 2,
+   "duoc": "Thêm một phép Sơ cấp, thừa kế một pháp bảo",
+   "mat": "Kẻ thù cũ, hoặc món nợ tổ tiên",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-chet-hut",
+  "type": "can",
+  "name": "Căn Chết Hụt",
+  "summary": null,
+  "body": "Được: Mỗi nghỉ dài một lần, thuận khi chống bắt vía. Luôn nhận ra Âm Biên\nMất: Vong nhận ra mình từng sang bên kia, tìm mình trước",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 3,
+   "duoc": "Mỗi nghỉ dài một lần, thuận khi chống bắt vía. Luôn nhận ra Âm Biên",
+   "mat": "Vong nhận ra mình từng sang bên kia, tìm mình trước",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-vong-theo",
+  "type": "can",
+  "name": "Căn Vong Theo",
+  "summary": null,
+  "body": "Được: Không bị vong đánh bất ngờ. Mỗi ngày hỏi vong theo mình một câu\nMất: Vong theo có Chấp riêng, đòi mình làm một việc. (Thông Linh Sư: con vong này là một vong trong Linh Đăng)",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 4,
+   "duoc": "Không bị vong đánh bất ngờ. Mỗi ngày hỏi vong theo mình một câu",
+   "mat": "Vong theo có Chấp riêng, đòi mình làm một việc. (Thông Linh Sư: con vong này là một vong trong Linh Đăng)",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-duyen-am",
+  "type": "can",
+  "name": "Căn Duyên Âm",
+  "summary": null,
+  "body": "Được: Mỗi nghỉ dài một lần, người âm đỡ thay khi sắp mất vía\nMất: Người âm ghen: một người mình thương luôn gặp xui",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 5,
+   "duoc": "Mỗi nghỉ dài một lần, người âm đỡ thay khi sắp mất vía",
+   "mat": "Người âm ghen: một người mình thương luôn gặp xui",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-ban-khoan",
+  "type": "can",
+  "name": "Căn Bán Khoán",
+  "summary": null,
+  "body": "Được: Ở cõi có ngôi đền ấy: mức Hương +1, lần Mượn Hương đầu mỗi ngày không mất Phúc\nMất: Thần gọi thì phải theo",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 6,
+   "duoc": "Ở cõi có ngôi đền ấy: mức Hương +1, lần Mượn Hương đầu mỗi ngày không mất Phúc",
+   "mat": "Thần gọi thì phải theo",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-nhe-via",
+  "type": "can",
+  "name": "Căn Nhẹ Vía",
+  "summary": null,
+  "body": "Được: Thuận khi Cảm Âm và Thông Linh\nMất: Điểm Vía khởi đầu không dưới 14",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 7,
+   "duoc": "Thuận khi Cảm Âm và Thông Linh",
+   "mat": "Điểm Vía khởi đầu không dưới 14",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-gio-thieng",
+  "type": "can",
+  "name": "Căn Giờ Thiêng",
+  "summary": null,
+  "body": "Được: Linh tối đa +2\nMất: Tháng bảy âm lịch bị nghịch khi chống bắt vía",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 8,
+   "duoc": "Linh tối đa +2",
+   "mat": "Tháng bảy âm lịch bị nghịch khi chống bắt vía",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-chung-kien",
+  "type": "can",
+  "name": "Căn Chứng Kiến",
+  "summary": null,
+  "body": "Được: Chạm vào nơi có người chết oan thì có ngay một bằng chứng\nMất: Nghỉ ở nơi Uế từ 4 trở lên phải Định Thần, thất bại không hồi linh lực",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 9,
+   "duoc": "Chạm vào nơi có người chết oan thì có ngay một bằng chứng",
+   "mat": "Nghỉ ở nơi Uế từ 4 trở lên phải Định Thần, thất bại không hồi linh lực",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-pham-thanh",
+  "type": "can",
+  "name": "Căn Phạm Thánh",
+  "summary": null,
+  "body": "Được: Thấy được thần. Thương lượng với thần +2\nMất: Một vị thần ghét mình. Phúc khởi đầu 4",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 10,
+   "duoc": "Thấy được thần. Thương lượng với thần +2",
+   "mat": "Một vị thần ghét mình. Phúc khởi đầu 4",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-tu",
+  "type": "can",
+  "name": "Căn Tu",
+  "summary": null,
+  "body": "Được: Phúc khởi đầu 6. Thuận khi Định Thần\nMất: Dùng Uế mất thêm 1 Phúc mỗi lần",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 11,
+   "duoc": "Phúc khởi đầu 6. Thuận khi Định Thần",
+   "mat": "Dùng Uế mất thêm 1 Phúc mỗi lần",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-ngoai",
+  "type": "can",
+  "name": "Căn Ngoại",
+  "summary": null,
+  "body": "Được: Thế Xú không làm mình bị nghịch\nMất: Thế Lành không làm mình được thuận. Mượn Hương bị nghịch",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 12,
+   "duoc": "Thế Xú không làm mình bị nghịch",
+   "mat": "Thế Lành không làm mình được thuận. Mượn Hương bị nghịch",
+   "muc": "2.7"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "can.can-song-sinh",
+  "type": "can",
+  "name": "Căn Song Sinh",
+  "summary": null,
+  "body": "Được: Một người anh, chị hoặc em sinh đôi đã mất từ nhỏ theo bên mình. Mỗi nghỉ dài một lần, tung lại một lần death save thất bại\nMất: Mỗi rằm phải cúng riêng cho người ấy. Quên thì nghịch Định Thần tới khi cúng bù",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 13,
+   "duoc": "Một người anh, chị hoặc em sinh đôi đã mất từ nhỏ theo bên mình. Mỗi nghỉ dài một lần, tung lại một lần death save thất bại",
+   "mat": "Mỗi rằm phải cúng riêng cho người ấy. Quên thì nghịch Định Thần tới khi cúng bù",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-ngai-cu",
+  "type": "can",
+  "name": "Căn Ngải Cũ",
+  "summary": null,
+  "body": "Được: Từng trúng ngải mà sống sót. Thuận khi chống mê hoặc. Chạm vào ai thì biết người đó có đang bị bùa ngải không\nMất: Kẻ thả ngải năm xưa còn sống. Ở cùng cõi với hắn thì hắn biết mình đang ở đâu",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 14,
+   "duoc": "Từng trúng ngải mà sống sót. Thuận khi chống mê hoặc. Chạm vào ai thì biết người đó có đang bị bùa ngải không",
+   "mat": "Kẻ thả ngải năm xưa còn sống. Ở cùng cõi với hắn thì hắn biết mình đang ở đâu",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-kiep-truoc",
+  "type": "can",
+  "name": "Căn Kiếp Trước",
+  "summary": null,
+  "body": "Được: Thạo thêm một kỹ năng của kiếp trước. Mỗi cõi một lần, GM cho một ký ức có thật về nơi này\nMất: Một món nợ kiếp trước. Người hoặc vong kiếp trước nhận ra mình, còn mình không nhận ra họ",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 15,
+   "duoc": "Thạo thêm một kỹ năng của kiếp trước. Mỗi cõi một lần, GM cho một ký ức có thật về nơi này",
+   "mat": "Một món nợ kiếp trước. Người hoặc vong kiếp trước nhận ra mình, còn mình không nhận ra họ",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-mat-am-duong",
+  "type": "can",
+  "name": "Căn Mắt Âm Dương",
+  "summary": null,
+  "body": "Được: Sinh ra đã thấy ma: luôn thấy vong vô hình trong 30ft, không cần phép\nMất: Không làm ngơ được: vong biết mình thấy nó. Nghịch Ẩn pháp với vong",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 16,
+   "duoc": "Sinh ra đã thấy ma: luôn thấy vong vô hình trong 30ft, không cần phép",
+   "mat": "Không làm ngơ được: vong biết mình thấy nó. Nghịch Ẩn pháp với vong",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-gio-quan-sat",
+  "type": "can",
+  "name": "Căn Giờ Quan Sát",
+  "summary": null,
+  "body": "Được: Sinh phạm giờ Quan Sát, sát khí nặng. Uy Áp và Át Vía +2\nMất: Trẻ con, súc vật sợ mình. Nghịch Thuyết Phục ở lần đầu gặp một người sống",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 17,
+   "duoc": "Sinh phạm giờ Quan Sát, sát khí nặng. Uy Áp và Át Vía +2",
+   "mat": "Trẻ con, súc vật sợ mình. Nghịch Thuyết Phục ở lần đầu gặp một người sống",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-cua-chua",
+  "type": "can",
+  "name": "Căn Cửa Chùa",
+  "summary": null,
+  "body": "Được: Lớn lên ở chùa, miếu, ăn cơm cúng. Nghỉ dài ở chùa, miếu, đình thì hồi thêm 1d4 linh. Vong đói không nhắm mình trước nếu còn người khác\nMất: Thổ Công khắp nơi biết mặt mình. Phạm Giới mất thêm 1 Phúc",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 18,
+   "duoc": "Lớn lên ở chùa, miếu, ăn cơm cúng. Nghỉ dài ở chùa, miếu, đình thì hồi thêm 1d4 linh. Vong đói không nhắm mình trước nếu còn người khác",
+   "mat": "Thổ Công khắp nơi biết mặt mình. Phạm Giới mất thêm 1 Phúc",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-nghe-hung",
+  "type": "can",
+  "name": "Căn Nghề Hung",
+  "summary": null,
+  "body": "Được: Nhà làm nghề đụng tới người chết (đao phủ, đồ tể, bốc mộ, khâm liệm). Không phải Định Thần trước xác chết, mồ mả. Thạo Y Thuật hoặc Sinh Tồn\nMất: Vong chết dưới tay nghề nhà mình thù mình: Phán Xử với chúng bị nghịch",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 19,
+   "duoc": "Nhà làm nghề đụng tới người chết (đao phủ, đồ tể, bốc mộ, khâm liệm). Không phải Định Thần trước xác chết, mồ mả. Thạo Y Thuật hoặc Sinh Tồn",
+   "mat": "Vong chết dưới tay nghề nhà mình thù mình: Phán Xử với chúng bị nghịch",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "can.can-thien-dinh",
+  "type": "can",
+  "name": "Căn Thiên Định",
+  "summary": null,
+  "body": "Được: Trời chọn: tung thêm hai lần (ra 20 hoặc trùng thì tung lại), nhận cả hai Căn\nMất: Nhận luôn cái Mất của cả hai Căn",
+  "tags": [
+   "căn"
+  ],
+  "data": {
+   "d20": 20,
+   "duoc": "Trời chọn: tung thêm hai lần (ra 20 hoặc trùng thì tung lại), nhận cả hai Căn",
+   "mat": "Nhận luôn cái Mất của cả hai Căn",
+   "muc": "2.7"
+  },
+  "source": "Bổ sung 22/11"
+ },
+ {
+  "id": "item.kiem-go-dao",
+  "type": "item",
+  "name": "Kiếm Gỗ Đào",
+  "summary": null,
+  "body": "Binh nhẹ 1d4 Mộc. Kích hoạt: đòn kế tiếp lên vong thêm 1d6 Dương",
+  "tags": [
+   "Cổ",
+   "Vũ khí",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vũ khí",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.roi-dau",
+  "type": "item",
+  "name": "Roi Dâu",
+  "summary": null,
+  "body": "Binh nhẹ 1d4 Mộc, tầm với 10ft. Kích hoạt: vong bị đánh trúng bị đẩy lùi 10ft",
+  "tags": [
+   "Cổ",
+   "Vũ khí",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vũ khí",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.kiem-tien-dong",
+  "type": "item",
+  "name": "Kiếm Tiền Đồng",
+  "summary": null,
+  "body": "Binh 1d6 Kim, đánh trúng vong (tính là Dương). Kích hoạt: hai mục tiêu khác trong 10ft chịu 1d6 Dương",
+  "tags": [
+   "Cổ",
+   "Kim",
+   "Vũ khí",
+   "Trung",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vũ khí",
+   "tinh": [
+    "Cổ",
+    "Kim"
+   ],
+   "bac": "Trung",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.dinh-tran",
+  "type": "item",
+  "name": "Đinh Trấn",
+  "summary": null,
+  "body": "Kích hoạt: đóng vào bóng vong, ghim tại chỗ 1 phút, mỗi cuối lượt tung d20 + Chấp chống DC để thoát",
+  "tags": [
+   "Kim",
+   "Vũ khí",
+   "Trung",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vũ khí",
+   "tinh": [
+    "Kim"
+   ],
+   "bac": "Trung",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.mat-na-tuong",
+  "type": "item",
+  "name": "Mặt Nạ Tuồng",
+  "summary": null,
+  "body": "Kích hoạt: lần Át Vía kế tiếp được thuận và +2",
+  "tags": [
+   "Cổ",
+   "Mặt nạ",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Mặt nạ",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.mat-na-giay-hang-ma",
+  "type": "item",
+  "name": "Mặt Nạ Giấy Hàng Mã",
+  "summary": null,
+  "body": "Kích hoạt: tới hết lượt sau, vong coi bạn như người âm, không nhắm bạn trừ khi bạn tấn công",
+  "tags": [
+   "Cổ",
+   "Mặt nạ",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Mặt nạ",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.mat-na-ong-dia",
+  "type": "item",
+  "name": "Mặt Nạ Ông Địa",
+  "summary": null,
+  "body": "Kích hoạt: đồng đội trong 10ft thuận Định Thần tới hết lượt sau",
+  "tags": [
+   "Cổ",
+   "Mặt nạ",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Mặt nạ",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.quat-mo",
+  "type": "item",
+  "name": "Quạt Mo",
+  "summary": null,
+  "body": "Kích hoạt: thổi lùi mọi thứ trong hình nón 15ft, dập lửa, tan sương âm",
+  "tags": [
+   "Cổ",
+   "Vật dụng",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vật dụng",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.luc-lac-bac",
+  "type": "item",
+  "name": "Lục Lạc Bạc",
+  "summary": null,
+  "body": "Không cần nhận chủ, không cần kích hoạt. Tự kêu khi có vong trong 30ft, người đeo không bị đánh bất ngờ",
+  "tags": [
+   "Kim",
+   "Vật dụng",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vật dụng",
+   "tinh": [
+    "Kim"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.keo-cat-duyen",
+  "type": "item",
+  "name": "Kéo Cắt Duyên",
+  "summary": null,
+  "body": "Kích hoạt: cắt chỉ đỏ, dây khế, hoặc một mối nhập đang diễn ra",
+  "tags": [
+   "Kim",
+   "Vật dụng",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vật dụng",
+   "tinh": [
+    "Kim"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.nhan-bac",
+  "type": "item",
+  "name": "Nhẫn Bạc",
+  "summary": null,
+  "body": "Kích hoạt: thuận Trấn Vía tới hết lượt sau",
+  "tags": [
+   "Kim",
+   "Vật dụng",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vật dụng",
+   "tinh": [
+    "Kim"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.dong-ho-dung-kim",
+  "type": "item",
+  "name": "Đồng Hồ Dừng Kim",
+  "summary": null,
+  "body": "Kích hoạt: biết giờ chết của một xác hoặc vong trong 30ft (tính là bằng chứng)",
+  "tags": [
+   "Cổ",
+   "Vật dụng",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Vật dụng",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.guong-bat-quai",
+  "type": "item",
+  "name": "Gương Bát Quái",
+  "summary": null,
+  "body": "Kích hoạt: soi một sinh vật trong 30ft, thấy hình thật",
+  "tags": [
+   "Cổ",
+   "Đạo bảo",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đạo bảo",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.chuong-dong",
+  "type": "item",
+  "name": "Chuông Đồng",
+  "summary": null,
+  "body": "Kích hoạt: vong vô hình trong 30ft hiện hình tới hết lượt sau. Thông Âm gọi được vong bên kia Âm Biên",
+  "tags": [
+   "Cổ",
+   "Đạo bảo",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đạo bảo",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.chen-nuoc-trong",
+  "type": "item",
+  "name": "Chén Nước Trong",
+  "summary": null,
+  "body": "Thông Âm thấy mặt vong, thuận khi nhận ra giả vờ",
+  "tags": [
+   "Cổ",
+   "Đạo bảo",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đạo bảo",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.dia-cau-co",
+  "type": "item",
+  "name": "Đĩa Cầu Cơ",
+  "summary": null,
+  "body": "Thông Âm hỏi hai câu mỗi lần",
+  "tags": [
+   "Cổ",
+   "Đạo bảo",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đạo bảo",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.ho-lo",
+  "type": "item",
+  "name": "Hồ Lô",
+  "summary": null,
+  "body": "Kích hoạt: thu vong có Chấp từ 3 trở xuống, không cần lễ",
+  "tags": [
+   "Cổ",
+   "Đạo bảo",
+   "Trung",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đạo bảo",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Trung",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.ao-trang-lam",
+  "type": "item",
+  "name": "Áo Tràng Lam",
+  "summary": null,
+  "body": "Mặc: Trấn Vía +1. Kích hoạt: máu ảo bằng thông thạo",
+  "tags": [
+   "Cổ",
+   "Đồ mặc",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đồ mặc",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.yem-bua",
+  "type": "item",
+  "name": "Yếm Bùa",
+  "summary": null,
+  "body": "Kích hoạt: tới hết lượt sau, không bị nhập",
+  "tags": [
+   "Kim",
+   "Đồ mặc",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đồ mặc",
+   "tinh": [
+    "Kim"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ },
+ {
+  "id": "item.non-la-chep-kinh",
+  "type": "item",
+  "name": "Nón Lá Chép Kinh",
+  "summary": null,
+  "body": "Kích hoạt: tới hết lượt sau, vong không thấy bạn",
+  "tags": [
+   "Cổ",
+   "Đồ mặc",
+   "Sơ",
+   "pháp bảo"
+  ],
+  "data": {
+   "loai": "Đồ mặc",
+   "tinh": [
+    "Cổ"
+   ],
+   "bac": "Sơ",
+   "muc": "13.3"
+  },
+  "source": "Bản tổng hợp 21/11"
+ }
+]
