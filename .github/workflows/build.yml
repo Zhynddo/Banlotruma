@@ -1,0 +1,101 @@
+name: Build
+
+# Chạy mỗi lần có thay đổi trên main, hoặc bấm tay trong tab Actions.
+# Nếu repo có file bltm-app.zip: tự giải nén code ra repo rồi xoá file zip.
+# Web lên GitHub Pages. APK chỉ build khi bấm tay và chọn "android".
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      android:
+        description: 'Build cả file APK cho Android'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Giải nén code (nếu có bltm-app.zip)
+        run: |
+          if [ -f bltm-app.zip ]; then
+            unzip -q -o bltm-app.zip -d /tmp/unpack
+            SRC=/tmp/unpack; [ -d /tmp/unpack/bltm-app ] && SRC=/tmp/unpack/bltm-app
+            (cd "$SRC" && tar --exclude='./.github' --exclude='./.git' -cf - .) | tar -xf -
+            git rm -q --cached bltm-app.zip; rm bltm-app.zip
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Giải nén code từ bltm-app.zip" && git push
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: web
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  android:
+    needs: web
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.android }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+      - name: Cài Capacitor và tạo project Android
+        run: |
+          npm install --no-save --no-audit --no-fund @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+          npx cap add android
+          npx cap sync android
+      - name: Build APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ban-lo-tru-ma-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
