@@ -1,6 +1,8 @@
 // Màn hình GM sửa kho tra cứu: thêm, sửa, ẩn (nháp), xoá một mục.
-import { useMemo, useState } from 'react';
-import { table, request } from '../lib/api.js';
+import { useMemo, useRef, useState } from 'react';
+import { table, request, media } from '../lib/api.js';
+import { prepareImage, newKey } from '../lib/image.js';
+import { Img } from './Media.jsx';
 import { patchPack } from '../lib/pack.js';
 import { norm } from '../lib/norm.js';
 
@@ -25,6 +27,7 @@ const FIELDS = {
 };
 
 const slug = (s) => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'muc-moi';
+const SPECIAL = new Set(['hinh']);
 const isPlain = (v) => v === null || ['string', 'number', 'boolean'].includes(typeof v) || (Array.isArray(v) && v.every((x) => typeof x !== 'object'));
 const toText = (v) => (Array.isArray(v) ? v.join(', ') : v === true ? 'có' : v === false ? 'không' : v ?? '');
 const fromText = (t) => {
@@ -44,8 +47,9 @@ function toForm(e, type) {
     name: e?.name || '', status: e?.status || 'published', summary: e?.summary || '', body: e?.body || '',
     tags: (e?.tags || []).join(', '), source: e?.source || '',
     data: Object.fromEntries((FIELDS[type] || []).map(([k, , kind]) => [k, kind === 'list' ? toText(d[k]) : kind === 'bool' ? !!d[k] : d[k] ?? ''])),
-    extra: Object.entries(d).filter(([k, v]) => !known.has(k) && isPlain(v)).map(([k, v]) => ({ k, v: toText(v) })),
-    kept: Object.fromEntries(Object.entries(d).filter(([k, v]) => !known.has(k) && !isPlain(v))),
+    extra: Object.entries(d).filter(([k, v]) => !known.has(k) && !SPECIAL.has(k) && isPlain(v)).map(([k, v]) => ({ k, v: toText(v) })),
+    kept: Object.fromEntries(Object.entries(d).filter(([k, v]) => !known.has(k) && !SPECIAL.has(k) && !isPlain(v))),
+    hinh: Array.isArray(d.hinh) ? d.hinh : [],
   };
 }
 
@@ -59,6 +63,7 @@ function fromForm(f, type) {
     else data[k] = v;
   }
   for (const { k, v } of f.extra) if (k.trim()) data[slug(k).replace(/-/g, '_')] = fromText(v);
+  if (f.hinh.length) data.hinh = f.hinh.map(({ path, thumb, w, h, alt, credit }) => ({ path, thumb, w, h, alt: alt.trim(), credit: credit.trim() }));
   return {
     name: f.name.trim(), status: f.status, summary: f.summary.trim() || null, body: f.body.trim() || null,
     tags: f.tags.split(',').map((x) => x.trim()).filter(Boolean), source: f.source.trim() || null, data,
@@ -82,6 +87,9 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
   const [err, setErr] = useState('');
   const [confirmDel, setConfirmDel] = useState(false);
   const [conflict, setConflict] = useState(false);
+  const [upl, setUpl] = useState('');
+  const fresh = useRef([]); // hình vừa tải lên trong lần sửa này, huỷ thì xoá đi
+  const filesOf = (h) => [h.path, h.thumb].filter(Boolean);
 
   const ids = useMemo(() => new Set(pack.entries.map((e) => e.id)), [pack]);
   const newId = useMemo(() => {
@@ -93,7 +101,29 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
 
   const set = (k) => (v) => setF((x) => ({ ...x, [k]: v }));
   const setD = (k) => (v) => setF((x) => ({ ...x, data: { ...x.data, [k]: v } }));
-  const changeType = (t) => { setType(t); setF((x) => ({ ...toForm(null, t), name: x.name, status: x.status, summary: x.summary, body: x.body, tags: x.tags, source: x.source })); };
+  const changeType = (t) => { setType(t); setF((x) => ({ ...toForm(null, t), name: x.name, status: x.status, summary: x.summary, body: x.body, tags: x.tags, source: x.source, hinh: x.hinh })); };
+
+  const addImages = async (files) => {
+    setErr('');
+    const list = [...files];
+    for (let i = 0; i < list.length; i++) {
+      setUpl(`Đang tải hình ${i + 1}/${list.length}...`);
+      try {
+        const { big, small, ext } = await prepareImage(list[i]);
+        const key = `${type}/${newKey()}`;
+        const h = { path: `${key}.${ext}`, thumb: `${key}-nho.${ext}`, w: big.w, h: big.h, alt: '', credit: '' };
+        await media.upload(h.path, big.blob);
+        await media.upload(h.thumb, small.blob);
+        fresh.current.push(...filesOf(h));
+        setF((x) => ({ ...x, hinh: [...x.hinh, h] }));
+      } catch (e2) { setErr(why(e2)); break; }
+    }
+    setUpl('');
+  };
+  const setH = (i, patch) => setF((x) => ({ ...x, hinh: x.hinh.map((h, j) => (j === i ? { ...h, ...patch } : h)) }));
+  const moveFirst = (i) => setF((x) => ({ ...x, hinh: [x.hinh[i], ...x.hinh.filter((_, j) => j !== i)] }));
+  const dropH = (i) => setF((x) => ({ ...x, hinh: x.hinh.filter((_, j) => j !== i) }));
+  const cancel = () => { media.remove(fresh.current); onDone(entry?.id || null); };
 
   const save = async (ev) => {
     ev.preventDefault();
@@ -111,6 +141,9 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
         if (!r?.length) { setConflict(true); setBusy(false); return; }
         saved = r[0];
       }
+      const kept = new Set(f.hinh.flatMap(filesOf));
+      media.remove([...(entry?.data?.hinh || []).flatMap(filesOf), ...fresh.current].filter((x) => !kept.has(x)));
+      fresh.current = [];
       setPack(await patchPack(pack, { put: clean(saved) }));
       say(isNew ? 'Đã thêm “' + saved.name + '”.' : 'Đã lưu “' + saved.name + '”.');
       onDone(saved.id);
@@ -131,6 +164,7 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
     try {
       const r = await request(`/rest/v1/entries?id=eq.${encodeURIComponent(entry.id)}`, { method: 'DELETE', headers: { Prefer: 'return=representation' } });
       if (!r?.length) throw new Error('row-level security');
+      media.remove([...(entry.data?.hinh || []).flatMap(filesOf), ...fresh.current]);
       setPack(await patchPack(pack, { del: entry.id }));
       say('Đã xoá “' + entry.name + '”.');
       onDone(null);
@@ -141,7 +175,7 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
     <form className="editor" onSubmit={save}>
       <div className="row between">
         <h2>{isNew ? 'Thêm mục mới' : 'Sửa: ' + entry.name}</h2>
-        <button type="button" className="ghost" onClick={() => onDone(entry?.id || null)} aria-label="Huỷ, không lưu">✕</button>
+        <button type="button" className="ghost" onClick={cancel} aria-label="Huỷ, không lưu">✕</button>
       </div>
       {!online && <p className="warnbox pad">&gt; Đang offline. Sửa kho cần có mạng.</p>}
 
@@ -188,6 +222,26 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
         <label>Nguồn<input value={f.source} onChange={(e) => set('source')(e.target.value)} placeholder="ví dụ: Bản tổng hợp 21/11" /></label>
       </div>
 
+      <h3>Hình vẽ</h3>
+      <p className="muted small">Hình được thu nhỏ trên máy trước khi tải lên. Hình đầu tiên là hình đại diện.</p>
+      {f.hinh.map((h, i) => (
+        <div key={h.path} className="pic">
+          <Img path={h.thumb || h.path} alt={h.alt} lazy={false} />
+          <div className="pic-f">
+            <input aria-label={'Mô tả hình ' + (i + 1)} placeholder="mô tả hình (cho người không xem được hình)" value={h.alt} onChange={(e) => setH(i, { alt: e.target.value })} />
+            <input aria-label={'Tác giả hình ' + (i + 1)} placeholder="tác giả hình" value={h.credit} onChange={(e) => setH(i, { credit: e.target.value })} />
+            <div className="row">
+              {i > 0 ? <button type="button" onClick={() => moveFirst(i)}>Làm hình đại diện</button> : <span className="muted small">hình đại diện</span>}
+              <button type="button" className="ghost" aria-label={'Bỏ hình ' + (i + 1)} onClick={() => dropH(i)}>✕ Bỏ hình</button>
+            </div>
+          </div>
+        </div>
+      ))}
+      <label className={'upload' + (upl || !online ? ' off' : '')}>
+        <input type="file" accept="image/*" multiple disabled={!!upl || !online} onChange={(e) => { addImages(e.target.files); e.target.value = ''; }} />
+        {upl || '+ Thêm hình'}
+      </label>
+
       <h3>Thông tin thêm</h3>
       <p className="muted small">Ô tự đặt, ví dụ NPC có “Ở đâu”, “Biết phép”, vong có “Máu”, “AC”.</p>
       {f.extra.map((x, i) => (
@@ -210,8 +264,8 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
 
       <div className="row between actions">
         <div className="row">
-          <button type="submit" className="pri" disabled={busy || !online}>{busy ? 'Đang lưu...' : 'Lưu'}</button>
-          <button type="button" onClick={() => onDone(entry?.id || null)}>Huỷ</button>
+          <button type="submit" className="pri" disabled={busy || !online || !!upl}>{busy ? 'Đang lưu...' : 'Lưu'}</button>
+          <button type="button" onClick={cancel}>Huỷ</button>
         </div>
         {!isNew && (
           <button type="button" className="danger" disabled={busy || !online} onClick={remove} onBlur={() => setConfirmDel(false)}>

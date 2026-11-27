@@ -3,6 +3,7 @@
 const VERSION = '__VERSION__';
 const CACHE = 'bltm-' + VERSION;
 const FILES = __FILES__;
+const MEDIA = 'media-v1'; // không bị xoá khi app lên bản mới
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)));
@@ -31,6 +32,18 @@ self.addEventListener('fetch', (e) => {
         const hit = await c.match(req);
         if (hit) return hit;
         try { const res = await fetch(req); if (res.ok || res.type === 'opaque') c.put(req, res.clone()); return res; }
+        catch { return new Response('', { status: 504 }); }
+      })
+    );
+    return;
+  }
+  // Hình vẽ trong kho: mỗi file có tên riêng, không bao giờ đổi, nên lưu một lần dùng mãi
+  if (url.pathname.includes('/storage/v1/object/public/media/')) {
+    e.respondWith(
+      caches.open(MEDIA).then(async (c) => {
+        const hit = await c.match(req, { ignoreVary: true });
+        if (hit) return hit;
+        try { const res = await fetch(req); if (res.ok) c.put(req, res.clone()); return res; }
         catch { return new Response('', { status: 504 }); }
       })
     );

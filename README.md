@@ -32,6 +32,7 @@ python3 test/e2e.py  # cần Python + Playwright; chạy sau npm run build
 ## Cập nhật nội dung
 
 - GM đăng nhập, vào **Tra cứu**: nút **+ Thêm mục** để thêm, chọn một mục rồi bấm **Sửa** để sửa, ẩn (chọn Nháp) hoặc xoá. App của mọi người tự tải phần mới khi có mạng; mục Nháp chỉ GM thấy.
+- Trong màn hình Sửa có phần **Hình vẽ**: hình được thu nhỏ trên máy (tối đa 1600px, kèm bản nhỏ 360px) rồi tải lên bucket `media`. Đường dẫn hình lưu ở `data.hinh` của mục. Người chơi xem hình nào thì máy tự giữ lại; Cài đặt có nút tải hết hình để xem offline.
 - Vẫn sửa trực tiếp được trong Supabase (Table Editor → `entries`).
 - Database tạo trước 27/11/2026 cần chạy thêm `supabase/update-01.sql` một lần.
 - Muốn gói đi kèm app cũng mới theo: xuất bảng `entries` ra JSON, thay `public/data/core.json`.

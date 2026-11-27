@@ -100,6 +100,29 @@ export const table = {
   remove: (t, query) => request(`/rest/v1/${t}?${query}`, { method: 'DELETE' }),
 };
 
+// Kho hình (Supabase Storage, bucket công khai 'media'; chỉ GM tải lên được)
+export const media = {
+  url: (path) => (path ? `${config.url}/storage/v1/object/public/media/${path}` : ''),
+  async upload(path, blob) {
+    if (!session) throw new ApiError('Cần đăng nhập để tải hình lên');
+    if (session.expires_at - 60 < Date.now() / 1000) await refresh();
+    let res;
+    try {
+      res = await fetch(`${config.url}/storage/v1/object/media/${path}`, {
+        method: 'POST', body: blob,
+        headers: { apikey: config.key, Authorization: 'Bearer ' + session.access_token, 'Content-Type': blob.type, 'x-upsert': 'false', 'cache-control': '31536000' },
+      });
+    } catch { throw new ApiError('Không kết nối được máy chủ', { offline: true }); }
+    if (!res.ok) {
+      let m = 'Lỗi ' + res.status;
+      try { const d = await res.json(); m = d.message || d.error || m; } catch { /* giữ lỗi số */ }
+      throw new ApiError(m, { status: res.status });
+    }
+  },
+  // Xoá file, lỗi thì bỏ qua (file thừa không ảnh hưởng gì)
+  remove: (paths) => (paths.length ? request('/storage/v1/object/media', { method: 'DELETE', body: { prefixes: paths } }).catch(() => null) : Promise.resolve()),
+};
+
 // Kiểm tra đường tới database còn sống không
 export const ping = async () => {
   if (!config.ready || !navigator.onLine) return false;

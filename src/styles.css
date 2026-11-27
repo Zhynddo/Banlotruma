@@ -143,3 +143,25 @@ table.grid { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8p
 .editor .actions { margin-top: 16px; }
 .hidden-tag { background: var(--warn); }
 p.bad { color: var(--bad); }
+
+/* Hình vẽ */
+.gallery { margin: 10px 0 14px; }
+.shot { display: block; padding: 0; min-height: 0; border: 1px solid var(--line); background: #010804; cursor: zoom-in; }
+.shot img { display: block; width: 100%; height: auto; }
+.shot.main img { max-height: 420px; object-fit: contain; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; margin-top: 6px; }
+.thumbs img { aspect-ratio: 1; object-fit: cover; }
+.cap { margin: 4px 0 0; }
+.img-miss { display: grid; place-items: center; min-height: 80px; padding: 8px; font-size: 12px; color: var(--dim); border: 1px dashed var(--faint); text-align: center; }
+.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(0, 0, 0, .92); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px; cursor: zoom-out; }
+.lightbox img { max-width: 100%; max-height: calc(100vh - 80px); object-fit: contain; }
+.item.has-pic { display: grid; grid-template-columns: 1fr 48px; column-gap: 10px; }
+.item.has-pic .tn { grid-column: 2; grid-row: 1 / span 2; width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--faint); min-height: 0; font-size: 0; }
+.item.has-pic b, .item.has-pic small { grid-column: 1; }
+.pic { display: grid; grid-template-columns: 96px 1fr; gap: 10px; margin-bottom: 10px; }
+.pic img, .pic .img-miss { width: 96px; height: 96px; object-fit: cover; border: 1px solid var(--line); }
+.pic-f { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+label.upload { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 14px; border: 1px dashed var(--ink); cursor: pointer; margin-bottom: 8px; }
+label.upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+label.upload:focus-within { outline: 2px solid var(--hot); outline-offset: 2px; }
+label.upload.off { opacity: .5; cursor: default; }

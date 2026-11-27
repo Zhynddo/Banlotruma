@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { searchLocal } from '../lib/search.js';
 import { rpc } from '../lib/api.js';
 import Editor from './Editor.jsx';
+import { Gallery, Img } from './Media.jsx';
 
 export const TYPES = {
   all: 'Tất cả', spell: 'Phép', rite: 'Nghi lễ', can: 'Căn', item: 'Pháp bảo',
@@ -12,7 +13,7 @@ const LABEL = {
   bac: 'Bậc', tinh: 'Tính', gia: 'Giá (linh)', thi: 'Thi', hanh_dong: 'Hành động', duy_tri: 'Duy trì',
   goc: 'Gốc D&D', muc: 'Mục luật', d20: 'd20', loai: 'Loại', thoi_gian: 'Thời gian', ghi_chu: 'Ghi chú',
 };
-const HIDE = new Set(['cua', 'duoc', 'mat', 'nhap']);
+const HIDE = new Set(['cua', 'duoc', 'mat', 'nhap', 'hinh']);
 
 const show = (v) => (Array.isArray(v) ? v.join(' + ') : v === true ? 'Có' : v === false ? 'Không' : String(v));
 
@@ -31,6 +32,7 @@ export function EntryView({ e, onClose, onEdit }) {
       </div>
       <h2>{e.name}</h2>
       {e.summary && <p className="muted">{e.summary}</p>}
+      <Gallery items={Array.isArray(d.hinh) ? d.hinh : []} />
       <dl className="kv">
         {rows.map(([k, v]) => <div key={k}><dt>{LABEL[k] || k}</dt><dd>{show(v)}</dd></div>)}
       </dl>
@@ -122,7 +124,8 @@ export default function Search({ pack, setPack, index, online, role, say }) {
         <div className="list" role="list">
           {results.length === 0 && <p className="muted pad">&gt; không thấy gì. thử bỏ bớt bộ lọc hoặc gõ ngắn hơn.</p>}
           {results.slice(0, 300).map((e) => (
-            <button key={e.id} type="button" role="listitem" className={'item' + (sel === e.id ? ' sel' : '')} onClick={() => pick(e)}>
+            <button key={e.id} type="button" role="listitem" className={'item' + (sel === e.id ? ' sel' : '') + (e.data?.hinh?.length ? ' has-pic' : '')} onClick={() => pick(e)}>
+              {e.data?.hinh?.length ? <Img className="tn" path={e.data.hinh[0].thumb || e.data.hinh[0].path} /> : null}
               <b>{e.name}{e.status === 'draft' ? <span className="draft">nháp</span> : null}</b>
               <small>{TYPES[e.type] || e.type}{e.data?.bac ? ' · ' + e.data.bac : ''}{e.data?.tinh ? ' · ' + [].concat(e.data.tinh).join(' + ') : ''}{e.data?.d20 ? ' · d20: ' + e.data.d20 : ''}</small>
             </button>

@@ -1,8 +1,56 @@
-import { useState } from 'react';
-import { config } from '../lib/api.js';
+import { useEffect, useMemo, useState } from 'react';
+import { config, media } from '../lib/api.js';
 import { resetPack } from '../lib/pack.js';
 
 const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const MEDIA = 'media-v1'; // trùng tên với public/sw.js
+const hasCache = typeof caches !== 'undefined';
+
+// Hình vẽ để xem offline: đếm, tải hết về máy, hoặc xoá cho nhẹ máy
+function OfflineArt({ pack, online, say }) {
+  const urls = useMemo(() => [...new Set(pack.entries.flatMap((e) => (Array.isArray(e.data?.hinh) ? e.data.hinh : []).flatMap((h) => [h.path, h.thumb])).filter(Boolean))].map(media.url), [pack]);
+  const [have, setHave] = useState(null);
+  const [mb, setMb] = useState(null);
+  const [job, setJob] = useState('');
+  const count = async () => {
+    if (!hasCache) return;
+    const c = await caches.open(MEDIA);
+    let n = 0;
+    for (const u of urls) if (await c.match(u, { ignoreVary: true })) n++;
+    setHave(n);
+    try { const est = await navigator.storage?.estimate(); if (est) setMb(Math.round((est.usage || 0) / 1048576)); } catch { /* không đo được */ }
+  };
+  useEffect(() => { count(); }, [urls]); // eslint-disable-line react-hooks/exhaustive-deps
+  const fetchAll = async () => {
+    const c = await caches.open(MEDIA);
+    let done = 0, fail = 0;
+    try { await navigator.storage?.persist?.(); } catch { /* trình duyệt không cho thì thôi */ }
+    for (const u of urls) {
+      setJob(`Đang tải ${done + 1}/${urls.length}...`);
+      if (!(await c.match(u, { ignoreVary: true }))) {
+        try { const r = await fetch(u, { mode: 'cors' }); if (r.ok) await c.put(u, r); else fail++; } catch { fail++; }
+      }
+      done++;
+    }
+    setJob(''); await count();
+    say(fail ? `Tải xong, còn ${fail} file lỗi. Thử lại sau nha.` : 'Đã lưu hết hình về máy.', fail ? 'warn' : 'ok');
+  };
+  const clear = async () => { await caches.delete(MEDIA); await count(); say('Đã xoá hình lưu trên máy.'); };
+  if (!hasCache) return null;
+  return (
+    <div className="panel">
+      <h2>Hình vẽ offline</h2>
+      <p>{urls.length ? `${have ?? '…'}/${urls.length} file hình đã có trên máy` : 'Kho chưa có hình nào.'}{mb !== null ? ` · app đang dùng khoảng ${mb} MB` : ''}</p>
+      {urls.length > 0 && (
+        <div className="row">
+          <button type="button" className="pri" disabled={!!job || !online || have === urls.length} onClick={fetchAll}>{job || 'Tải hết hình về máy'}</button>
+          <button type="button" disabled={!!job || !have} onClick={clear}>Xoá hình trên máy</button>
+        </div>
+      )}
+      <p className="muted small">Hình nào đã xem lúc có mạng thì tự được giữ lại. Bấm tải hết trước buổi chơi nếu chỗ chơi không có mạng.</p>
+    </div>
+  );
+}
 
 export default function Settings({ pack, setPack, online, refresh, say }) {
   const [url, setUrl] = useState(config.url);
@@ -36,6 +84,8 @@ export default function Settings({ pack, setPack, online, refresh, say }) {
         </div>
         <p className="muted small">App tự cập nhật mỗi lần mở mà có mạng. Phiếu nhân vật không bị ảnh hưởng.</p>
       </div>
+
+      <OfflineArt pack={pack} online={online} say={say} />
 
       <div className="panel">
         <h2>Cài lên màn hình điện thoại</h2>

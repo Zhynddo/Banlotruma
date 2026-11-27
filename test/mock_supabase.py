@@ -20,6 +20,7 @@ ENTRIES = {e['id']: {**e, 'status': 'published', 'rev': 1, 'updated_at': now()} 
 # một mục mới chỉ có trên server, để test đồng bộ gói
 ENTRIES['npc.ba-dong-tu'] = {'id': 'npc.ba-dong-tu', 'type': 'npc', 'name': 'Bà đồng Tư', 'summary': None, 'body': 'Bà đồng ở bến Phà Cũ, hầu giá Chầu.', 'tags': ['npc'], 'data': {}, 'status': 'published', 'rev': 1, 'updated_at': now(), 'source': 'test'}
 DELETED = {}
+FILES = {}      # path -> (content-type, bytes)
 USERS = {}      # email -> {id, password, display_name}
 PROFILES = {}   # id -> {id, display_name, role}
 TOKENS = {}     # token -> user id
@@ -69,6 +70,9 @@ class H(BaseHTTPRequestHandler):
         u = urlparse(self.path); path = u.path; q = parse_qs(u.query)
         if not path.startswith('/sb/'):
             return self.static(path) if method == 'GET' else self.send(405)
+        if method == 'GET' and path.startswith('/sb/storage/v1/object/public/media/'):
+            f = FILES.get(path[len('/sb/storage/v1/object/public/media/'):])
+            return self.send(200, raw=f[1], ctype=f[0]) if f else self.send(400, {'message': 'Object not found'})
         if self.headers.get('apikey') != ANON:
             return self.send(401, {'message': 'Invalid API key'})
         p = path[3:]
@@ -92,6 +96,18 @@ class H(BaseHTTPRequestHandler):
                 if not uid: return self.send(400, {'error_description': 'Invalid Refresh Token'})
                 return self.send(200, make_session(uid))
         if p == '/auth/v1/logout': return self.send(204)
+        # ---- storage ----
+        if p.startswith('/storage/v1/object/media'):
+            if not self.is_gm(): return self.send(403, {'message': 'new row violates row-level security policy'})
+            if method == 'POST':
+                key = p[len('/storage/v1/object/media/'):]
+                if key in FILES: return self.send(400, {'message': 'The resource already exists'})
+                n = int(self.headers.get('Content-Length') or 0)
+                FILES[key] = (self.headers.get('Content-Type'), self.rfile.read(n))
+                return self.send(200, {'Key': 'media/' + key})
+            if method == 'DELETE':
+                gone = [k for k in self.body()['prefixes'] if FILES.pop(k, None)]
+                return self.send(200, [{'name': k} for k in gone])
         # ---- rpc ----
         if p == '/rest/v1/rpc/changes_since':
             since = self.body()['since']
@@ -161,7 +177,7 @@ class H(BaseHTTPRequestHandler):
                 if cid in CHARS and vis(CHARS[cid]): del CHARS[cid]
                 return self.send(204)
         # ---- điều khiển test ----
-        if p == '/test/state': return self.send(200, {'chars': list(CHARS.values()), 'profiles': PROFILES, 'log': LOG[-50:]})
+        if p == '/test/state': return self.send(200, {'files': {k: [v[0], len(v[1])] for k, v in FILES.items()}, 'chars': list(CHARS.values()), 'profiles': PROFILES, 'log': LOG[-50:]})
         if p == '/test/make_gm':
             b = self.body(); usr = USERS[b['email']]; PROFILES[usr['id']]['role'] = 'gm'; return self.send(200, {'ok': True})
         if p == '/test/entry': return self.send(200, raw=json.dumps(ENTRIES.get(self.body()['id']), ensure_ascii=False).encode())
