@@ -5,9 +5,11 @@ import { prefs } from './store.js';
 const BAKED_URL = typeof __SUPABASE_URL__ !== 'undefined' ? __SUPABASE_URL__ : '';
 const BAKED_KEY = typeof __SUPABASE_ANON_KEY__ !== 'undefined' ? __SUPABASE_ANON_KEY__ : '';
 
+const cleanUrl = (u) => (u || '').trim().replace(/\/+$/, '').replace(/\/(rest|auth)\/v1$/, '').replace(/\/+$/, '');
+
 export const config = {
-  get url() { return (prefs.get('url') || BAKED_URL || '').replace(/\/+$/, ''); },
-  get key() { return prefs.get('key') || BAKED_KEY || ''; },
+  get url() { return cleanUrl(prefs.get('url') || BAKED_URL); },
+  get key() { return (prefs.get('key') || BAKED_KEY || '').replace(/\s+/g, ''); },
   get baked() { return !!(BAKED_URL && BAKED_KEY); },
   get ready() { return !!(this.url && this.key); },
   save(url, key) { prefs.set('url', url.trim()); prefs.set('key', key.trim()); },
@@ -94,6 +96,7 @@ export const rpc = (fn, args) => request('/rest/v1/rpc/' + fn, { method: 'POST',
 export const table = {
   select: (t, query) => request(`/rest/v1/${t}?${query}`),
   insert: (t, row) => request(`/rest/v1/${t}`, { method: 'POST', body: row, headers: { Prefer: 'return=representation' } }).then((r) => r[0]),
+  update: (t, query, patch) => request(`/rest/v1/${t}?${query}`, { method: 'PATCH', body: patch, headers: { Prefer: 'return=representation' } }),
   remove: (t, query) => request(`/rest/v1/${t}?${query}`, { method: 'DELETE' }),
 };
 

@@ -95,12 +95,13 @@ class H(BaseHTTPRequestHandler):
         # ---- rpc ----
         if p == '/rest/v1/rpc/changes_since':
             since = self.body()['since']
-            ch = [{k: v for k, v in e.items()} for e in ENTRIES.values() if e['updated_at'] > since]
+            ch = [{k: v for k, v in e.items() if k != 'search'} for e in ENTRIES.values() if e['updated_at'] > since and (e['status'] == 'published' or self.is_gm())]
             return self.send(200, {'now': now(), 'changed': ch, 'deleted': [i for i, t in DELETED.items() if t > since]})
         if p == '/rest/v1/rpc/search_entries':
             b = self.body(); nq = norm(b['q']).strip(); toks = re.sub('[^a-z0-9 ]', ' ', nq).split()
             res = []
             for e in ENTRIES.values():
+                if e['status'] != 'published' and not self.is_gm(): continue
                 if b.get('types') and e['type'] not in b['types']: continue
                 hay = norm(e['name'] + ' ' + ' '.join(e['tags']) + ' ' + (e['body'] or ''))
                 if all((' ' + t) in (' ' + hay.replace('-', ' ')) for t in toks):
@@ -116,7 +117,29 @@ class H(BaseHTTPRequestHandler):
             c.update(name=b['new_name'] or c['name'], data=b['new_data'], rev=c['rev'] + 1, updated_at=now())
             return self.send(200, c['rev'])
         # ---- tables ----
-        if p == '/rest/v1/entries': return self.send(200, [{'id': i} for i in list(ENTRIES)[:1]])
+        if p == '/rest/v1/entries':
+            vis = lambda e: e['status'] == 'published' or self.is_gm()
+            rows = [e for e in ENTRIES.values() if vis(e)]
+            if 'id' in q: rows = [e for e in rows if 'eq.' + e['id'] == q['id'][0]]
+            if 'rev' in q: rows = [e for e in rows if 'eq.' + str(e['rev']) == q['rev'][0]]
+            if method == 'GET':
+                return self.send(200, rows[:1] if q.get('limit') else rows)
+            if not self.is_gm():
+                return self.send(200 if method != 'POST' else 403, [] if method != 'POST' else {'message': 'new row violates row-level security policy for table "entries"'})
+            if method == 'POST':
+                b = self.body()
+                if b['id'] in ENTRIES: return self.send(409, {'code': '23505', 'message': 'duplicate key value violates unique constraint "entries_pkey"'})
+                ENTRIES[b['id']] = {'summary': None, 'body': None, 'tags': [], 'data': {}, 'status': 'published', 'source': None, **b, 'rev': 1, 'updated_at': now(), 'search': 'x'}
+                return self.send(201, [ENTRIES[b['id']]])
+            if method == 'PATCH':
+                b = self.body(); out = []
+                for e in rows:
+                    if e['status'] == 'published' and b.get('status') == 'draft': DELETED[e['id']] = now()
+                    e.update(b); e['rev'] += 1; e['updated_at'] = now(); out.append(e)
+                return self.send(200, out)
+            if method == 'DELETE':
+                for e in rows: del ENTRIES[e['id']]; DELETED[e['id']] = now()
+                return self.send(200, rows)
         if p == '/rest/v1/profiles':
             me = self.uid(); rows = [r for r in PROFILES.values() if r['id'] == me or self.is_gm()]
             if 'id' in q: rows = [r for r in rows if 'eq.' + r['id'] == q['id'][0]]
@@ -141,6 +164,9 @@ class H(BaseHTTPRequestHandler):
         if p == '/test/state': return self.send(200, {'chars': list(CHARS.values()), 'profiles': PROFILES, 'log': LOG[-50:]})
         if p == '/test/make_gm':
             b = self.body(); usr = USERS[b['email']]; PROFILES[usr['id']]['role'] = 'gm'; return self.send(200, {'ok': True})
+        if p == '/test/entry': return self.send(200, raw=json.dumps(ENTRIES.get(self.body()['id']), ensure_ascii=False).encode())
+        if p == '/test/bump_entry':
+            e = ENTRIES[self.body()['id']]; e['rev'] += 1; e['updated_at'] = now(); e['body'] = 'sửa từ máy khác'; return self.send(200, e)
         if p == '/test/bump':
             b = self.body(); c = CHARS[b['id']]; c['data'] = {**c['data'], **b.get('data', {})}; c['rev'] += 1; c['updated_at'] = now()
             return self.send(200, c)
@@ -149,6 +175,7 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self): self.route('GET')
     def do_POST(self): self.route('POST')
     def do_DELETE(self): self.route('DELETE')
+    def do_PATCH(self): self.route('PATCH')
 
 if __name__ == '__main__':
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8899

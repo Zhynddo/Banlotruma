@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { searchLocal } from '../lib/search.js';
 import { rpc } from '../lib/api.js';
+import Editor from './Editor.jsx';
 
 export const TYPES = {
   all: 'Tất cả', spell: 'Phép', rite: 'Nghi lễ', can: 'Căn', item: 'Pháp bảo',
@@ -15,17 +16,21 @@ const HIDE = new Set(['cua', 'duoc', 'mat', 'nhap']);
 
 const show = (v) => (Array.isArray(v) ? v.join(' + ') : v === true ? 'Có' : v === false ? 'Không' : String(v));
 
-export function EntryView({ e, onClose }) {
+export function EntryView({ e, onClose, onEdit }) {
   if (!e) return <p className="muted">&gt; chọn một mục để xem chi tiết.</p>;
   const d = e.data || {};
   const rows = Object.entries(d).filter(([k, v]) => !HIDE.has(k) && v !== null && v !== '' && (typeof v !== 'object' || Array.isArray(v)));
   return (
     <article className="entry">
       <div className="row between">
-        <p className="muted small">{TYPES[e.type] || e.type} · <code>{e.id}</code>{d.nhap ? <span className="draft">nháp</span> : null}</p>
-        {onClose && <button type="button" className="ghost" onClick={onClose} aria-label="Đóng chi tiết">✕</button>}
+        <p className="muted small">{TYPES[e.type] || e.type} · <code>{e.id}</code>{d.nhap ? <span className="draft">luật thử</span> : null}{e.status === 'draft' ? <span className="draft hidden-tag">nháp, chỉ GM thấy</span> : null}</p>
+        <div className="row">
+          {onEdit && <button type="button" onClick={onEdit}>Sửa</button>}
+          {onClose && <button type="button" className="ghost" onClick={onClose} aria-label="Đóng chi tiết">✕</button>}
+        </div>
       </div>
       <h2>{e.name}</h2>
+      {e.summary && <p className="muted">{e.summary}</p>}
       <dl className="kv">
         {rows.map(([k, v]) => <div key={k}><dt>{LABEL[k] || k}</dt><dd>{show(v)}</dd></div>)}
       </dl>
@@ -47,7 +52,9 @@ export function EntryView({ e, onClose }) {
   );
 }
 
-export default function Search({ pack, index, online }) {
+export default function Search({ pack, setPack, index, online, role, say }) {
+  const gm = role === 'gm';
+  const [edit, setEdit] = useState(null); // null | 'new' | id
   const [q, setQ] = useState(() => sessionStorage.getItem('bltm.q') || '');
   const [type, setType] = useState('all');
   const [bac, setBac] = useState('');
@@ -55,11 +62,12 @@ export default function Search({ pack, index, online }) {
   const [sel, setSel] = useState(null);
   const detailRef = useRef(null);
   const byId = useMemo(() => new Map(pack.entries.map((e) => [e.id, e])), [pack]);
+  const seen = (e) => gm || e.status !== 'draft';
   const counts = useMemo(() => {
-    const c = { all: pack.entries.length };
-    for (const e of pack.entries) c[e.type] = (c[e.type] || 0) + 1;
+    const c = { all: 0 };
+    for (const e of pack.entries) if (seen(e)) { c.all++; c[e.type] = (c[e.type] || 0) + 1; }
     return c;
-  }, [pack]);
+  }, [pack, gm]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => { try { sessionStorage.setItem('bltm.q', q); } catch { /* bỏ qua */ } }, [q]);
 
@@ -71,24 +79,27 @@ export default function Search({ pack, index, online }) {
     const t = setTimeout(async () => {
       try {
         const rows = await rpc('search_entries', { q, types: type === 'all' ? null : [type], lim: 100 });
-        if (!stop) setRemote(rows.map((r) => byId.get(r.id) || { ...r, data: {}, tags: [] }));
+        if (!stop) setRemote(rows.map((r) => byId.get(r.id) || { ...r, data: {}, tags: [] }).filter(seen));
       } catch { /* dùng kết quả trên máy */ }
     }, 200);
     return () => { stop = true; clearTimeout(t); };
   }, [q, type, online, byId]);
 
   const local = useMemo(() => searchLocal(index, q, type), [index, q, type]);
-  let results = remote || local;
+  let results = (remote || local).filter(seen);
   if (bac) results = results.filter((e) => e.data?.bac === bac);
 
   const pick = (e) => {
-    setSel(e.id);
+    setSel(e.id); setEdit(null);
     if (matchMedia('(max-width: 760px)').matches) setTimeout(() => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30);
   };
 
   return (
     <section>
-      <h1>Tra cứu kho Bán Lộ</h1>
+      <div className="row between">
+        <h1>Tra cứu kho Bán Lộ</h1>
+        {gm && <button type="button" className="pri" disabled={!online} title={online ? '' : 'Cần có mạng'} onClick={() => { setEdit('new'); setTimeout(() => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); }}>+ Thêm mục</button>}
+      </div>
       <div className="searchbar">
         <label htmlFor="q" className="sr">Tìm trong kho</label>
         <input id="q" type="search" value={q} onChange={(e) => setQ(e.target.value)}
@@ -112,13 +123,19 @@ export default function Search({ pack, index, online }) {
           {results.length === 0 && <p className="muted pad">&gt; không thấy gì. thử bỏ bớt bộ lọc hoặc gõ ngắn hơn.</p>}
           {results.slice(0, 300).map((e) => (
             <button key={e.id} type="button" role="listitem" className={'item' + (sel === e.id ? ' sel' : '')} onClick={() => pick(e)}>
-              <b>{e.name}</b>
+              <b>{e.name}{e.status === 'draft' ? <span className="draft">nháp</span> : null}</b>
               <small>{TYPES[e.type] || e.type}{e.data?.bac ? ' · ' + e.data.bac : ''}{e.data?.tinh ? ' · ' + [].concat(e.data.tinh).join(' + ') : ''}{e.data?.d20 ? ' · d20: ' + e.data.d20 : ''}</small>
             </button>
           ))}
         </div>
         <div className="detail" ref={detailRef}>
-          <EntryView e={sel ? byId.get(sel) : null} onClose={sel ? () => setSel(null) : null} />
+          {edit ? (
+            <Editor key={edit} entry={edit === 'new' ? null : byId.get(edit)} pack={pack} setPack={setPack} online={online} say={say}
+                    onDone={(id) => { setEdit(null); setSel(id); }} />
+          ) : (
+            <EntryView e={sel ? byId.get(sel) : null} onClose={sel ? () => setSel(null) : null}
+                       onEdit={gm && sel && byId.get(sel) ? () => setEdit(sel) : null} />
+          )}
         </div>
       </div>
     </section>

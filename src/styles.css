@@ -46,7 +46,7 @@ select:disabled { opacity: .5; }
 .between { justify-content: space-between; }
 
 /* Thanh trên */
-.top { position: sticky; top: 0; z-index: 20; background: rgba(2, 11, 5, .94); border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
+.top { position: sticky; top: 0; z-index: 20; background: #020b05; border-bottom: 1px solid var(--line); padding-top: env(safe-area-inset-top); }
 .top-in { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding-block: 10px; }
 .logo { font-weight: 800; color: var(--hot); text-decoration: none; margin-right: auto; }
 .status { font-size: 12px; padding: 1px 8px; border: 1px solid currentColor; }
@@ -135,3 +135,11 @@ table.grid { width: 100%; border-collapse: collapse; font-size: 15px; margin: 8p
   .sheet-top { top: 96px; }
 }
 @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
+
+/* Màn hình GM sửa kho */
+.editor h2 { margin: 0; }
+.editor .extra { flex-wrap: nowrap; margin-bottom: 8px; }
+.editor .extra input { flex: 1; min-width: 0; }
+.editor .actions { margin-top: 16px; }
+.hidden-tag { background: var(--warn); }
+p.bad { color: var(--bad); }

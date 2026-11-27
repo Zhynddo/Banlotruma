@@ -31,7 +31,9 @@ python3 test/e2e.py  # cần Python + Playwright; chạy sau npm run build
 
 ## Cập nhật nội dung
 
-- Sửa trong Supabase (Table Editor → `entries`). App của mọi người tự tải phần mới khi có mạng.
+- GM đăng nhập, vào **Tra cứu**: nút **+ Thêm mục** để thêm, chọn một mục rồi bấm **Sửa** để sửa, ẩn (chọn Nháp) hoặc xoá. App của mọi người tự tải phần mới khi có mạng; mục Nháp chỉ GM thấy.
+- Vẫn sửa trực tiếp được trong Supabase (Table Editor → `entries`).
+- Database tạo trước 27/11/2026 cần chạy thêm `supabase/update-01.sql` một lần.
 - Muốn gói đi kèm app cũng mới theo: xuất bảng `entries` ra JSON, thay `public/data/core.json`.
 
 ## Ghi chú kỹ thuật

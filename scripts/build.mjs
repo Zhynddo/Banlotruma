@@ -17,6 +17,11 @@ await mkdir(dist, { recursive: true });
 await cp(join(root, 'public'), dist, { recursive: true });
 
 const build = new Date().toISOString();
+// Dán URL thừa đuôi /rest/v1, dấu / hay khoảng trắng vẫn chạy đúng
+function cleanUrl(u) {
+  return (u || '').trim().replace(/\/+$/, '').replace(/\/(rest|auth)\/v1$/, '').replace(/\/+$/, '');
+}
+
 await esbuild.build({
   entryPoints: [join(root, 'src/main.jsx')],
   bundle: true,
@@ -28,8 +33,8 @@ await esbuild.build({
   loader: { '.js': 'jsx' },
   outfile: join(dist, 'app.js'),
   define: {
-    __SUPABASE_URL__: JSON.stringify(process.env.SUPABASE_URL || ''),
-    __SUPABASE_ANON_KEY__: JSON.stringify(process.env.SUPABASE_ANON_KEY || ''),
+    __SUPABASE_URL__: JSON.stringify(cleanUrl(process.env.SUPABASE_URL)),
+    __SUPABASE_ANON_KEY__: JSON.stringify((process.env.SUPABASE_ANON_KEY || '').replace(/\s+/g, '')),
     __BUILD__: JSON.stringify(build),
     'process.env.NODE_ENV': JSON.stringify(serve ? 'development' : 'production'),
   },

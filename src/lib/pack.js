@@ -18,8 +18,9 @@ export async function loadPack() {
 export async function syncPack(pack) {
   const data = await rpc('changes_since', { since: pack.at });
   const map = new Map(pack.entries.map((e) => [e.id, e]));
-  for (const e of data.changed || []) map.set(e.id, e);
+  // Xoá trước rồi mới thêm: mục bị gỡ rồi đăng lại vẫn còn
   for (const id of data.deleted || []) map.delete(id);
+  for (const e of data.changed || []) map.set(e.id, e);
   const next = { at: data.now, source: 'synced', entries: [...map.values()] };
   await kv.set('pack', next);
   return { pack: next, changed: (data.changed || []).length, deleted: (data.deleted || []).length };
@@ -28,4 +29,14 @@ export async function syncPack(pack) {
 export async function resetPack() {
   await kv.del('pack');
   return loadPack();
+}
+
+// GM vừa sửa hoặc xoá: cập nhật gói trên máy ngay, không chờ đồng bộ
+export async function patchPack(pack, { put, del }) {
+  const map = new Map(pack.entries.map((e) => [e.id, e]));
+  if (del) map.delete(del);
+  if (put) map.set(put.id, put);
+  const next = { ...pack, entries: [...map.values()] };
+  await kv.set('pack', next);
+  return next;
 }
