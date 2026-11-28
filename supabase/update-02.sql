@@ -48,13 +48,13 @@ begin
     return extensions.gen_random_uuid();
   end if;
   if char_length(trim(coalesce(p_title, ''))) = 0 or char_length(trim(coalesce(p_body, ''))) < 20 then
-    raise exception 'Bài cần có tên và nội dung (ít nhất vài câu)' using errcode = '22023';
+    raise exception 'Bài cần có tên và nội dung' using errcode = '22023';
   end if;
   if h is not null and (select count(*) from public.posts where ip_hash = h and created_at > now() - interval '1 hour') >= 3 then
-    raise exception 'Em gửi hơi nhiều bài rồi, đợi một tiếng rồi gửi tiếp nha' using errcode = '22023';
+    raise exception 'Đã nộp quá 3 bài trong một giờ, thử lại sau' using errcode = '22023';
   end if;
   if (select count(*) from public.posts where status = 'pending') >= 300 then
-    raise exception 'Hàng chờ duyệt đang đầy, thử lại sau nha' using errcode = '22023';
+    raise exception 'Hàng chờ duyệt đang đầy, thử lại sau' using errcode = '22023';
   end if;
   insert into public.posts (title, body, author_name, contact, ip_hash)
   values (trim(p_title), trim(p_body), coalesce(nullif(trim(p_author), ''), 'Người giấu tên'), nullif(trim(p_contact), ''), h)

@@ -176,9 +176,9 @@ export default function Sheet({ char, onClose, onUpload, online, pack, index, sa
 
       {conflict && (
         <div className="panel warnbox">
-          <p>Phiếu này vừa được sửa ở nơi khác (máy khác, hoặc GM). Em muốn giữ bản nào?</p>
+          <p>Phiếu này vừa được sửa ở nơi khác (máy khác, hoặc GM). Giữ bản nào?</p>
           <div className="row">
-            <button type="button" className="pri" onClick={() => resolve(true)}>Giữ bản của em</button>
+            <button type="button" className="pri" onClick={() => resolve(true)}>Giữ bản trên máy này</button>
             <button type="button" onClick={() => resolve(false)}>Lấy bản trên mạng</button>
           </div>
         </div>
@@ -396,7 +396,7 @@ export default function Sheet({ char, onClose, onUpload, online, pack, index, sa
           <label className="cv-area"><span className="cv-k">Hành trang, đồ lễ, tiền bạc:</span>{A('hanh_trang')}</label>
         </Sec>
 
-        <Sec n={7} title="GHI CHÉP RIÊNG (chỉ em và GM xem)">
+        <Sec n={7} title="GHI CHÉP RIÊNG (chỉ chủ phiếu và GM xem)">
           <label className="cv-area"><span className="cv-k">Vong đang theo vụ (tên thật, cách chết, muốn gì, Chấp, bằng chứng):</span>{A('vu_ma')}</label>
           <label className="cv-area"><span className="cv-k">Ghi chú khác:</span>{A('ghi_chu')}</label>
         </Sec>

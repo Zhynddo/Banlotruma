@@ -72,10 +72,10 @@ function fromForm(f, type) {
 
 const why = (err) => {
   const m = err.message || '';
-  if (err.offline) return 'Mất mạng rồi, có mạng lại em lưu lần nữa nha.';
-  if (/entry_deletions/.test(m)) return 'Database chưa được cập nhật. Em chạy file supabase/update-01.sql trong Supabase rồi thử lại.';
+  if (err.offline) return 'Mất kết nối. Có mạng lại thì bấm lưu lần nữa.';
+  if (/entry_deletions/.test(m)) return 'Database chưa được cập nhật: cần chạy file supabase/update-01.sql trong Supabase.';
   if (/row-level security|permission/i.test(m)) return 'Tài khoản này chưa có quyền GM.';
-  if (/duplicate key/.test(m)) return 'Mã mục này đã có rồi, em đổi tên khác chút nha.';
+  if (/duplicate key/.test(m)) return 'Mã mục này đã có, đổi tên khác một chút.';
   return m;
 };
 
@@ -257,7 +257,7 @@ export default function Editor({ entry, pack, setPack, online, say, onDone, defa
       {conflict && (
         <div className="warnbox pad">
           <p>&gt; Mục này vừa được sửa ở máy khác. Lưu bây giờ sẽ đè mất phần đó.</p>
-          <button type="button" onClick={reload}>Lấy bản mới nhất (bỏ phần em đang sửa)</button>
+          <button type="button" onClick={reload}>Lấy bản mới nhất (bỏ phần đang sửa)</button>
         </div>
       )}
       {err && <p className="bad" role="alert">&gt; {err}</p>}

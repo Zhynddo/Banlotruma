@@ -106,11 +106,11 @@ export default function Settings({ pack, setPack, online, refresh, say }) {
       <div className="panel">
         <h2>{isNative ? 'App Android' : 'Cài app'}</h2>
         {isNative ? (
-          <p>Em đang dùng app Android. Có bản mới thì tải file APK mới về cài đè lên, dữ liệu vẫn giữ nguyên.{APK_URL && <> <a href={APK_URL}>Tải bản mới nhất</a>.</>}</p>
+          <p>Đang dùng app Android. Có bản mới thì tải file APK mới về cài đè lên, dữ liệu vẫn giữ nguyên.{APK_URL && <> <a href={APK_URL}>Tải bản mới nhất</a>.</>}</p>
         ) : (
           <>
             {APK_URL && <p><a className="btn pri" href={APK_URL}>Tải app Android (APK)</a></p>}
-            <p className="muted small">Lần đầu cài, Android sẽ hỏi cho phép cài app từ nguồn ngoài: em bấm cho phép. Cài bản mới thì cài đè lên bản cũ.</p>
+            <p className="muted small">Lần đầu cài, Android sẽ hỏi cho phép cài app từ nguồn ngoài: bấm cho phép. Cài bản mới thì cài đè lên bản cũ.</p>
             {ios && <p>Trên iPhone chưa có app riêng: mở trang này bằng <b>Safari</b>, bấm <b>Chia sẻ</b>, chọn <b>Thêm vào MH chính</b>. Mở từ biểu tượng đó thì mất mạng vẫn dùng được.</p>}
           </>
         )}

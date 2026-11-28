@@ -134,10 +134,10 @@ class H(BaseHTTPRequestHandler):
         if p == '/rest/v1/rpc/submit_post':
             b = self.body()
             if b.get('p_trap'): return self.send(200, raw=json.dumps(str(uuid.uuid4())).encode())
-            if len((b.get('p_body') or '').strip()) < 20: return self.send(400, {'code': '22023', 'message': 'Bài cần có tên và nội dung (ít nhất vài câu)'})
+            if len((b.get('p_body') or '').strip()) < 20: return self.send(400, {'code': '22023', 'message': 'Bài cần có tên và nội dung'})
             ip = self.client_address[0]
             if sum(1 for x in POSTS.values() if x['ip'] == ip and x['created_at'] > now(-3600)) >= 3:
-                return self.send(400, {'code': '22023', 'message': 'Em gửi hơi nhiều bài rồi, đợi một tiếng rồi gửi tiếp nha'})
+                return self.send(400, {'code': '22023', 'message': 'Đã nộp quá 3 bài trong một giờ, thử lại sau'})
             pid = str(uuid.uuid4())
             POSTS[pid] = {'id': pid, 'title': b['p_title'].strip(), 'body': b['p_body'].strip(), 'author_name': (b.get('p_author') or '').strip() or 'Người giấu tên',
                           'contact': b.get('p_contact') or None, 'status': 'pending', 'created_at': now(), 'published_at': None, 'ip': ip}

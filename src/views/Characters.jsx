@@ -96,7 +96,7 @@ export default function Characters(props) {
     try {
       const remote = await cloud.fetchOne(d.id);
       if (!remote) { await drafts.del(d.id); }
-      else if (keepMine) { await cloud.save({ ...d, rev: remote.rev }); say('Đã giữ bản của em.'); }
+      else if (keepMine) { await cloud.save({ ...d, rev: remote.rev }); say('Đã giữ bản trên máy này.'); }
       else { await drafts.del(d.id); say('Đã lấy bản trên mạng.'); }
     } catch (e) { say('Chưa xử lý được: ' + e.message, 'bad'); return; }
     setConflicts(conflicts.filter((x) => x.id !== d.id));
@@ -116,9 +116,9 @@ export default function Characters(props) {
           <h2>Phiếu bị sửa ở hai nơi</h2>
           {conflicts.map((d) => (
             <div key={d.id} className="row between conflict">
-              <span>“{d.name}”: em sửa lúc offline, trong lúc đó bản trên mạng cũng đã đổi.</span>
+              <span>“{d.name}”: sửa lúc offline, trong lúc đó bản trên mạng cũng đã đổi.</span>
               <span className="row">
-                <button type="button" className="pri" onClick={() => resolve(d, true)}>Giữ bản của em</button>
+                <button type="button" className="pri" onClick={() => resolve(d, true)}>Giữ bản trên máy này</button>
                 <button type="button" onClick={() => resolve(d, false)}>Lấy bản trên mạng</button>
               </span>
             </div>

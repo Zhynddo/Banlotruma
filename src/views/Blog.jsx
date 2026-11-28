@@ -33,16 +33,12 @@ function Read({ post }) {
     <article className="story">
       <p><a href="#truyen">← Tất cả truyện</a></p>
       <header>
-        <p className="kicker">Truyện ma · người đọc gửi</p>
+        <p className="kicker">Truyện ma</p>
         <h1>{post.title}</h1>
-        <p className="byline">Kể bởi <b>{post.author_name}</b> · {day(post.published_at)} · đọc chừng {minutes(post.body)} phút</p>
+        <p className="byline">Người kể: <b>{post.author_name}</b> · {day(post.published_at)} · {minutes(post.body)} phút đọc</p>
       </header>
       <div className="story-body">{paras(post.body).map((p, i) => <p key={i}>{p}</p>)}</div>
       <p className="story-end" aria-hidden="true">— hết —</p>
-      <div className="panel">
-        <p>Em cũng có chuyện muốn kể?</p>
-        <a className="btn pri" href="#truyen/gui">Gửi truyện của em</a>
-      </div>
     </article>
   );
 }
@@ -59,39 +55,39 @@ function Submit({ online, say, nav }) {
 
   const send = async (e) => {
     e.preventDefault(); setErr('');
-    if (f.body.trim().length < 20) { setErr('Truyện hơi ngắn, em kể thêm vài câu nữa nha.'); return; }
+    if (f.body.trim().length < 20) { setErr('Nội dung quá ngắn.'); return; }
     setBusy(true);
     try {
       await rpc('submit_post', { p_title: f.title, p_body: f.body, p_author: f.author, p_contact: f.contact, p_trap: trap });
-      prefs.del('post-draft'); setDone(true); say('Đã gửi truyện, chờ GM duyệt.');
-    } catch (e2) { setErr(e2.offline ? 'Mất mạng rồi. Bài vẫn được giữ trên máy, có mạng em bấm gửi lại nha.' : e2.message); }
+      prefs.del('post-draft'); setDone(true); say('Đã nộp bài.');
+    } catch (e2) { setErr(e2.offline ? 'Mất kết nối. Bài vẫn được lưu trên máy, có mạng thì nộp lại.' : e2.message); }
     setBusy(false);
   };
 
   if (done) {
     return (
       <section className="panel">
-        <h1>Đã nhận truyện</h1>
-        <p>Cảm ơn em đã kể. Truyện sẽ hiện trên trang sau khi GM đọc và duyệt.</p>
-        <div className="row"><a className="btn pri" href="#truyen">Về trang truyện</a><button type="button" onClick={() => { setF({ title: '', author: f.author, body: '', contact: f.contact }); setDone(false); }}>Gửi truyện khác</button></div>
+        <h1>Đã nhận bài</h1>
+        <p>Bài sẽ được đăng sau khi duyệt.</p>
+        <div className="row"><a className="btn pri" href="#truyen">Về trang truyện</a><button type="button" onClick={() => { setF({ title: '', author: f.author, body: '', contact: f.contact }); setDone(false); }}>Nộp bài khác</button></div>
       </section>
     );
   }
   return (
     <section>
       <p><a href="#truyen">← Tất cả truyện</a></p>
-      <h1>Gửi truyện ma</h1>
-      <p className="muted">Không cần tài khoản. Truyện chờ GM duyệt rồi mới hiện. Bài đang viết được giữ trên máy, lỡ tắt trang cũng không mất.</p>
-      {(!config.ready || !online) && <p className="msg warn">Đang offline. Em cứ viết, có mạng rồi bấm gửi.</p>}
+      <h1>Nộp bài</h1>
+      <p className="muted">Không cần tài khoản. Bài được duyệt rồi mới đăng. Bản đang viết được lưu trên máy.</p>
+      {(!config.ready || !online) && <p className="msg warn">Đang offline. Bài vẫn được lưu trên máy, có mạng thì nộp.</p>}
       <form className="form story-form" onSubmit={send}>
-        <label className="wide">Tên truyện<input required maxLength={200} value={f.title} onChange={set('title')} placeholder="ví dụ: Tiếng gõ cửa lúc ba giờ sáng" /></label>
-        <label>Bút danh (bỏ trống = Người giấu tên)<input maxLength={80} value={f.author} onChange={set('author')} autoComplete="nickname" /></label>
-        <label>Liên hệ (không bắt buộc, chỉ GM thấy)<input maxLength={200} value={f.contact} onChange={set('contact')} placeholder="email, Zalo, Facebook..." /></label>
-        <label className="wide">Truyện<textarea required rows={16} maxLength={60000} value={f.body} onChange={set('body')} placeholder="Kể từ đầu nha. Xuống dòng hai lần để sang đoạn mới." /></label>
+        <label className="wide">Tên truyện<input required maxLength={200} value={f.title} onChange={set('title')} /></label>
+        <label>Bút danh (để trống: Người giấu tên)<input maxLength={80} value={f.author} onChange={set('author')} autoComplete="nickname" /></label>
+        <label>Liên hệ (không bắt buộc, chỉ người duyệt thấy)<input maxLength={200} value={f.contact} onChange={set('contact')} placeholder="email, Zalo, Facebook" /></label>
+        <label className="wide">Nội dung<textarea required rows={16} maxLength={60000} value={f.body} onChange={set('body')} placeholder="Xuống dòng hai lần để sang đoạn mới." /></label>
         <label className="trap" aria-hidden="true">Website<input tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} /></label>
         <div className="wide row between">
           <span className="muted small">{f.body.trim().split(/\s+/).filter(Boolean).length} chữ</span>
-          <button type="submit" className="pri" disabled={busy || !online || !config.ready}>{busy ? 'Đang gửi...' : 'Gửi cho GM duyệt'}</button>
+          <button type="submit" className="pri" disabled={busy || !online || !config.ready}>{busy ? 'Đang nộp...' : 'Nộp bài'}</button>
         </div>
         {err && <p className="msg bad wide" role="alert">{err}</p>}
       </form>
@@ -151,7 +147,7 @@ function Queue({ online, say, setQueue, reloadPublic }) {
                     <div className="form">
                       <label className="wide">Tên truyện<input value={d.title ?? p.title} onChange={edit(p.id, 'title')} /></label>
                       <label>Bút danh<input value={d.author ?? p.author_name} onChange={edit(p.id, 'author')} /></label>
-                      <label className="wide">Nội dung (GM sửa chính tả được trước khi đăng)<textarea rows={14} value={d.body ?? p.body} onChange={edit(p.id, 'body')} /></label>
+                      <label className="wide">Nội dung (sửa được trước khi đăng)<textarea rows={14} value={d.body ?? p.body} onChange={edit(p.id, 'body')} /></label>
                     </div>
                     <div className="row between">
                       <div className="row">
@@ -182,31 +178,31 @@ export default function Blog({ online, role, say, path, nav, setQueue }) {
   if (k) {
     const post = (posts || []).find((p) => p.id === k);
     if (post) return <Read post={post} />;
-    return <section><p><a href="#truyen">← Tất cả truyện</a></p><p className="muted">{posts === null ? 'Đang tải truyện...' : 'Không tìm thấy truyện này (có thể đã bị gỡ, hoặc chưa tải về máy).'}</p></section>;
+    return <section><p><a href="#truyen">← Tất cả truyện</a></p><p className="muted">{posts === null ? 'Đang tải truyện...' : 'Không tìm thấy bài này. Có thể bài đã bị gỡ, hoặc chưa được tải về máy.'}</p></section>;
   }
 
   const [lead, ...rest] = posts || [];
   return (
     <section className="blog">
       <header className="masthead">
-        <p className="kicker">Bán Lộ Trừ Ma · chuyên mục</p>
-        <h1>Truyện ma người đọc kể</h1>
-        <p className="muted">Chuyện nghe được, chuyện gặp phải, chuyện bịa cho vui. Có thật hay không, tuỳ người nghe.</p>
+        <p className="kicker">Bán Lộ Trừ Ma</p>
+        <h1>Truyện ma</h1>
+        <p className="muted">Chuyện người ta kể lại. Thật giả không bàn.</p>
         <div className="row">
-          <a className="btn pri" href="#truyen/gui">+ Gửi truyện</a>
+          <a className="btn pri" href="#truyen/gui">Nộp bài</a>
           {role === 'gm' && <a className="btn" href="#truyen/duyet">Duyệt bài</a>}
         </div>
       </header>
-      {err && <p className="msg warn">Chưa tải được bài mới: {err}</p>}
-      {posts === null && <p className="muted">Đang tải truyện...</p>}
-      {posts && posts.length === 0 && <div className="panel"><p>Chưa có truyện nào được đăng. Em kể truyện đầu tiên đi!</p></div>}
+      {err && <p className="msg warn">Chưa tải được bài mới.</p>}
+      {posts === null && <p className="muted">Đang tải...</p>}
+      {posts && posts.length === 0 && <p className="muted">Chưa có bài nào.</p>}
       {lead && (
         <a className="lead-story" href={'#truyen/' + lead.id}>
           <span className="kicker">Mới nhất</span>
           <b>{lead.title}</b>
           <span className="byline">{lead.author_name} · {day(lead.published_at)}</span>
           <span className="excerpt">{cut(lead.body, 420)}</span>
-          <span className="more">Đọc tiếp →</span>
+          <span className="more">Đọc tiếp</span>
         </a>
       )}
       <div className="stories">
