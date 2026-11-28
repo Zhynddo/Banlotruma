@@ -5,6 +5,8 @@ import { normalizeSheet } from '../lib/sheet.js';
 import { Img, Gallery } from './Media.jsx';
 import { useUi } from '../shell/ui.js';
 
+const canOf = (d) => String(d?.can || d?.Can || '').trim();
+
 const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
 const has = (v) => v !== null && v !== undefined && String(v).trim() !== '' && v !== false;
 const ngay = (iso) => {
@@ -88,14 +90,15 @@ export function PcDossier({ char, player }) {
   const photo = d.chan_dung?.path ? <Img path={d.chan_dung.path} alt={'Chân dung ' + (d.ten || char.name)} /> : null;
   const spells = (d.phep || []).length;
   return (
-    <Paper kicker="Hồ sơ thầy pháp" title={d.ten || char.name} sub="(tự khai)" photo={photo} sign={d.ten || char.name} date={char.updated_at} sealed>
+    <Paper kicker="Hồ sơ nhân vật" title={d.ten || char.name} sub="(tự khai)" photo={photo} sign={d.ten || char.name} date={char.updated_at} sealed
+           badge={d.can ? <p className="cv-star">★ Có Căn: {d.can}</p> : null}>
       <Sec n={0} title="SƠ LƯỢC BẢN THÂN">
         <Lines rows={[
           ['Họ và tên', d.ten || char.name], ['Giới tính', d.gioi_tinh], ['Tuổi', has(d.tuoi) ? d.tuoi + (has(d.tho) ? ` (thọ ${d.tho})` : '') : ''],
           ['Quê quán', d.que_quan], ['Nơi ở hiện nay', d.noi_o], ['Mệnh', d.menh], ['Tôn giáo, đạo', d.ton_giao],
           ['Nghề nghiệp đời thường', d.nghe], ['Trường, nhánh', [d.truong, d.nhanh].filter(Boolean).join(' · ')],
           ['Cấp bậc', has(d.cap) ? 'Cấp ' + d.cap : ''], ['Căn', d.can], ['Duyên vào nghề', d.duyen], ['Giới (điều kiêng)', d.gioi],
-          ['Người chơi', player || d.nguoi_choi],
+          ['Người chơi', d.nguoi_choi],
         ]} />
       </Sec>
       <Sec n={1} title="QUAN HỆ – ÂN OÁN">
@@ -139,7 +142,8 @@ export function NpcDossier({ e }) {
   const rows = Object.entries(d).filter(([k, v]) => !NPC_SKIP.has(k) && (typeof v !== 'object' || Array.isArray(v)))
     .map(([k, v]) => [lab(k), Array.isArray(v) ? v.join(', ') : v === true ? 'có' : v]);
   return (
-    <Paper kicker="Hồ sơ nhân vật · do GM lập" title={e.name} sub="(GM khai)" sign="GM"
+    <Paper kicker="Hồ sơ nhân vật" title={e.name} sub="(tự khai)" sign={e.name}
+           badge={canOf(d) ? <p className="cv-star">★ Có Căn: {canOf(d)}</p> : null}
            photo={pics[0] ? <Img path={pics[0].path} alt={pics[0].alt || 'Chân dung ' + e.name} /> : null} date={e.updated_at} sealed>
       <Sec n={0} title="SƠ LƯỢC BẢN THÂN">
         <Lines rows={[['Họ và tên', e.name], ['Lời ngắn', e.summary], ...rows]} />

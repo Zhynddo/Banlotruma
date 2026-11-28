@@ -4,10 +4,11 @@
 //   còn lại → trang sổ chép tay
 import { Gallery } from './Media.jsx';
 import { useUi } from '../shell/ui.js';
+import { spellInfo } from '../lib/spell.js';
 
 export const TYPES = {
   all: 'Tất cả', spell: 'Phép', rite: 'Nghi lễ', can: 'Căn', item: 'Pháp bảo',
-  npc: 'NPC', monster: 'Vong, yêu quỷ', place: 'Địa điểm', rule: 'Luật', lore: 'Truyền thuyết',
+  npc: 'Nhân vật', monster: 'Vong, yêu quỷ', place: 'Địa điểm', rule: 'Luật', lore: 'Truyền thuyết',
 };
 
 // Chữ Hán trang trí cho từng Tính và từng bậc
@@ -24,7 +25,7 @@ const NOTE = {
   hanh_dong: 'Hành động', thi: 'Thi', gia: 'Giá', duy_tri: 'Duy trì', goc: 'Gốc D&D', muc: 'Mục luật',
   ghi_chu: 'Ghi chú', thoi_gian: 'Thời gian', loai: 'Loại', d20: 'Số d20',
 };
-const SKIP = new Set(['bac', 'tinh', 'cua', 'duoc', 'mat', 'nhap', 'hinh', 'gia', 'duy_tri', 'muc', 'd20']);
+const SKIP = new Set(['bac', 'tinh', 'cua', 'duoc', 'mat', 'nhap', 'hinh', 'gia', 'duy_tri', 'muc', 'd20', 'thi', 'tam', 'thoi_han', 'cach', 'kem', 'bac_cao', 'hanh_dong', 'goc', 'ghi_chu']);
 const label = (k) => NOTE[k] || k.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase());
 const val = (v) => (Array.isArray(v) ? v.join(' + ') : v === true ? 'có' : v === false ? 'không' : String(v));
 
@@ -74,10 +75,16 @@ function Tags({ e }) {
 
 function SpellPage({ e }) {
   const d = e.data || {};
+  const x = spellInfo(d);
   const meta = [d.bac && 'bậc ' + d.bac, list(d.tinh).length && 'tính ' + list(d.tinh).join(' + '), d.gia != null && d.gia !== '' && d.gia + ' linh'].filter(Boolean).join(' · ');
+  const stats = [
+    ['Hành động', x.hanh_dong], ['Tầm', x.tam], ['Thời hạn', [x.thoi_han, x.duy_tri && 'cần duy trì'].filter(Boolean).join(', ')],
+    ['Cách trúng', x.cach], ['Kèm theo', x.kem],
+  ].filter(([, v]) => v);
   const extra = [
-    d.duy_tri ? ['Duy trì', 'phải giữ tâm, bị đánh trúng thì thử Thể'] : null,
+    d.goc ? ['Gốc D&D', d.goc] : null,
     d.muc ? ['Xem luật', '§' + d.muc] : null,
+    d.ghi_chu ? ['Ghi chú', d.ghi_chu] : null,
   ].filter(Boolean);
   return (
     <article className="folio spell">
@@ -86,8 +93,10 @@ function SpellPage({ e }) {
         <p className="kicker">Sổ phép · {meta}</p>
         <h2>{e.name}</h2>
         {e.summary && <p className="lede">{e.summary}</p>}
+        {stats.length > 0 && <dl className="spell-stats">{stats.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>}
         <Gallery items={Array.isArray(d.hinh) ? d.hinh : []} />
         <Body text={e.body} />
+        {x.bac_cao && <p className="upcast"><b>Ở bậc cao hơn.</b> {x.bac_cao}</p>}
         {Array.isArray(d.cua) && (
           <table className="ledger">
             <caption>Tám cửa</caption>
@@ -145,7 +154,7 @@ function PlainPage({ e }) {
             <div><h3>Mất</h3><p>{d.mat}</p></div>
           </div>
         ) : <Body text={e.body} />}
-        <Margin d={d} extra={d.muc ? [['Xem luật', '§' + d.muc]] : []} />
+        <Margin d={d} extra={[['Hành động', d.hanh_dong], ['Gốc D&D', d.goc], ['Xem luật', d.muc ? '§' + d.muc : ''], ['Ghi chú', d.ghi_chu]].filter(([, v]) => v)} />
         <Tags e={e} />
       </div>
     </article>
@@ -156,12 +165,15 @@ function PlainPage({ e }) {
 function TextPage({ e }) {
   const d = e.data || {};
   const tinh = list(d.tinh);
+  const x = e.type === 'spell' ? spellInfo(d) : {};
   const rows = [
     ['Loại', TYPES[e.type] || e.type], ['Bậc', d.bac], ['Tính', tinh.join(' + ')], ['Giá', d.gia != null && d.gia !== '' ? d.gia + ' linh' : ''],
+    ['Hành động', x.hanh_dong || (e.type !== 'spell' ? d.hanh_dong : '')], ['Tầm', x.tam], ['Thời hạn', [x.thoi_han, x.duy_tri && 'cần duy trì'].filter(Boolean).join(', ')],
+    ['Cách trúng', x.cach], ['Kèm theo', x.kem],
     ['Số d20', d.d20], ['Thời gian', d.thoi_gian], ['Loại đồ', d.loai],
-    ...Object.entries(d).filter(([k, v]) => !SKIP.has(k) && !['thoi_gian', 'loai', 'd20', 'hanh_dong', 'thi', 'goc', 'ghi_chu'].includes(k) && v !== null && v !== '' && v !== false && (typeof v !== 'object' || Array.isArray(v))).map(([k, v]) => [label(k), val(v)]),
-    ['Hành động', d.hanh_dong], ['Thi', d.thi], ['Duy trì', d.duy_tri ? 'có' : ''], ['Gốc D&D', d.goc], ['Xem luật', d.muc ? '§' + d.muc : ''],
-  ].filter(([, v]) => v !== '' && v != null);
+    ...Object.entries(d).filter(([k, v]) => !SKIP.has(k) && !['thoi_gian', 'loai'].includes(k) && v !== null && v !== '' && v !== false && (typeof v !== 'object' || Array.isArray(v))).map(([k, v]) => [label(k), val(v)]),
+    ['Gốc D&D', d.goc], ['Xem luật', d.muc ? '§' + d.muc : ''],
+  ].filter(([, v]) => v !== '' && v != null && v !== false);
   const st = e.type === 'rite' ? steps(e.body) : [];
   return (
     <article className={'tdoc ' + e.type}>
@@ -179,6 +191,7 @@ function TextPage({ e }) {
       ) : (
         <div className="tdoc-body">{paras(e.body).map((x, i) => <p key={i}>{x}</p>)}</div>
       )}
+      {x.bac_cao && <p className="tdoc-up"><b>Ở BẬC CAO HƠN.</b> {x.bac_cao}</p>}
       {Array.isArray(d.cua) && (
         <dl className="tdoc-kv"><div className="tdoc-cap"><dt>TÁM CỬA</dt><dd /></div>{d.cua.map((c) => <div key={c.cua}><dt>{c.cua}</dt><dd>{c.mo}</dd></div>)}</dl>
       )}

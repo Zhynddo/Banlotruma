@@ -16,7 +16,7 @@ export default function Writer({ online, say, nav }) {
   const [log, setLog] = useState([]);       // dòng in ra khi gửi
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
-  const [pos, setPos] = useState({ line: 1, col: 1 });
+  const [pos, setPos] = useState({ line: 1 });
   const ta = useRef(null);
   const mirror = useRef(null);
   const box = useRef(null);
@@ -33,7 +33,7 @@ export default function Writer({ online, say, nav }) {
   const caret = () => {
     const el = ta.current; if (!el) return;
     const before = el.value.slice(0, el.selectionStart).split('\n');
-    setPos({ line: before.length, col: before[before.length - 1].length + 1 });
+    setPos({ line: before.length });
   };
 
   const print = (line) => setLog((l) => [...l, line]);
@@ -112,7 +112,7 @@ export default function Writer({ online, say, nav }) {
       <div className="ed-status">
         {!sent && <button type="button" onClick={send} disabled={busy}><kbd>^S</kbd> {busy ? 'Đang gửi...' : 'Gửi tệp'}</button>}
         <button type="button" onClick={() => nav('truyen')}><kbd>^X</kbd> Thoát</button>
-        <span className="ed-pos">Dòng {pos.line + 4} · Cột {pos.col} · {words(f.body)} chữ{ready ? '' : ' · OFFLINE'}</span>
+        <span className="ed-pos">Dòng {pos.line + 4} · {words(f.body)} chữ{ready ? '' : ' · OFFLINE'}</span>
       </div>
     </div>
   );

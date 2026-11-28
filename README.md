@@ -54,6 +54,11 @@ Code: `src/shell/` (Desktop, Window, Menu, Boot, apps.js).
 | Phiếu của tôi | `#phieu` | phiếu dạng sơ yếu lý lịch |
 | Cài đặt | `#cai-dat` | |
 
+Sổ phép nhập từ Excel: GM mở Sổ phép → Tệp → Nhập phép từ Excel (`#tra-cuu/nhap`). File được đọc ngay trên trình duyệt
+(`src/lib/xlsx.js`, không cần thư viện), cột nhận theo tên tiêu đề (`src/lib/spellSheet.js`). File mẫu `public/files/BanLoTruMa_SoPhep.xlsx`
+tạo bằng `python3 scripts/make_sophep_xlsx.py` từ `public/data/core.json`. Phép trùng mã thì sửa, mã mới thì thêm, không xoá phép nào.
+Trường phép: bac, tinh, gia, hanh_dong, tam, thoi_han, duy_tri, cach, kem, bac_cao, goc, muc, ghi_chu, nhap (ô `thi` đời cũ được tách tự động).
+
 Theme: `crt` (phốt-pho xanh, mặc định) và `term` (đen trắng). Kiểu tài liệu: giấy thật hoặc chữ terminal
 (menu Xem, hoặc Cài đặt). Ai bật giảm chuyển động trong máy thì không có hiệu ứng chạy chữ.
 

@@ -92,11 +92,12 @@ export default function Desktop({ ctx, render, queue }) {
     { label: 'Sổ phép', short: 'Phép', items: [
       { label: 'Mở sổ phép', run: () => go('tra-cuu') },
       gm && { label: 'Thêm mục vào sổ', run: () => go('tra-cuu/them'), disabled: !ctx.online },
+      gm && { label: 'Nhập phép từ Excel', run: () => go('tra-cuu/nhap') },
     ] },
     { label: 'Nhân vật', short: 'Hồ sơ', items: [
       { label: 'Tủ hồ sơ', run: () => go('nhan-vat') },
       { label: 'Phiếu của tôi', run: () => go('phieu') },
-      gm && { label: 'Lập hồ sơ NPC', run: () => go('nhan-vat/them'), disabled: !ctx.online },
+      gm && { label: 'Lập hồ sơ mới', run: () => go('nhan-vat/them'), disabled: !ctx.online },
     ] },
     { label: 'Xem', items: viewItems },
   ];
@@ -107,7 +108,8 @@ export default function Desktop({ ctx, render, queue }) {
       a.k === 'truyen' && { label: 'Tìm hồ sơ', run: () => go('tim') },
       a.k === 'truyen' && gm && { label: 'Duyệt bài', badge: queue || 0, run: () => go('truyen/duyet') },
       a.k === 'tra-cuu' && gm && { label: 'Thêm mục', run: () => go('tra-cuu/them'), disabled: !ctx.online },
-      a.k === 'nhan-vat' && gm && { label: 'Lập hồ sơ NPC', run: () => go('nhan-vat/them'), disabled: !ctx.online },
+      a.k === 'tra-cuu' && gm && { label: 'Nhập phép từ Excel', run: () => go('tra-cuu/nhap') },
+      a.k === 'nhan-vat' && gm && { label: 'Lập hồ sơ mới', run: () => go('nhan-vat/them'), disabled: !ctx.online },
       { label: 'Đóng cửa sổ', run: () => close(a.k) },
     ] },
     { label: 'Xem', items: [

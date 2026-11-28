@@ -1,6 +1,6 @@
 // Tìm hồ sơ: gõ từ khoá, máy "dò kho" (cuộn nhanh tên tệp, mã ngẫu nhiên),
 // rồi kết quả hiện ra dạng ký tự loạn và giải mã dần thành tên thật.
-// Tìm trong truyện đã đăng, sổ phép, NPC và hồ sơ PC công khai.
+// Tìm trong truyện đã đăng, sổ phép và hồ sơ nhân vật.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { rpc } from '../lib/api.js';
 import { kv } from '../lib/store.js';
@@ -65,7 +65,7 @@ export default function Finder({ pack, online, role, path }) {
       text: [e.name, e.summary, e.body, ...Object.values(e.data || {}).filter((v) => typeof v === 'string')].join(' '), body: e.summary || e.body || e.data?.duoc,
       href: e.type === 'npc' ? '#nhan-vat/npc/' + e.id : '#tra-cuu/' + e.id,
     })),
-    ...pcs.map((c) => ({ kind: 'PC', file: 'HOSO/PC_' + slug(c.data?.ten || c.name) + '.DAT', title: c.data?.ten || c.name,
+    ...pcs.map((c) => ({ kind: 'NHÂN VẬT', file: 'HOSO/PC_' + slug(c.data?.ten || c.name) + '.DAT', title: c.data?.ten || c.name,
       text: [c.data?.ten, c.name, c.player, c.data?.truong, c.data?.que_quan, c.data?.tieu_su].join(' '), body: c.data?.tieu_su, href: '#nhan-vat/pc/' + c.id })),
   ].map((x) => ({ ...x, n: norm(x.text), nt: norm(x.title) })), [posts, pack, pcs, gm]);
 
@@ -103,7 +103,7 @@ export default function Finder({ pack, online, role, path }) {
   return (
     <div className="term finder" onClick={() => inputRef.current?.focus()}>
       <div className="term-body">
-        <p className="term-dim">KHO: {corpus.length} TỆP ({(posts || []).length} TRUYỆN · {pack.entries.length} MỤC SỔ · {pcs.length} HỒ SƠ PC){ready ? '' : ' · ĐANG NẠP...'}</p>
+        <p className="term-dim">KHO: {corpus.length} TỆP ({(posts || []).length} TRUYỆN · {pack.entries.filter((e) => e.type !== 'npc').length} MỤC SỔ · {pcs.length + pack.entries.filter((e) => e.type === 'npc').length} HỒ SƠ){ready ? '' : ' · ĐANG NẠP...'}</p>
         <p className="term-dim">Gõ từ khoá rồi Enter. Có dấu hay không dấu đều được: ma da, han thu, cho doc...</p>
         {runs.map((r) => (
           <div key={r.id} className="find-run">

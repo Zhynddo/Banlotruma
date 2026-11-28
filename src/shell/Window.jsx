@@ -54,7 +54,7 @@ export default function Window({ app, win, active, narrow, menus, onFocus, onClo
       <div className="win-title" onPointerDown={start('move')} onPointerMove={move} onPointerUp={end} onPointerCancel={end}
            onDoubleClick={() => !narrow && onMax()}>
         <button type="button" className="win-btn" aria-label={'Đóng ' + app.name} onPointerDown={(e) => e.stopPropagation()} onClick={onClose}>[■]</button>
-        <h2 className="win-name">{app.title}{win.path?.length ? ' · ' + win.path[0].toUpperCase() : ''}</h2>
+        <h2 className="win-name">{app.title}</h2>
         {!narrow && <button type="button" className="win-btn" aria-label={win.max ? 'Thu cửa sổ lại' : 'Phóng to cửa sổ'} onPointerDown={(e) => e.stopPropagation()} onClick={onMax}>[{win.max ? '↓' : '↑'}]</button>}
       </div>
       {menus && <MenuBar menus={menus} className="win-menu" label={'Menu ' + app.name} />}

@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from 'react';
 import { table, request, media } from '../lib/api.js';
 import { prepareImage, newKey } from '../lib/image.js';
 import { Img } from './Media.jsx';
+import { spellInfo } from '../lib/spell.js';
 import { patchPack } from '../lib/pack.js';
 import { norm } from '../lib/norm.js';
 
@@ -10,16 +11,17 @@ const BAC = ['Cấp thấp', 'Sơ', 'Trung', 'Cao'];
 
 export const TYPE_NAMES = {
   spell: 'Phép', rite: 'Nghi lễ', can: 'Căn', item: 'Pháp bảo',
-  npc: 'NPC', monster: 'Vong, yêu quỷ', place: 'Địa điểm', rule: 'Luật', lore: 'Truyền thuyết',
+  npc: 'Nhân vật', monster: 'Vong, yêu quỷ', place: 'Địa điểm', rule: 'Luật', lore: 'Truyền thuyết',
 };
 
 // Ô riêng của từng loại: [khoá, nhãn, kiểu, lựa chọn]
 const FIELDS = {
   spell: [
     ['bac', 'Bậc', 'select', BAC], ['tinh', 'Tính', 'list'], ['gia', 'Giá (linh)', 'number'],
-    ['hanh_dong', 'Hành động', 'text'], ['thi', 'Thi (tầm, cách đánh)', 'text'], ['goc', 'Gốc D&D', 'text'],
-    ['muc', 'Mục luật', 'text'], ['duy_tri', 'Cần duy trì', 'bool'], ['nhap', 'Luật còn đang thử', 'bool'],
-    ['ghi_chu', 'Ghi chú', 'area'],
+    ['hanh_dong', 'Hành động', 'text'], ['tam', 'Tầm', 'text'], ['thoi_han', 'Thời hạn', 'text'],
+    ['cach', 'Cách trúng (AR, thử chỉ số...)', 'text'], ['kem', 'Kèm theo (giá máu, điều kiện...)', 'text'],
+    ['goc', 'Gốc D&D', 'text'], ['muc', 'Mục luật', 'text'], ['duy_tri', 'Cần duy trì', 'bool'], ['nhap', 'Luật còn đang thử', 'bool'],
+    ['bac_cao', 'Ở bậc cao hơn', 'area'], ['ghi_chu', 'Ghi chú', 'area'],
   ],
   rite: [['tinh', 'Tính', 'list'], ['thoi_gian', 'Thời gian', 'text'], ['muc', 'Mục luật', 'text']],
   can: [['d20', 'Số d20', 'number'], ['muc', 'Mục luật', 'text'], ['duoc', 'Được', 'area'], ['mat', 'Mất', 'area']],
@@ -27,7 +29,7 @@ const FIELDS = {
 };
 
 const slug = (s) => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'muc-moi';
-const SPECIAL = new Set(['hinh']);
+const SPECIAL = new Set(['hinh', 'thi']); // thi: trường gộp đời cũ, được tách ra khi sửa
 const isPlain = (v) => v === null || ['string', 'number', 'boolean'].includes(typeof v) || (Array.isArray(v) && v.every((x) => typeof x !== 'object'));
 const toText = (v) => (Array.isArray(v) ? v.join(', ') : v === true ? 'có' : v === false ? 'không' : v ?? '');
 const fromText = (t) => {
@@ -41,7 +43,7 @@ const fromText = (t) => {
 const clean = (row) => { const r = { ...row }; delete r.search; return r; };
 
 function toForm(e, type) {
-  const d = e?.data || {};
+  const d = type === 'spell' ? { ...(e?.data || {}), ...Object.fromEntries(Object.entries(spellInfo(e?.data || {})).filter(([, v]) => v !== '')) } : (e?.data || {});
   const known = new Set((FIELDS[type] || []).map((f) => f[0]));
   return {
     name: e?.name || '', status: e?.status || 'published', summary: e?.summary || '', body: e?.body || '',
@@ -243,7 +245,7 @@ export default function Editor({ entry, pack, setPack, online, say, onDone, defa
       </label>
 
       <h3>Thông tin thêm</h3>
-      <p className="muted small">Ô tự đặt, ví dụ NPC có “Ở đâu”, “Biết phép”, vong có “Máu”, “AC”.</p>
+      <p className="muted small">Ô tự đặt, ví dụ nhân vật có “Căn”, “Ở đâu”, “Biết phép”, vong có “Máu”, “AC”.</p>
       {f.extra.map((x, i) => (
         <div key={i} className="row extra">
           <input aria-label="Tên ô" placeholder="tên ô" value={x.k} onChange={(e) => set('extra')(f.extra.map((y, j) => (j === i ? { ...y, k: e.target.value } : y)))} />

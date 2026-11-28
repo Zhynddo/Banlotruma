@@ -1,4 +1,5 @@
-// Mục Nhân vật: hồ sơ PC người chơi tự công khai + NPC do GM lập.
+// Mục Nhân vật: mọi hồ sơ như nhau (phiếu người chơi tự công khai + hồ sơ GM lập).
+// Ai có Căn thì gắn dấu ★.
 // #nhan-vat            danh sách
 // #nhan-vat/pc/<mã>    hồ sơ một PC
 // #nhan-vat/npc/<mã>   hồ sơ một NPC
@@ -12,14 +13,17 @@ import Editor from './Editor.jsx';
 
 const CACHE = 'public-chars';
 
-function Card({ href, photo, name, line, tag }) {
+// Có Căn: phiếu có ô Căn, hoặc hồ sơ GM lập có ô “Căn”
+export const canOf = (d) => String(d?.can || d?.Can || '').trim();
+
+function Card({ href, photo, name, line, can }) {
   return (
     <a className="person" href={href}>
       <span className="person-photo">{photo ? <Img path={photo} alt="" /> : <span className="initial" aria-hidden="true">{(name || '?').trim().split(/\s+/).pop()[0]}</span>}</span>
       <span className="person-t">
         <b>{name}</b>
         <small>{line}</small>
-        <span className={'person-tag ' + tag}>{tag === 'pc' ? 'PC' : 'NPC'}</span>
+        {can && <span className="person-tag can" title={'Có Căn: ' + can}>★ {can}</span>}
       </span>
     </a>
   );
@@ -47,17 +51,17 @@ export default function People({ pack, setPack, online, role, say, path, nav }) 
   const people = useMemo(() => {
     const all = [
       ...(pcs || []).map((c) => ({
-        key: 'pc/' + c.id, tag: 'pc', name: c.data?.ten || c.name, photo: c.data?.chan_dung?.thumb || c.data?.chan_dung?.path,
-        line: [c.data?.truong, c.data?.cap ? 'cấp ' + c.data.cap : '', c.player ? 'người chơi ' + c.player : ''].filter(Boolean).join(' · '),
+        key: 'pc/' + c.id, can: canOf(c.data), name: c.data?.ten || c.name, photo: c.data?.chan_dung?.thumb || c.data?.chan_dung?.path,
+        line: [c.data?.truong, c.data?.cap ? 'cấp ' + c.data.cap : '', c.data?.noi_o || c.data?.que_quan].filter(Boolean).join(' · '),
       })),
       ...npcs.map((e) => ({
-        key: 'npc/' + e.id, tag: 'npc', name: e.name, photo: e.data?.hinh?.[0]?.thumb || e.data?.hinh?.[0]?.path,
+        key: 'npc/' + e.id, can: canOf(e.data), name: e.name, photo: e.data?.hinh?.[0]?.thumb || e.data?.hinh?.[0]?.path,
         line: (e.status === 'draft' ? 'nháp · ' : '') + (e.summary || Object.values(e.data || {}).filter((v) => typeof v === 'string').slice(0, 2).join(' · ')),
       })),
     ];
     const nq = norm(q.trim());
-    return all.filter((p) => (kind === 'all' || p.tag === kind) && (!nq || norm(p.name + ' ' + p.line).includes(nq)))
-      .sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+    return all.filter((p) => (kind === 'all' || !!p.can) && (!nq || norm(p.name + ' ' + p.line).includes(nq)))
+      .sort((a, b) => (!!b.can - !!a.can) || a.name.localeCompare(b.name, 'vi'));
   }, [pcs, npcs, q, kind]);
 
   // ---- một hồ sơ ----
@@ -85,9 +89,9 @@ export default function People({ pack, setPack, online, role, say, path, nav }) 
       <section>
         <div className="row between">
           <a href="#nhan-vat">← Tất cả nhân vật</a>
-          {gm && e && <button type="button" onClick={() => setEdit(id)}>Sửa hồ sơ NPC</button>}
+          {gm && e && <button type="button" onClick={() => setEdit(id)}>Sửa hồ sơ</button>}
         </div>
-        {e ? <NpcDossier e={e} /> : <p className="muted">Không tìm thấy NPC này.</p>}
+        {e ? <NpcDossier e={e} /> : <p className="muted">Không tìm thấy hồ sơ này.</p>}
       </section>
     );
   }
@@ -102,20 +106,21 @@ export default function People({ pack, setPack, online, role, say, path, nav }) 
   }
 
   // ---- danh sách ----
-  const nPc = (pcs || []).length;
+  const allCount = (pcs || []).length + npcs.length;
+  const canCount = (pcs || []).filter((c) => canOf(c.data)).length + npcs.filter((e) => canOf(e.data)).length;
   return (
     <section>
       <div className="row between">
         <h1>Nhân vật</h1>
-        {gm && <button type="button" className="pri" disabled={!online} onClick={() => setEdit('new')}>+ Lập hồ sơ NPC</button>}
+        {gm && <button type="button" className="pri" disabled={!online} onClick={() => setEdit('new')}>+ Lập hồ sơ</button>}
       </div>
-      <p className="muted">Hồ sơ PC do người chơi tự công khai trong <a href="#phieu">Phiếu của tôi</a>, cùng các NPC GM đã lập.</p>
+      <p className="muted">Hồ sơ đã công khai. Người có Căn được gắn dấu ★.</p>
       <div className="searchbar">
         <label htmlFor="pq" className="sr">Tìm nhân vật</label>
         <input id="pq" type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="tìm theo tên, trường, nơi ở..." autoComplete="off" />
       </div>
       <div className="chips" role="group" aria-label="Lọc">
-        {[['all', 'Tất cả', nPc + npcs.length], ['pc', 'PC', nPc], ['npc', 'NPC', npcs.length]].map(([v, l, n]) => (
+        {[['all', 'Tất cả', allCount], ['can', '★ Có Căn', canCount]].map(([v, l, n]) => (
           <button key={v} type="button" aria-pressed={kind === v} onClick={() => setKind(v)}>{l} <span className="n">{n}</span></button>
         ))}
       </div>

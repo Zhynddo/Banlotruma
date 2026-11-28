@@ -213,7 +213,7 @@ try:
         pg.wait_for_timeout(500)
         ok = pg.evaluate("[...document.querySelectorAll('.detail .gallery img')].every(i => i.complete && i.naturalWidth > 0) && document.querySelectorAll('.detail .gallery img').length == 2")
         check('chi tiết hiện hình', ok)
-        check('danh sách có hình nhỏ', pg.locator('.item.has-pic img.tn').count() >= 1)
+        check('danh sách có hình nhỏ', pg.locator('.spell-table .row-btn img.tn').count() >= 1)
         pg.locator('.thumbs .shot').first.click(); pg.wait_for_timeout(300)
         check('bấm phóng to hình', pg.locator('.lightbox').count() == 1 and 'Zhyn' in pg.inner_text('.lightbox'))
         pg.keyboard.press('Escape'); check('Esc đóng hình', pg.locator('.lightbox').count() == 0)
@@ -406,6 +406,53 @@ try:
         kp.reload(); kp.wait_for_timeout(300)
         check('cùng phiên thì không khởi động lại', kp.locator('.boot-screen').count() == 0)
         k.close()
+
+        print('18. GM nhập phép từ Excel')
+        from openpyxl import load_workbook
+        wb = load_workbook(str(Path(__file__).resolve().parent.parent / 'public/files/BanLoTruMa_SoPhep.xlsx'))
+        ws = wb['Phép']
+        hdr = [c.value for c in ws[1]]
+        ci = lambda name: hdr.index(name) + 1
+        for r in range(2, ws.max_row + 1):
+            if ws.cell(r, 1).value == 'spell.ap-linh':
+                ws.cell(r, ci('Giá (linh)')).value = 5
+                ws.cell(r, ci('Ở bậc cao hơn')).value = 'Thêm một mục tiêu mỗi 2 linh trả thêm.'
+        last = max(r for r in range(2, ws.max_row + 1) if ws.cell(r, 2).value)
+        new = [None, 'Phép Thử Excel', 'Sơ', 'Âm + Linh', 2, 'Action', '30ft', '1 phút', 'Có', 'thử Vía', '', 'Một phép thêm từ file Excel.', '', '', '', '', 'thử', 'Đăng', 'Không']
+        for j, v in enumerate(new): ws.cell(last + 1, j + 1).value = v
+        ws.cell(last + 2, ci('Tên *')).value = 'Phép Thiếu Bậc'; ws.cell(last + 2, ci('Mô tả *')).value = 'không có bậc'
+        wb.save('/tmp/bltm-sophep-sua.xlsx')
+
+        go(pg, 'tra-cuu')
+        pg.click('.win.active >> text=Nhập từ Excel'); pg.wait_for_selector('.import')
+        check('file mẫu tải được từ app', pg.request.get(BASE + '/files/BanLoTruMa_SoPhep.xlsx').status == 200)
+        pg.set_input_files('.import input[type=file]', '/tmp/bltm-sophep-sua.xlsx'); pg.wait_for_selector('.imp-res', timeout=8000)
+        txt = pg.inner_text('.import')
+        check('đọc được file Excel ngay trên trình duyệt', 'sheet “Phép”' in txt and '126 phép hợp lệ' in txt, txt[:300])
+        check('thấy phép mới', '+ 1 phép mới' in txt)
+        check('báo dòng lỗi', 'Phép Thiếu Bậc' in txt and 'Bậc' in pg.inner_text('.imp-err'))
+        check('cảnh báo Tính lạ', 'Tính “Linh”' in pg.inner_text('.imp-warn'))
+        check('lần đầu nhập: tách ô Thi cũ cho mọi phép', '(bỏ ô Thi cũ)' in txt)
+        pg.locator('.import button.pri').click()
+        pg.wait_for_function("!document.querySelector('.import button.pri') || !document.querySelector('.import button.pri').innerText.startsWith('Đang ghi')", timeout=60000)
+        pg.wait_for_selector('.import .panel', timeout=60000)
+        e = api('/test/entry', {'id': 'spell.ap-linh'})
+        check('phép sửa đã lên kho', e['data']['gia'] == 5 and e['data']['bac_cao'].startswith('Thêm một mục tiêu') and e['data']['tam'] == '30ft' and 'thi' not in e['data'], json.dumps(e['data'], ensure_ascii=False)[:300])
+        n = api('/test/entry', {'id': 'spell.phep-thu-excel'})
+        check('phép mới đã lên kho', n and n['data']['tinh'] == ['Âm', 'Linh'] and n['data']['duy_tri'] is True and n['data']['cach'] == 'thử Vía', json.dumps(n, ensure_ascii=False)[:300])
+        check('phép có ô cửa đặc biệt vẫn giữ', len(api('/test/entry', {'id': 'spell.tran-bat-mon'})['data'].get('cua', [])) == 8)
+        pg.click('.import >> text=Xem sổ phép'); pg.wait_for_timeout(300)
+        pg.fill('#q', 'phep thu excel'); pg.wait_for_timeout(700)
+        pg.locator('.spell-table tr.item').first.click(); pg.wait_for_timeout(300)
+        check('phép mới hiện trong sổ với khung chỉ số', 'Phép Thử Excel' in pg.inner_text('.detail') and 'thử Vía' in pg.inner_text('.detail'))
+        pg.click('.win.active >> text=Nhập từ Excel'); pg.set_input_files('.import input[type=file]', '/tmp/bltm-sophep-sua.xlsx'); pg.wait_for_selector('.imp-res')
+        check('nhập lại cùng file: không còn gì để sửa', '+ 0 phép mới' in pg.inner_text('.import') and '~ 0 phép sửa' in pg.inner_text('.import'), pg.inner_text('.imp-sum'))
+        pg.click('.import >> text=Huỷ')
+
+        print('19. Nhân vật không chia PC/NPC')
+        go(gp, 'nhan-vat')
+        txt = gp.inner_text('.win.active')
+        check('không còn chữ PC/NPC', ' PC' not in txt and 'NPC' not in txt, txt[:300])
 
         h.close(); g.close()
 
