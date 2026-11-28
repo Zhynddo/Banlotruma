@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       android:
-        description: 'Build cả file APK cho Android'
+        description: 'Build cả app Android (APK)'
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: write
@@ -66,7 +66,8 @@ jobs:
 
   android:
     needs: web
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.android }}
+    # Mỗi lần đưa code mới lên là build lại app; bấm Run workflow thì tuỳ ô đánh dấu
+    if: ${{ github.event_name == 'push' || inputs.android }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -89,13 +90,31 @@ jobs:
           npm install --no-save --no-audit --no-fund @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
           npx cap add android
           npx cap sync android
+      - name: Biểu tượng và màn hình chờ
+        continue-on-error: true
+        run: npx --yes @capacitor/assets@3 generate --android --iconBackgroundColor '#020b05' --iconBackgroundColorDark '#020b05' --splashBackgroundColor '#020b05' --splashBackgroundColorDark '#020b05'
+      - name: Số phiên bản và khoá ký cố định (để cài đè bản mới được)
+        run: |
+          sed -i -E "s/versionCode [0-9]+/versionCode ${{ github.run_number }}/; s/versionName \"[^\"]*\"/versionName \"1.${{ github.run_number }}\"/" android/app/build.gradle
+          mkdir -p ~/.android && cp android-keystore/debug.keystore ~/.android/debug.keystore
       - name: Build APK
         working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk ../ban-lo-tru-ma.apk
       - uses: actions/upload-artifact@v4
         with:
           name: ban-lo-tru-ma-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: ban-lo-tru-ma.apk
           if-no-files-found: error
+      - name: Đăng lên Releases (link tải cố định)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: app-android
+          name: App Android mới nhất
+          make_latest: true
+          files: ban-lo-tru-ma.apk
+          body: |
+            Bản build số ${{ github.run_number }}. Tải file ban-lo-tru-ma.apk bên dưới, mở để cài.
+            Lần đầu cài, Android sẽ hỏi cho phép cài từ nguồn ngoài: bấm cho phép.
