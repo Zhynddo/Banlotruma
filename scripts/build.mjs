@@ -34,6 +34,7 @@ await esbuild.build({
   outfile: join(dist, 'app.js'),
   define: {
     __SUPABASE_URL__: JSON.stringify(cleanUrl(process.env.SUPABASE_URL)),
+    __APK_URL__: JSON.stringify(process.env.GITHUB_REPOSITORY ? `https://github.com/${process.env.GITHUB_REPOSITORY}/releases/latest/download/ban-lo-tru-ma.apk` : (process.env.APK_URL || '')),
     __SUPABASE_ANON_KEY__: JSON.stringify((process.env.SUPABASE_ANON_KEY || '').replace(/\s+/g, '')),
     __BUILD__: JSON.stringify(build),
     'process.env.NODE_ENV': JSON.stringify(serve ? 'development' : 'production'),

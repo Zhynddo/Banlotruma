@@ -27,10 +27,10 @@ async function shrink(src, max, quality) {
   return { blob: await encode(c, quality), w, h };
 }
 
-export async function prepareImage(file) {
+export async function prepareImage(file, maxBig = 1600) {
   if (!file.type.startsWith('image/')) throw new Error('“' + file.name + '” không phải file hình.');
   const src = await bitmap(file);
-  const big = await shrink(src, 1600, 0.85);
+  const big = await shrink(src, maxBig, 0.85);
   const small = await shrink(src, 360, 0.8);
   src.close?.();
   const ext = big.blob.type === 'image/webp' ? 'webp' : 'jpg';

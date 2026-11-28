@@ -2,57 +2,14 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { searchLocal } from '../lib/search.js';
 import { rpc } from '../lib/api.js';
 import Editor from './Editor.jsx';
-import { Gallery, Img } from './Media.jsx';
+import { Img } from './Media.jsx';
+import { EntryView, TYPES } from './Folio.jsx';
 
-export const TYPES = {
-  all: 'Tất cả', spell: 'Phép', rite: 'Nghi lễ', can: 'Căn', item: 'Pháp bảo',
-  npc: 'NPC', monster: 'Vong, yêu quỷ', place: 'Địa điểm', rule: 'Luật', lore: 'Truyền thuyết',
-};
+export { EntryView, TYPES };
+
 const BAC = ['Cấp thấp', 'Sơ', 'Trung', 'Cao'];
-const LABEL = {
-  bac: 'Bậc', tinh: 'Tính', gia: 'Giá (linh)', thi: 'Thi', hanh_dong: 'Hành động', duy_tri: 'Duy trì',
-  goc: 'Gốc D&D', muc: 'Mục luật', d20: 'd20', loai: 'Loại', thoi_gian: 'Thời gian', ghi_chu: 'Ghi chú',
-};
-const HIDE = new Set(['cua', 'duoc', 'mat', 'nhap', 'hinh']);
-
-const show = (v) => (Array.isArray(v) ? v.join(' + ') : v === true ? 'Có' : v === false ? 'Không' : String(v));
-
-export function EntryView({ e, onClose, onEdit }) {
-  if (!e) return <p className="muted">&gt; chọn một mục để xem chi tiết.</p>;
-  const d = e.data || {};
-  const rows = Object.entries(d).filter(([k, v]) => !HIDE.has(k) && v !== null && v !== '' && (typeof v !== 'object' || Array.isArray(v)));
-  return (
-    <article className="entry">
-      <div className="row between">
-        <p className="muted small">{TYPES[e.type] || e.type} · <code>{e.id}</code>{d.nhap ? <span className="draft">luật thử</span> : null}{e.status === 'draft' ? <span className="draft hidden-tag">nháp, chỉ GM thấy</span> : null}</p>
-        <div className="row">
-          {onEdit && <button type="button" onClick={onEdit}>Sửa</button>}
-          {onClose && <button type="button" className="ghost" onClick={onClose} aria-label="Đóng chi tiết">✕</button>}
-        </div>
-      </div>
-      <h2>{e.name}</h2>
-      {e.summary && <p className="muted">{e.summary}</p>}
-      <Gallery items={Array.isArray(d.hinh) ? d.hinh : []} />
-      <dl className="kv">
-        {rows.map(([k, v]) => <div key={k}><dt>{LABEL[k] || k}</dt><dd>{show(v)}</dd></div>)}
-      </dl>
-      {e.type === 'can' ? (
-        <dl className="kv">
-          <div><dt>Được</dt><dd>{d.duoc}</dd></div>
-          <div><dt>Mất</dt><dd>{d.mat}</dd></div>
-        </dl>
-      ) : <p className="body">{e.body}</p>}
-      {Array.isArray(d.cua) && (
-        <>
-          <h3>Tám cửa</h3>
-          <dl className="kv">{d.cua.map((c) => <div key={c.cua}><dt>{c.cua}</dt><dd>{c.mo}</dd></div>)}</dl>
-        </>
-      )}
-      <p className="tags">{(e.tags || []).map((t) => <span key={t} className="tag">#{t}</span>)}</p>
-      {e.source && <p className="muted small">{e.source}</p>}
-    </article>
-  );
-}
+// NPC nằm ở mục Nhân vật, không hiện trong sổ phép
+const HERE = (e) => e.type !== 'npc';
 
 export default function Search({ pack, setPack, index, online, role, say }) {
   const gm = role === 'gm';
@@ -64,7 +21,7 @@ export default function Search({ pack, setPack, index, online, role, say }) {
   const [sel, setSel] = useState(null);
   const detailRef = useRef(null);
   const byId = useMemo(() => new Map(pack.entries.map((e) => [e.id, e])), [pack]);
-  const seen = (e) => gm || e.status !== 'draft';
+  const seen = (e) => HERE(e) && (gm || e.status !== 'draft');
   const counts = useMemo(() => {
     const c = { all: 0 };
     for (const e of pack.entries) if (seen(e)) { c.all++; c[e.type] = (c[e.type] || 0) + 1; }
@@ -99,7 +56,7 @@ export default function Search({ pack, setPack, index, online, role, say }) {
   return (
     <section>
       <div className="row between">
-        <h1>Tra cứu kho Bán Lộ</h1>
+        <h1>Sổ phép &amp; nghi lễ</h1>
         {gm && <button type="button" className="pri" disabled={!online} title={online ? '' : 'Cần có mạng'} onClick={() => { setEdit('new'); setTimeout(() => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); }}>+ Thêm mục</button>}
       </div>
       <div className="searchbar">
@@ -133,7 +90,7 @@ export default function Search({ pack, setPack, index, online, role, say }) {
         </div>
         <div className="detail" ref={detailRef}>
           {edit ? (
-            <Editor key={edit} entry={edit === 'new' ? null : byId.get(edit)} pack={pack} setPack={setPack} online={online} say={say}
+            <Editor key={edit} defaultType="spell" types={['spell', 'rite', 'can', 'item', 'monster', 'place', 'rule', 'lore']} entry={edit === 'new' ? null : byId.get(edit)} pack={pack} setPack={setPack} online={online} say={say}
                     onDone={(id) => { setEdit(null); setSel(id); }} />
           ) : (
             <EntryView e={sel ? byId.get(sel) : null} onClose={sel ? () => setSel(null) : null}

@@ -79,10 +79,10 @@ const why = (err) => {
   return m;
 };
 
-export default function Editor({ entry, pack, setPack, online, say, onDone }) {
+export default function Editor({ entry, pack, setPack, online, say, onDone, defaultType = 'npc', types }) {
   const isNew = !entry;
-  const [type, setType] = useState(entry?.type || 'npc');
-  const [f, setF] = useState(() => toForm(entry, entry?.type || 'npc'));
+  const [type, setType] = useState(entry?.type || defaultType);
+  const [f, setF] = useState(() => toForm(entry, entry?.type || defaultType));
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [confirmDel, setConfirmDel] = useState(false);
@@ -183,7 +183,7 @@ export default function Editor({ entry, pack, setPack, online, say, onDone }) {
         <label className="wide">Tên<input value={f.name} onChange={(e) => set('name')(e.target.value)} required autoFocus={isNew} /></label>
         <label>Loại
           <select value={type} disabled={!isNew} onChange={(e) => changeType(e.target.value)}>
-            {Object.entries(TYPE_NAMES).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+            {Object.entries(TYPE_NAMES).filter(([k]) => !types || types.includes(k) || k === type).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
           </select>
         </label>
         <label>Hiển thị

@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / 'dist'
 ANON = 'anon-test-key'
-now = lambda: datetime.now(timezone.utc).isoformat()
+now = lambda off=0: datetime.fromtimestamp(time.time() + off, timezone.utc).isoformat()
 
 def norm(s):
     s = (s or '').replace('đ', 'd').replace('Đ', 'D')
@@ -21,6 +21,7 @@ ENTRIES = {e['id']: {**e, 'status': 'published', 'rev': 1, 'updated_at': now()} 
 ENTRIES['npc.ba-dong-tu'] = {'id': 'npc.ba-dong-tu', 'type': 'npc', 'name': 'Bà đồng Tư', 'summary': None, 'body': 'Bà đồng ở bến Phà Cũ, hầu giá Chầu.', 'tags': ['npc'], 'data': {}, 'status': 'published', 'rev': 1, 'updated_at': now(), 'source': 'test'}
 DELETED = {}
 FILES = {}      # path -> (content-type, bytes)
+POSTS = {}      # id -> bài truyện
 USERS = {}      # email -> {id, password, display_name}
 PROFILES = {}   # id -> {id, display_name, role}
 TOKENS = {}     # token -> user id
@@ -98,7 +99,12 @@ class H(BaseHTTPRequestHandler):
         if p == '/auth/v1/logout': return self.send(204)
         # ---- storage ----
         if p.startswith('/storage/v1/object/media'):
-            if not self.is_gm(): return self.send(403, {'message': 'new row violates row-level security policy'})
+            own = lambda k: k.startswith('chan-dung/' + str(self.uid()) + '/')
+            if method == 'POST' and not (self.is_gm() or (self.uid() and own(p[len('/storage/v1/object/media/'):]))):
+                return self.send(403, {'message': 'new row violates row-level security policy'})
+            if method == 'DELETE' and not self.is_gm():
+                b = self.body(); gone = [k for k in b['prefixes'] if own(k) and FILES.pop(k, None)]
+                return self.send(200, [{'name': k} for k in gone])
             if method == 'POST':
                 key = p[len('/storage/v1/object/media/'):]
                 if key in FILES: return self.send(400, {'message': 'The resource already exists'})
@@ -125,6 +131,42 @@ class H(BaseHTTPRequestHandler):
                     res.append((score, e))
             res.sort(key=lambda x: -x[0])
             return self.send(200, [{'id': e['id'], 'type': e['type'], 'name': e['name'], 'summary': None, 'rank': s} for s, e in res[: b.get('lim', 30)]])
+        if p == '/rest/v1/rpc/submit_post':
+            b = self.body()
+            if b.get('p_trap'): return self.send(200, raw=json.dumps(str(uuid.uuid4())).encode())
+            if len((b.get('p_body') or '').strip()) < 20: return self.send(400, {'code': '22023', 'message': 'Bài cần có tên và nội dung (ít nhất vài câu)'})
+            ip = self.client_address[0]
+            if sum(1 for x in POSTS.values() if x['ip'] == ip and x['created_at'] > now(-3600)) >= 3:
+                return self.send(400, {'code': '22023', 'message': 'Em gửi hơi nhiều bài rồi, đợi một tiếng rồi gửi tiếp nha'})
+            pid = str(uuid.uuid4())
+            POSTS[pid] = {'id': pid, 'title': b['p_title'].strip(), 'body': b['p_body'].strip(), 'author_name': (b.get('p_author') or '').strip() or 'Người giấu tên',
+                          'contact': b.get('p_contact') or None, 'status': 'pending', 'created_at': now(), 'published_at': None, 'ip': ip}
+            return self.send(200, raw=json.dumps(pid).encode())
+        if p == '/rest/v1/rpc/gm_posts':
+            if not self.is_gm(): return self.send(200, [])
+            st = self.body().get('p_status')
+            rows = sorted([{k: v for k, v in x.items() if k != 'ip'} for x in POSTS.values() if st is None or x['status'] == st], key=lambda x: x['created_at'], reverse=True)
+            return self.send(200, rows)
+        if p == '/rest/v1/rpc/moderate_post':
+            if not self.is_gm(): return self.send(403, {'code': '42501', 'message': 'Chỉ GM mới duyệt bài được'})
+            b = self.body(); x = POSTS.get(b['p_id'])
+            if not x: return self.send(404, {'code': 'P0002', 'message': 'Không tìm thấy bài'})
+            if b['p_status'] == 'deleted': del POSTS[b['p_id']]; return self.send(204, raw=b'')
+            x['status'] = b['p_status']
+            for k, f in [('title', 'p_title'), ('body', 'p_body'), ('author_name', 'p_author')]:
+                if (b.get(f) or '').strip(): x[k] = b[f].strip()
+            if b['p_status'] == 'published' and not x['published_at']: x['published_at'] = now()
+            return self.send(204, raw=b'')
+        if p == '/rest/v1/rpc/public_characters':
+            rows = [{'id': c['id'], 'name': c['name'], 'data': c['data'], 'player': PROFILES.get(c['owner_id'], {}).get('display_name'), 'updated_at': c['updated_at']}
+                    for c in CHARS.values() if (c.get('data') or {}).get('cong_khai') is True]
+            return self.send(200, rows)
+        if p == '/rest/v1/posts':
+            cols = {'id', 'title', 'body', 'author_name', 'status', 'created_at', 'published_at'}
+            want = (q.get('select') or ['*'])[0].split(',')
+            if '*' in want or any(c not in cols for c in want): return self.send(401, {'code': '42501', 'message': 'permission denied for table posts'})
+            rows = sorted([x for x in POSTS.values() if x['status'] == 'published'], key=lambda x: x['published_at'] or '', reverse=True)
+            return self.send(200, [{c: x[c] for c in want} for x in rows])
         if p == '/rest/v1/rpc/save_character':
             b = self.body(); me = self.uid(); c = CHARS.get(b['char_id'])
             if not me: return self.send(401, {'message': 'JWT required'})

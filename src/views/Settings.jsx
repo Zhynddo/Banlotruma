@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { config, media } from '../lib/api.js';
 import { resetPack } from '../lib/pack.js';
+import { THEMES, setTheme, getTheme } from '../lib/theme.js';
+import { isNative, APK_URL } from '../lib/native.js';
 
 const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
 const MEDIA = 'media-v1'; // trùng tên với public/sw.js
@@ -57,6 +59,7 @@ export default function Settings({ pack, setPack, online, refresh, say }) {
   const [key, setKey] = useState(config.key);
   const [busy, setBusy] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [theme, setThemeState] = useState(getTheme);
 
   const connect = async (e) => {
     e.preventDefault();
@@ -88,11 +91,28 @@ export default function Settings({ pack, setPack, online, refresh, say }) {
       <OfflineArt pack={pack} online={online} say={say} />
 
       <div className="panel">
-        <h2>Cài lên màn hình điện thoại</h2>
-        {ios ? (
-          <p>Trên iPhone: mở trang này bằng <b>Safari</b>, bấm nút <b>Chia sẻ</b>, chọn <b>Thêm vào MH chính</b>. Mở từ biểu tượng đó thì mất mạng vẫn dùng được.</p>
+        <h2>Giao diện</h2>
+        <div className="themes" role="group" aria-label="Chọn theme">
+          {THEMES.map((t) => (
+            <button key={t.k} type="button" className="theme-btn" aria-pressed={theme === t.k} onClick={() => { setTheme(t.k); setThemeState(t.k); }}>
+              <span className="theme-sw" aria-hidden="true">{t.sw.map((c) => <i key={c} style={{ background: c }} />)}</span>
+              <b>{t.name}</b><small>{t.note}</small>
+            </button>
+          ))}
+        </div>
+        <p className="muted small">Mỗi máy nhớ theme riêng.</p>
+      </div>
+
+      <div className="panel">
+        <h2>{isNative ? 'App Android' : 'Cài app'}</h2>
+        {isNative ? (
+          <p>Em đang dùng app Android. Có bản mới thì tải file APK mới về cài đè lên, dữ liệu vẫn giữ nguyên.{APK_URL && <> <a href={APK_URL}>Tải bản mới nhất</a>.</>}</p>
         ) : (
-          <p>Trên Android: bấm menu <b>⋮</b> của Chrome, chọn <b>Cài đặt ứng dụng</b> hoặc <b>Thêm vào màn hình chính</b>. Hoặc cài file APK do GM gửi.</p>
+          <>
+            {APK_URL && <p><a className="btn pri" href={APK_URL}>Tải app Android (APK)</a></p>}
+            <p className="muted small">Lần đầu cài, Android sẽ hỏi cho phép cài app từ nguồn ngoài: em bấm cho phép. Cài bản mới thì cài đè lên bản cũ.</p>
+            {ios && <p>Trên iPhone chưa có app riêng: mở trang này bằng <b>Safari</b>, bấm <b>Chia sẻ</b>, chọn <b>Thêm vào MH chính</b>. Mở từ biểu tượng đó thì mất mạng vẫn dùng được.</p>}
+          </>
         )}
       </div>
 

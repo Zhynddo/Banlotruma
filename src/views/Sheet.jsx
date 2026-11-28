@@ -2,7 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { STATS, SKILLS, TRUONG, NHANH, TINH_TRUONG, LUC_TINH, MENH, derive, fmt } from '../lib/rules.js';
 import { local, cloud, drafts, isLocal } from '../lib/characters.js';
 import { searchLocal } from '../lib/search.js';
-import { EntryView } from './Search.jsx';
+import { EntryView } from './Folio.jsx';
+import { Paper, Sec } from './Dossier.jsx';
+import { Img } from './Media.jsx';
+import { media, currentUser } from '../lib/api.js';
+import { prepareImage, newKey } from '../lib/image.js';
 
 const toNum = (v) => (v === '' ? null : Number(v));
 
@@ -32,6 +36,7 @@ export default function Sheet({ char, onClose, onUpload, online, pack, index, sa
   const [spellQ, setSpellQ] = useState('');
   const [peek, setPeek] = useState(null);
   const [delArm, setDelArm] = useState(false);
+  const [photoBusy, setPhotoBusy] = useState(false);
   const latest = useRef(char);
   const timer = useRef(null);
   const saving = useRef(false);
@@ -116,13 +121,58 @@ export default function Sheet({ char, onClose, onUpload, online, pack, index, sa
   const tinhTrang = hpRatio == null ? '' : d.mau <= 0 ? 'Hấp Hối' : hpRatio <= 1 / 3 ? 'Trọng Thương' : hpRatio <= 1 / 2 ? 'Chấn Thương' : 'Bình thường';
   const canEntry = cans.find((e) => e.name === d.can);
 
+  const photoPath = d.chan_dung?.path;
+  const canPublish = !isLocal(c);
+  const pickPhoto = async (file) => {
+    if (!file) return;
+    if (!online) { say('Cần có mạng để tải ảnh lên.', 'warn'); return; }
+    setPhotoBusy(true);
+    try {
+      const { big, small, ext } = await prepareImage(file, 900);
+      const key = `chan-dung/${c.owner_id || currentUser()?.id}/${newKey()}`;
+      const h = { path: `${key}.${ext}`, thumb: `${key}-nho.${ext}` };
+      await media.upload(h.path, big.blob);
+      await media.upload(h.thumb, small.blob);
+      const old = d.chan_dung;
+      update({ chan_dung: h });
+      if (old) media.remove([old.path, old.thumb].filter(Boolean));
+      say('Đã dán ảnh vào hồ sơ.');
+    } catch (e) { say('Chưa tải ảnh được: ' + e.message, 'bad'); }
+    setPhotoBusy(false);
+  };
+  const photo = (
+    <div className="cv-photo-edit">
+      {photoPath ? <Img path={photoPath} alt={'Chân dung ' + (d.ten || c.name)} lazy={false} /> : <span>Ảnh<br />3 × 4</span>}
+      {canPublish ? (
+        <label className={'photo-btn' + (photoBusy || !online ? ' off' : '')}>
+          <input type="file" accept="image/*" disabled={photoBusy || !online} onChange={(e) => { pickPhoto(e.target.files[0]); e.target.value = ''; }} />
+          {photoBusy ? 'Đang dán...' : photoPath ? 'Đổi ảnh' : 'Dán ảnh'}
+        </label>
+      ) : null}
+    </div>
+  );
+  const badge = (
+    <div className="cv-public">
+      {canPublish ? (
+        <label className="check">
+          <input type="checkbox" checked={!!d.cong_khai} onChange={(e) => set('cong_khai')(e.target.checked)} />
+          Công khai hồ sơ trong mục Nhân vật
+        </label>
+      ) : <p className="muted small">Phiếu đang nằm trên máy. Đưa lên mạng thì mới dán ảnh và công khai được.</p>}
+      {d.cong_khai && canPublish && <a className="small" href={'#nhan-vat/pc/' + c.id}>Xem hồ sơ như người khác thấy →</a>}
+    </div>
+  );
+  // Hàm thường (không phải component) để ô nhập không bị dựng lại, mất con trỏ khi gõ
+  const L = (label, child) => <li key={label}><label><span className="cv-k">{label}:</span>{child}</label></li>;
+  const T = (k, ph) => <input value={d[k] ?? ''} placeholder={ph || '…'} onChange={(e) => set(k)(e.target.value)} />;
+  const A = (k, ph) => <textarea value={d[k] ?? ''} placeholder={ph || ''} onChange={(e) => set(k)(e.target.value)} />;
+
   return (
     <section className="sheet">
       <div className="row between sheet-top">
         <button type="button" onClick={onClose}>← Danh sách</button>
         <span className={'save ' + (conflict ? 'bad' : status.startsWith('Nháp') || status.startsWith('Chưa') ? 'warn' : '')} role="status">{status}</span>
       </div>
-      <h1>{c.name}</h1>
 
       {conflict && (
         <div className="panel warnbox">
@@ -134,233 +184,223 @@ export default function Sheet({ char, onClose, onUpload, online, pack, index, sa
         </div>
       )}
 
-      <details open className="sec">
-        <summary>Thông tin chung</summary>
-        <div className="form">
-          <Field label="Tên nhân vật"><input value={d.ten} onChange={(e) => set('ten')(e.target.value)} /></Field>
-          <Field label="Người chơi"><input value={d.nguoi_choi} onChange={(e) => set('nguoi_choi')(e.target.value)} /></Field>
-          <Field label="Trường (4.3)">
-            <select value={d.truong} onChange={(e) => update({ truong: e.target.value, nhanh: '' })}>
-              <option value="">chưa chọn</option>{TRUONG.map((t) => <option key={t}>{t}</option>)}
-            </select>
-          </Field>
-          <Field label="Nhánh (từ cấp 3)">
-            <select value={d.nhanh} onChange={(e) => set('nhanh')(e.target.value)} disabled={!d.truong}>
-              <option value="">chưa chọn</option>{(NHANH[d.truong] || []).map((t) => <option key={t}>{t}</option>)}
-            </select>
-          </Field>
-          <Field label="Cấp"><Num value={d.cap} min={1} max={20} onChange={set('cap')} /></Field>
-          <Field label="Kinh nghiệm"><Num value={d.kinh_nghiem} min={0} onChange={set('kinh_nghiem')} /></Field>
-          <Field label="Căn (d20, 2.7)">
-            <select value={d.can} onChange={(e) => { const en = cans.find((y) => y.name === e.target.value); update({ can: e.target.value, can_duoc: en?.data?.duoc || '', can_mat: en?.data?.mat || '' }); }}>
-              <option value="">chưa tung</option>{cans.map((e) => <option key={e.id} value={e.name}>{e.data?.d20}. {e.name}</option>)}
-            </select>
-          </Field>
-          <Field label="Mệnh (1.5)">
-            <select value={d.menh} onChange={(e) => set('menh')(e.target.value)}>
-              <option value="">chưa chọn</option>{MENH.map((t) => <option key={t}>{t}</option>)}
-            </select>
-          </Field>
-          <Field label="Duyên (ai dẫn vào nghề)"><input value={d.duyen} onChange={(e) => set('duyen')(e.target.value)} /></Field>
-          <Field label="Giới (điều kiêng)"><input value={d.gioi} onChange={(e) => set('gioi')(e.target.value)} /></Field>
-          <Field label="Nghề đời thường"><input value={d.nghe} onChange={(e) => set('nghe')(e.target.value)} /></Field>
-          <Field label="Tuổi"><Num value={d.tuoi} min={8} onChange={set('tuoi')} /></Field>
-          <Field label="Thọ (10 + 10 × 1d8)"><Num value={d.tho} min={20} max={90} onChange={set('tho')} /></Field>
-        </div>
-        {d.can && (
-          <dl className="kv"><div><dt>Được</dt><dd>{d.can_duoc || canEntry?.data?.duoc}</dd></div><div><dt>Mất</dt><dd>{d.can_mat || canEntry?.data?.mat}</dd></div></dl>
-        )}
-        {d.tuoi != null && d.tho != null && d.tuoi >= d.tho && <p className="msg bad">Tuổi đã chạm Thọ (2.5).</p>}
-      </details>
+      <Paper kicker="Hồ sơ thầy pháp · phiếu nhân vật" title={c.name} sub="(tự khai)" photo={photo} badge={badge}
+             sign={d.ten} date={c.updated_at} sealed={!!d.cong_khai}>
+        <Sec n={0} title="SƠ LƯỢC BẢN THÂN">
+          <ol className="cv-lines edit">
+            {L('Họ và tên', T('ten', 'tên nhân vật'))}
+            {L('Giới tính', T('gioi_tinh'))}
+            {L('Tuổi', <Num value={d.tuoi} min={8} onChange={set('tuoi')} />)}
+            {L('Thọ (10 + 10 × 1d8)', <Num value={d.tho} min={20} max={90} onChange={set('tho')} />)}
+            {L('Quê quán', T('que_quan'))}
+            {L('Nơi ở hiện nay', T('noi_o'))}
+            {L('Mệnh (1.5)', <select value={d.menh} onChange={(e) => set('menh')(e.target.value)}>
+                <option value="">chưa chọn</option>{MENH.map((t) => <option key={t}>{t}</option>)}
+              </select>)}
+            {L('Tôn giáo, đạo', T('ton_giao'))}
+            {L('Nghề nghiệp đời thường', T('nghe'))}
+            {L('Trường (4.3)', <select value={d.truong} onChange={(e) => update({ truong: e.target.value, nhanh: '' })}>
+                <option value="">chưa chọn</option>{TRUONG.map((t) => <option key={t}>{t}</option>)}
+              </select>)}
+            {L('Nhánh (từ cấp 3)', <select value={d.nhanh} onChange={(e) => set('nhanh')(e.target.value)} disabled={!d.truong}>
+                <option value="">chưa chọn</option>{(NHANH[d.truong] || []).map((t) => <option key={t}>{t}</option>)}
+              </select>)}
+            {L('Cấp bậc', <Num value={d.cap} min={1} max={20} onChange={set('cap')} />)}
+            {L('Kinh nghiệm', <Num value={d.kinh_nghiem} min={0} onChange={set('kinh_nghiem')} />)}
+            {L('Căn (d20, 2.7)', <select value={d.can} onChange={(e) => { const en = cans.find((y) => y.name === e.target.value); update({ can: e.target.value, can_duoc: en?.data?.duoc || '', can_mat: en?.data?.mat || '' }); }}>
+                <option value="">chưa tung</option>{cans.map((e) => <option key={e.id} value={e.name}>{e.data?.d20}. {e.name}</option>)}
+              </select>)}
+            {L('Duyên vào nghề', T('duyen', 'ai dẫn vào nghề'))}
+            {L('Giới (điều kiêng)', T('gioi'))}
+            {L('Người chơi', T('nguoi_choi'))}
+          </ol>
+          {d.can && (
+            <dl className="kv"><div><dt>Căn được</dt><dd>{d.can_duoc || canEntry?.data?.duoc}</dd></div><div><dt>Căn mất</dt><dd>{d.can_mat || canEntry?.data?.mat}</dd></div></dl>
+          )}
+          {d.tuoi != null && d.tho != null && d.tuoi >= d.tho && <p className="msg bad">Tuổi đã chạm Thọ (2.5).</p>}
+        </Sec>
 
-      <details open className="sec">
-        <summary>Thất Khiếu</summary>
-        <div className="outs">
-          <Out label="Thông thạo" value={'+' + x.pb} />
-          <Field label="Chỉ số chính">
-            <select value={d.chi_so_chinh} onChange={(e) => set('chi_so_chinh')(e.target.value)}>
-              <option value="">chưa chọn</option>{STATS.filter((s) => s.k !== 'via').map((s) => <option key={s.k} value={s.k}>{s.name}</option>)}
-            </select>
-          </Field>
-        </div>
-        <table className="grid stats">
-          <thead><tr><th>Chỉ số</th><th>Điểm</th><th>Mod</th><th>Thạo chống</th><th>Saving throw</th></tr></thead>
-          <tbody>
-            {STATS.map((s) => (
-              <tr key={s.k}>
-                <th scope="row">{s.name}<small> {s.group}</small></th>
-                <td><Num value={d.stats[s.k]} min={1} max={30} onChange={(v) => setStat(s.k, v)} aria-label={'Điểm ' + s.name} /></td>
-                <td className="num">{fmt(x.mods[s.k])}{s.k === 'via' && x.lost ? <small> (gốc {fmt(x.viaGoc)})</small> : null}</td>
-                <td><input type="checkbox" checked={d.thao_chong.includes(s.k)} onChange={() => toggleIn('thao_chong', s.k)} aria-label={'Thạo chống ' + s.name} /></td>
-                <td className="num">{fmt(x.saves[s.k])}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="muted small">Vía càng cao, vía càng nhẹ. Mỗi vía mất: mod Vía +1, tối đa +5 (2.2).</p>
-      </details>
+        <Sec n={1} title="QUAN HỆ – ÂN OÁN">
+          <ol className="cv-lines edit">
+            {L('Ba người tôi thương', T('ba_nguoi_thuong'))}
+            {L('Một món nợ chưa trả', T('mon_no'))}
+            {L('Người đã khuất tôi chưa buông được', T('nguoi_da_khuat'))}
+          </ol>
+          <label className="cv-area"><span className="cv-k">Ân oán với người âm, thần thánh (nợ ai, lời hứa, hạn):</span>{A('an_oan')}</label>
+        </Sec>
 
-      <details className="sec">
-        <summary>Kỹ năng</summary>
-        <table className="grid">
-          <thead><tr><th>Kỹ năng</th><th>Thạo</th><th>Gấp đôi</th><th>Tổng</th></tr></thead>
-          <tbody>
-            {SKILLS.map((s) => (
-              <tr key={s.k}>
-                <th scope="row">{s.name}<small> {STATS.find((y) => y.k === s.stat).name}</small></th>
-                <td><input type="checkbox" checked={d.ky_nang_thao.includes(s.k)} onChange={() => toggleIn('ky_nang_thao', s.k)} aria-label={'Thạo ' + s.name} /></td>
-                <td><input type="checkbox" checked={d.ky_nang_doi.includes(s.k)} disabled={!d.ky_nang_thao.includes(s.k)} onChange={() => toggleIn('ky_nang_doi', s.k)} aria-label={'Gấp đôi ' + s.name} /></td>
-                <td className="num">{fmt(x.skills[s.k])}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="form"><Field label="Thông thạo khác, ngôn ngữ" wide><textarea value={d.thong_thao_khac} onChange={(e) => set('thong_thao_khac')(e.target.value)} /></Field></div>
-      </details>
+        <Sec n={2} title="QUÁ TRÌNH BẢN THÂN">
+          <label className="cv-area"><span className="cv-k">Vì sao tôi thấy được ma:</span>{A('vi_sao_thay_ma')}</label>
+          <label className="cv-area"><span className="cv-k">Ngoại hình:</span>{A('ngoai_hinh')}</label>
+          <label className="cv-area"><span className="cv-k">Tiểu sử (từ nhỏ tới nay):</span>{A('tieu_su')}</label>
+        </Sec>
 
-      <details open className="sec">
-        <summary>Sinh mạng</summary>
-        <div className="outs">
-          <Out label="Máu tối đa" value={x.hpMax} hint={x.hpBase != null ? `gốc ${x.hpBase} theo tuổi + mod Thể` : 'cần Tuổi và Thể'} />
-          <Field label="Máu hiện tại"><Num value={d.mau} onChange={set('mau')} /></Field>
-          <Field label="Máu ảo"><Num value={d.mau_ao} min={0} onChange={set('mau_ao')} /></Field>
-          <Out label="Tình trạng" value={tinhTrang || '–'} />
-          <Field label="Máu cộng thêm"><Num value={d.mau_them} onChange={set('mau_them')} /></Field>
-          <label className="check"><input type="checkbox" checked={d.thien_on_mau} onChange={(e) => set('thien_on_mau')(e.target.checked)} /> Trường thọ: cộng mod Thể thêm lần nữa</label>
-        </div>
-        <h3>Bảy vía <small className="muted">(bấm vào vía đã mất)</small></h3>
-        <Dots n={7} filled={d.via_mat} onToggle={(i) => flip('via_mat', i)} label="Vía đã mất" lostStyle />
-        {d.via_mat.some(Boolean) && (
-          <div className="form">
-            {d.via_mat.map((m, i) => m && (
-              <Field key={i} label={`Hậu quả vía ${i + 1}`}><input value={d.via_hau_qua[i]} onChange={(e) => update({ via_hau_qua: d.via_hau_qua.map((v, j) => (j === i ? e.target.value : v)) })} /></Field>
-            ))}
+        <Sec n={3} title="NĂNG LỰC CHUYÊN MÔN">
+          <div className="outs">
+            <Out label="Thông thạo" value={'+' + x.pb} />
+            <Field label="Chỉ số chính">
+              <select value={d.chi_so_chinh} onChange={(e) => set('chi_so_chinh')(e.target.value)}>
+                <option value="">chưa chọn</option>{STATS.filter((s) => s.k !== 'via').map((s) => <option key={s.k} value={s.k}>{s.name}</option>)}
+              </select>
+            </Field>
           </div>
-        )}
-        {x.lost >= 7 && <p className="msg bad">Mất vía thứ 7: còn 49 ngày để làm lễ gọi vía (2.2).</p>}
-        <div className="cols">
-          <div><h3>Ba hồn <small className="muted">(bấm vào hồn đã mất)</small></h3><Dots n={3} filled={d.hon_mat} onToggle={(i) => flip('hon_mat', i)} label="Hồn đã mất" lostStyle /></div>
-          <div><h3>Death save thành công</h3><Dots n={3} filled={[0, 1, 2].map((i) => i < d.death_ok)} onToggle={(i) => set('death_ok')(d.death_ok === i + 1 ? i : i + 1)} label="Death save thành công" /></div>
-        </div>
-        <p className="muted small">Mỗi lần death save thất bại mất một hồn, mất cả ba là chết (2.4).</p>
-        <h3>Phúc <small className="muted">{d.phuc}/10</small></h3>
-        <Dots n={10} filled={Array.from({ length: 10 }, (_, i) => i < d.phuc)} onToggle={(i) => set('phuc')(d.phuc === i + 1 ? i : i + 1)} label="Phúc" />
-        {x.tuyetPhuc && <p className="msg bad">Tuyệt Phúc: xin keo không bao giờ ra Thánh (2.6).</p>}
-        <div className="form">
-          <Field label="Năm thọ đã hao"><Num value={d.tho_hao} min={0} onChange={set('tho_hao')} /></Field>
-          <Field label="Hạn sắp tới" wide><input value={d.han} onChange={(e) => set('han')(e.target.value)} /></Field>
-        </div>
-      </details>
-
-      <details open className="sec">
-        <summary>Giao tranh</summary>
-        <div className="outs">
-          <Out label="AC" value={x.ac} hint="10 + Mẫn + đồ" />
-          <Field label="Đồ hộ thân (+AC)"><Num value={d.ac_do} onChange={set('ac_do')} /></Field>
-          <Out label="Initiative" value={fmt(x.mods.man)} />
-          <Field label="Di chuyển (ft)"><Num value={d.di_chuyen} onChange={set('di_chuyen')} /></Field>
-          <Out label="Trấn Vía" value={fmt(x.tranVia)} hint="d20 + Tuệ; DC + mod Vía" />
-          <Out label="Át Vía" value={fmt(x.skills['at-via'])} hint="d20 + Mị" />
-        </div>
-        <h3>Đòn đánh</h3>
-        <div className="attacks">
-          {d.don_danh.map((a, i) => (
-            <div key={i} className="attack">
-              {['ten', 'ar', 'sat_thuong', 'loai'].map((k) => (
-                <input key={k} value={a[k]} placeholder={{ ten: 'Tên', ar: 'AR', sat_thuong: 'Sát thương', loai: 'Loại (Dương, Âm...)' }[k]} aria-label={k}
-                       onChange={(e) => update({ don_danh: d.don_danh.map((y, j) => (j === i ? { ...y, [k]: e.target.value } : y)) })} />
-              ))}
-              <button type="button" className="ghost" aria-label="Xoá đòn" onClick={() => update({ don_danh: d.don_danh.filter((_, j) => j !== i) })}>✕</button>
-            </div>
-          ))}
-          <button type="button" onClick={() => update({ don_danh: [...d.don_danh, { ten: '', ar: '', sat_thuong: '', loai: '' }] })}>+ Thêm đòn</button>
-        </div>
-      </details>
-
-      <details open className="sec">
-        <summary>Linh pháp</summary>
-        <div className="outs">
-          <Out label="Linh tối đa" value={x.linhMax} hint={x.linhMax == null ? 'cần chỉ số và chỉ số chính' : '4.1'} />
-          <Field label="Linh hiện tại"><Num value={d.linh} onChange={set('linh')} /></Field>
-          <Field label="Linh cộng thêm"><Num value={d.linh_them} onChange={set('linh_them')} /></Field>
-          <Out label="AR linh thuật" value={fmt(x.ar)} />
-          <Out label="DC" value={x.dc} />
-          <Out label="Phép chuẩn bị" value={x.phepNgay != null ? `${prepared}/${x.phepNgay}` : prepared} />
-        </div>
-        <h3>Lục Tính</h3>
-        <div className="chips">
-          {LUC_TINH.map((t) => <button key={t} type="button" aria-pressed={d.luc_tinh.includes(t)} onClick={() => toggleIn('luc_tinh', t)}>{t}</button>)}
-          {d.truong && <button type="button" className="ghost" onClick={() => update({ luc_tinh: [...new Set([...d.luc_tinh, ...TINH_TRUONG[d.truong]])] })}>+ tính của {d.truong}</button>}
-        </div>
-        <h3>Sổ phép</h3>
-        <div className="searchbar">
-          <label htmlFor="sq" className="sr">Thêm phép</label>
-          <input id="sq" type="search" value={spellQ} onChange={(e) => setSpellQ(e.target.value)} placeholder="tìm phép để thêm..." autoComplete="off" />
-        </div>
-        {spellHits.length > 0 && (
-          <div className="list short">
-            {spellHits.map((e) => {
-              const has = d.phep.some((p) => p.id === e.id);
-              return (
-                <button key={e.id} type="button" className="item" disabled={has}
-                        onClick={() => { update({ phep: [...d.phep, { id: e.id, chuan_bi: false }] }); setSpellQ(''); }}>
-                  <b>{has ? '✓ ' : '+ '}{e.name}</b><small>{e.data?.bac} · {[].concat(e.data?.tinh || []).join(' + ')} · {e.data?.gia} linh</small>
-                </button>
-              );
-            })}
-          </div>
-        )}
-        <table className="grid">
-          <thead><tr><th>Phép</th><th>Bậc</th><th>Giá</th><th>Chuẩn bị</th><th></th></tr></thead>
-          <tbody>
-            {spellsKnown.length === 0 && <tr><td colSpan={5} className="muted">Chưa có phép nào.</td></tr>}
-            {spellsKnown.map((p) => {
-              const miss = [].concat(p.e.data?.tinh || []).filter((t) => !d.luc_tinh.includes(t));
-              return (
-                <tr key={p.id}>
-                  <th scope="row"><button type="button" className="link" onClick={() => setPeek(peek === p.id ? null : p.id)}>{p.e.name}</button>{miss.length > 0 && d.luc_tinh.length > 0 && <small className="warn"> thiếu tính {miss.join(', ')}</small>}</th>
-                  <td>{p.e.data?.bac}</td>
-                  <td className="num">{p.e.data?.gia}</td>
-                  <td><input type="checkbox" checked={!!p.chuan_bi} aria-label={'Chuẩn bị ' + p.e.name} onChange={() => update({ phep: d.phep.map((y) => (y.id === p.id ? { ...y, chuan_bi: !y.chuan_bi } : y)) })} /></td>
-                  <td><button type="button" className="ghost" aria-label={'Bỏ ' + p.e.name} onClick={() => update({ phep: d.phep.filter((y) => y.id !== p.id) })}>✕</button></td>
+          <table className="grid stats">
+            <caption className="cv-cap">Bảng 1. Thất Khiếu</caption>
+            <thead><tr><th>Chỉ số</th><th>Điểm</th><th>Mod</th><th>Thạo chống</th><th>Saving throw</th></tr></thead>
+            <tbody>
+              {STATS.map((s) => (
+                <tr key={s.k}>
+                  <th scope="row">{s.name}<small> {s.group}</small></th>
+                  <td><Num value={d.stats[s.k]} min={1} max={30} onChange={(v) => setStat(s.k, v)} aria-label={'Điểm ' + s.name} /></td>
+                  <td className="num">{fmt(x.mods[s.k])}{s.k === 'via' && x.lost ? <small> (gốc {fmt(x.viaGoc)})</small> : null}</td>
+                  <td><input type="checkbox" checked={d.thao_chong.includes(s.k)} onChange={() => toggleIn('thao_chong', s.k)} aria-label={'Thạo chống ' + s.name} /></td>
+                  <td className="num">{fmt(x.saves[s.k])}</td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {peek && <div className="panel"><EntryView e={byId.get(peek)} onClose={() => setPeek(null)} /></div>}
-      </details>
+              ))}
+            </tbody>
+          </table>
+          <p className="muted small">Vía càng cao, vía càng nhẹ. Mỗi vía mất: mod Vía +1, tối đa +5 (2.2).</p>
+          <details className="cv-more">
+            <summary>Bảng 2. Kỹ năng</summary>
+            <table className="grid">
+              <thead><tr><th>Kỹ năng</th><th>Thạo</th><th>Gấp đôi</th><th>Tổng</th></tr></thead>
+              <tbody>
+                {SKILLS.map((s) => (
+                  <tr key={s.k}>
+                    <th scope="row">{s.name}<small> {STATS.find((y) => y.k === s.stat).name}</small></th>
+                    <td><input type="checkbox" checked={d.ky_nang_thao.includes(s.k)} onChange={() => toggleIn('ky_nang_thao', s.k)} aria-label={'Thạo ' + s.name} /></td>
+                    <td><input type="checkbox" checked={d.ky_nang_doi.includes(s.k)} disabled={!d.ky_nang_thao.includes(s.k)} onChange={() => toggleIn('ky_nang_doi', s.k)} aria-label={'Gấp đôi ' + s.name} /></td>
+                    <td className="num">{fmt(x.skills[s.k])}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <label className="cv-area"><span className="cv-k">Thông thạo khác, ngôn ngữ:</span>{A('thong_thao_khac')}</label>
+          </details>
 
-      <details className="sec">
-        <summary>Tính năng, Ngộ, hành trang</summary>
-        <div className="form">
-          <Field label="Tính năng Trường và Nhánh (ghi cả số lần dùng)" wide><textarea value={d.tinh_nang} onChange={(e) => set('tinh_nang')(e.target.value)} /></Field>
-          <Field label="Ngộ, ASI" wide><textarea value={d.ngo} onChange={(e) => set('ngo')(e.target.value)} /></Field>
-          <Field label="Hành trang, đồ lễ, tiền bạc" wide><textarea value={d.hanh_trang} onChange={(e) => set('hanh_trang')(e.target.value)} /></Field>
-          <Field label="Pháp bảo (nhận chủ, bản mệnh, lần còn, tính nết)" wide><textarea value={d.phap_bao} onChange={(e) => set('phap_bao')(e.target.value)} /></Field>
-        </div>
-      </details>
+          <h4 className="cv-h4">Linh pháp</h4>
+          <div className="outs">
+            <Out label="Linh tối đa" value={x.linhMax} hint={x.linhMax == null ? 'cần chỉ số và chỉ số chính' : '4.1'} />
+            <Field label="Linh hiện tại"><Num value={d.linh} onChange={set('linh')} /></Field>
+            <Field label="Linh cộng thêm"><Num value={d.linh_them} onChange={set('linh_them')} /></Field>
+            <Out label="AR linh thuật" value={fmt(x.ar)} />
+            <Out label="DC" value={x.dc} />
+            <Out label="Phép chuẩn bị" value={x.phepNgay != null ? `${prepared}/${x.phepNgay}` : prepared} />
+          </div>
+          <p className="cv-k">Lục Tính:</p>
+          <div className="chips">
+            {LUC_TINH.map((t) => <button key={t} type="button" aria-pressed={d.luc_tinh.includes(t)} onClick={() => toggleIn('luc_tinh', t)}>{t}</button>)}
+            {d.truong && <button type="button" className="ghost" onClick={() => update({ luc_tinh: [...new Set([...d.luc_tinh, ...TINH_TRUONG[d.truong]])] })}>+ tính của {d.truong}</button>}
+          </div>
+          <p className="cv-k">Sổ phép đã chép:</p>
+          <div className="searchbar">
+            <label htmlFor="sq" className="sr">Thêm phép</label>
+            <input id="sq" type="search" value={spellQ} onChange={(e) => setSpellQ(e.target.value)} placeholder="tìm phép để chép thêm..." autoComplete="off" />
+          </div>
+          {spellHits.length > 0 && (
+            <div className="list short">
+              {spellHits.map((e) => {
+                const has = d.phep.some((p) => p.id === e.id);
+                return (
+                  <button key={e.id} type="button" className="item" disabled={has}
+                          onClick={() => { update({ phep: [...d.phep, { id: e.id, chuan_bi: false }] }); setSpellQ(''); }}>
+                    <b>{has ? '✓ ' : '+ '}{e.name}</b><small>{e.data?.bac} · {[].concat(e.data?.tinh || []).join(' + ')} · {e.data?.gia} linh</small>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <table className="grid">
+            <caption className="cv-cap">Bảng 3. Phép đã chép</caption>
+            <thead><tr><th>Phép</th><th>Bậc</th><th>Giá</th><th>Chuẩn bị</th><th></th></tr></thead>
+            <tbody>
+              {spellsKnown.length === 0 && <tr><td colSpan={5} className="muted">Chưa chép phép nào.</td></tr>}
+              {spellsKnown.map((p) => {
+                const miss = [].concat(p.e.data?.tinh || []).filter((t) => !d.luc_tinh.includes(t));
+                return (
+                  <tr key={p.id}>
+                    <th scope="row"><button type="button" className="link" onClick={() => setPeek(peek === p.id ? null : p.id)}>{p.e.name}</button>{miss.length > 0 && d.luc_tinh.length > 0 && <small className="warn"> thiếu tính {miss.join(', ')}</small>}</th>
+                    <td>{p.e.data?.bac}</td>
+                    <td className="num">{p.e.data?.gia}</td>
+                    <td><input type="checkbox" checked={!!p.chuan_bi} aria-label={'Chuẩn bị ' + p.e.name} onChange={() => update({ phep: d.phep.map((y) => (y.id === p.id ? { ...y, chuan_bi: !y.chuan_bi } : y)) })} /></td>
+                    <td><button type="button" className="ghost" aria-label={'Bỏ ' + p.e.name} onClick={() => update({ phep: d.phep.filter((y) => y.id !== p.id) })}>✕</button></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          {peek && <div className="peek"><EntryView e={byId.get(peek)} onClose={() => setPeek(null)} /></div>}
+          <label className="cv-area"><span className="cv-k">Tính năng Trường và Nhánh (ghi cả số lần dùng):</span>{A('tinh_nang')}</label>
+          <label className="cv-area"><span className="cv-k">Ngộ, ASI:</span>{A('ngo')}</label>
+        </Sec>
 
-      <details className="sec">
-        <summary>Con người và câu chuyện</summary>
-        <div className="form">
-          <Field label="Ngoại hình" wide><textarea value={d.ngoai_hinh} onChange={(e) => set('ngoai_hinh')(e.target.value)} /></Field>
-          <Field label="Ba người tôi thương" wide><input value={d.ba_nguoi_thuong} onChange={(e) => set('ba_nguoi_thuong')(e.target.value)} /></Field>
-          <Field label="Một món nợ chưa trả" wide><input value={d.mon_no} onChange={(e) => set('mon_no')(e.target.value)} /></Field>
-          <Field label="Một người đã khuất tôi chưa buông được" wide><input value={d.nguoi_da_khuat} onChange={(e) => set('nguoi_da_khuat')(e.target.value)} /></Field>
-          <Field label="Vì sao tôi thấy được ma" wide><input value={d.vi_sao_thay_ma} onChange={(e) => set('vi_sao_thay_ma')(e.target.value)} /></Field>
-          <Field label="Tiểu sử" wide><textarea value={d.tieu_su} onChange={(e) => set('tieu_su')(e.target.value)} /></Field>
-        </div>
-      </details>
+        <Sec n={4} title="SỨC KHOẺ – GIAO TRANH">
+          <div className="outs">
+            <Out label="Máu tối đa" value={x.hpMax} hint={x.hpBase != null ? `gốc ${x.hpBase} theo tuổi + mod Thể` : 'cần Tuổi và Thể'} />
+            <Field label="Máu hiện tại"><Num value={d.mau} onChange={set('mau')} /></Field>
+            <Field label="Máu ảo"><Num value={d.mau_ao} min={0} onChange={set('mau_ao')} /></Field>
+            <Out label="Tình trạng" value={tinhTrang || '–'} />
+            <Field label="Máu cộng thêm"><Num value={d.mau_them} onChange={set('mau_them')} /></Field>
+            <label className="check"><input type="checkbox" checked={d.thien_on_mau} onChange={(e) => set('thien_on_mau')(e.target.checked)} /> Trường thọ: cộng mod Thể thêm lần nữa</label>
+          </div>
+          <h4 className="cv-h4">Bảy vía <small className="muted">(bấm vào vía đã mất)</small></h4>
+          <Dots n={7} filled={d.via_mat} onToggle={(i) => flip('via_mat', i)} label="Vía đã mất" lostStyle />
+          {d.via_mat.some(Boolean) && (
+            <div className="form">
+              {d.via_mat.map((m, i) => m && (
+                <Field key={i} label={`Hậu quả vía ${i + 1}`}><input value={d.via_hau_qua[i]} onChange={(e) => update({ via_hau_qua: d.via_hau_qua.map((v, j) => (j === i ? e.target.value : v)) })} /></Field>
+              ))}
+            </div>
+          )}
+          {x.lost >= 7 && <p className="msg bad">Mất vía thứ 7: còn 49 ngày để làm lễ gọi vía (2.2).</p>}
+          <div className="cols">
+            <div><h4 className="cv-h4">Ba hồn <small className="muted">(bấm vào hồn đã mất)</small></h4><Dots n={3} filled={d.hon_mat} onToggle={(i) => flip('hon_mat', i)} label="Hồn đã mất" lostStyle /></div>
+            <div><h4 className="cv-h4">Death save thành công</h4><Dots n={3} filled={[0, 1, 2].map((i) => i < d.death_ok)} onToggle={(i) => set('death_ok')(d.death_ok === i + 1 ? i : i + 1)} label="Death save thành công" /></div>
+          </div>
+          <p className="muted small">Mỗi lần death save thất bại mất một hồn, mất cả ba là chết (2.4).</p>
+          <div className="outs">
+            <Out label="AC" value={x.ac} hint="10 + Mẫn + đồ" />
+            <Field label="Đồ hộ thân (+AC)"><Num value={d.ac_do} onChange={set('ac_do')} /></Field>
+            <Out label="Initiative" value={fmt(x.mods.man)} />
+            <Field label="Di chuyển (ft)"><Num value={d.di_chuyen} onChange={set('di_chuyen')} /></Field>
+            <Out label="Trấn Vía" value={fmt(x.tranVia)} hint="d20 + Tuệ; DC + mod Vía" />
+            <Out label="Át Vía" value={fmt(x.skills['at-via'])} hint="d20 + Mị" />
+          </div>
+          <p className="cv-k">Đòn đánh:</p>
+          <div className="attacks">
+            {d.don_danh.map((a, i) => (
+              <div key={i} className="attack">
+                {['ten', 'ar', 'sat_thuong', 'loai'].map((k) => (
+                  <input key={k} value={a[k]} placeholder={{ ten: 'Tên', ar: 'AR', sat_thuong: 'Sát thương', loai: 'Loại (Dương, Âm...)' }[k]} aria-label={k}
+                         onChange={(e) => update({ don_danh: d.don_danh.map((y, j) => (j === i ? { ...y, [k]: e.target.value } : y)) })} />
+                ))}
+                <button type="button" className="ghost" aria-label="Xoá đòn" onClick={() => update({ don_danh: d.don_danh.filter((_, j) => j !== i) })}>✕</button>
+              </div>
+            ))}
+            <button type="button" onClick={() => update({ don_danh: [...d.don_danh, { ten: '', ar: '', sat_thuong: '', loai: '' }] })}>+ Thêm đòn</button>
+          </div>
+        </Sec>
 
-      <details className="sec">
-        <summary>Sổ ân oán và vụ ma</summary>
-        <div className="form">
-          <Field label="Ân oán với người âm, thần thánh (nợ ai, lời hứa, hạn)" wide><textarea value={d.an_oan} onChange={(e) => set('an_oan')(e.target.value)} /></Field>
-          <Field label="Vong đang theo vụ (tên thật, cách chết, muốn gì, Chấp, bằng chứng)" wide><textarea value={d.vu_ma} onChange={(e) => set('vu_ma')(e.target.value)} /></Field>
-          <Field label="Ghi chú khác" wide><textarea value={d.ghi_chu} onChange={(e) => set('ghi_chu')(e.target.value)} /></Field>
-        </div>
-      </details>
+        <Sec n={5} title="KHEN THƯỞNG – KỶ LUẬT">
+          <h4 className="cv-h4">Phúc <small className="muted">{d.phuc}/10</small></h4>
+          <Dots n={10} filled={Array.from({ length: 10 }, (_, i) => i < d.phuc)} onToggle={(i) => set('phuc')(d.phuc === i + 1 ? i : i + 1)} label="Phúc" />
+          {x.tuyetPhuc && <p className="msg bad">Tuyệt Phúc: xin keo không bao giờ ra Thánh (2.6).</p>}
+          <ol className="cv-lines edit">
+            {L('Năm thọ đã hao', <Num value={d.tho_hao} min={0} onChange={set('tho_hao')} />)}
+            {L('Hạn sắp tới', T('han'))}
+          </ol>
+        </Sec>
+
+        <Sec n={6} title="TÀI SẢN, PHÁP BẢO">
+          <label className="cv-area"><span className="cv-k">Pháp bảo (nhận chủ, bản mệnh, lần còn, tính nết):</span>{A('phap_bao')}</label>
+          <label className="cv-area"><span className="cv-k">Hành trang, đồ lễ, tiền bạc:</span>{A('hanh_trang')}</label>
+        </Sec>
+
+        <Sec n={7} title="GHI CHÉP RIÊNG (chỉ em và GM xem)">
+          <label className="cv-area"><span className="cv-k">Vong đang theo vụ (tên thật, cách chết, muốn gì, Chấp, bằng chứng):</span>{A('vu_ma')}</label>
+          <label className="cv-area"><span className="cv-k">Ghi chú khác:</span>{A('ghi_chu')}</label>
+        </Sec>
+      </Paper>
 
       <div className="row between sheet-bottom">
         <div className="row">

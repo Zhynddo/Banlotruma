@@ -1,13 +1,40 @@
 // Hiện hình vẽ của một mục. Hình được service worker lưu lại, mất mạng vẫn xem được.
 import { useEffect, useState } from 'react';
 import { media } from '../lib/api.js';
+import { isNative } from '../lib/native.js';
+
+const MEDIA = 'media-v1'; // trùng tên với public/sw.js và Cài đặt
+
+// Trong app Android không có service worker: tự đọc hình từ bộ nhớ đệm, chưa có thì tải rồi giữ lại
+function useNativeSrc(url) {
+  const [src, setSrc] = useState(null);
+  const [bad, setBad] = useState(false);
+  useEffect(() => {
+    if (!isNative || !url) return undefined;
+    let obj = null, stop = false;
+    (async () => {
+      try {
+        const c = await caches.open(MEDIA);
+        let r = await c.match(url, { ignoreVary: true });
+        if (!r) { r = await fetch(url, { mode: 'cors' }); if (!r.ok) throw new Error(); await c.put(url, r.clone()); }
+        obj = URL.createObjectURL(await r.blob());
+        if (!stop) setSrc(obj);
+      } catch { if (!stop) setBad(true); }
+    })();
+    return () => { stop = true; if (obj) URL.revokeObjectURL(obj); };
+  }, [url]);
+  return { src, bad };
+}
 
 export function Img({ path, alt = '', className, lazy = true }) {
   const [bad, setBad] = useState(false);
+  const url = media.url(path);
+  const native = useNativeSrc(path ? url : '');
   useEffect(() => setBad(false), [path]);
-  if (!path || bad) return <span className={'img-miss ' + (className || '')}>hình chưa có trên máy</span>;
+  if (!path || bad || native.bad) return <span className={'img-miss ' + (className || '')}>hình chưa có trên máy</span>;
+  if (isNative) return native.src ? <img src={native.src} alt={alt} className={className} decoding="async" /> : <span className={'img-miss ' + (className || '')}>đang tải hình…</span>;
   return (
-    <img src={media.url(path)} alt={alt} className={className} crossOrigin="anonymous"
+    <img src={url} alt={alt} className={className} crossOrigin="anonymous"
          loading={lazy ? 'lazy' : 'eager'} decoding="async" onError={() => setBad(true)} />
   );
 }

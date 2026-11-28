@@ -35,6 +35,21 @@ python3 test/e2e.py  # cần Python + Playwright; chạy sau npm run build
 - Trong màn hình Sửa có phần **Hình vẽ**: hình được thu nhỏ trên máy (tối đa 1600px, kèm bản nhỏ 360px) rồi tải lên bucket `media`. Đường dẫn hình lưu ở `data.hinh` của mục. Người chơi xem hình nào thì máy tự giữ lại; Cài đặt có nút tải hết hình để xem offline.
 - Vẫn sửa trực tiếp được trong Supabase (Table Editor → `entries`).
 - Database tạo trước 27/11/2026 cần chạy thêm `supabase/update-01.sql` một lần.
+- Blog truyện ma, hồ sơ PC công khai và ảnh chân dung cần `supabase/update-02.sql` (chạy một lần, kể cả database mới tạo: schema → storage → seed → update-02).
+
+## Các mục trong app
+
+- **Truyện ma** (`#truyen`): khách gửi bài không cần tài khoản qua hàm `submit_post` (có ô bẫy và giới hạn 3 bài/giờ mỗi IP). GM duyệt ở `#truyen/duyet`.
+- **Sổ phép** (`#tra-cuu`): phép hiện như lá bùa dán trên trang sổ chép tay, nghi lễ như lá sớ (`src/views/Folio.jsx`).
+- **Nhân vật** (`#nhan-vat`): PC người chơi tự bật công khai (ô `cong_khai` trong phiếu, đọc qua hàm `public_characters`) và NPC (mục loại `npc` trong kho).
+- **Phiếu của tôi** (`#phieu`): phiếu trình bày như sơ yếu lý lịch, có ảnh 3×4.
+- Theme: `bao-cao` (mặc định), `crt`, `giay`, `dem`. Thêm theme mới: thêm khối `[data-theme=...]` trong `styles.css` và một dòng trong `src/lib/theme.js`.
+
+## App Android
+
+Workflow build APK mỗi lần đưa code lên `main`, đăng vào Releases với tag `app-android`; link tải cố định:
+`https://github.com/<chủ>/<repo>/releases/latest/download/ban-lo-tru-ma.apk`.
+Khoá ký nằm ở `android-keystore/debug.keystore` để bản sau cài đè được bản trước. Biểu tượng và màn hình chờ lấy từ `assets/`.
 - Muốn gói đi kèm app cũng mới theo: xuất bảng `entries` ra JSON, thay `public/data/core.json`.
 
 ## Ghi chú kỹ thuật

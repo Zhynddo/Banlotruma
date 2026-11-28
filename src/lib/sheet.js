@@ -7,6 +7,10 @@ export const blankSheet = () => ({
   ten: '', nguoi_choi: '', truong: '', nhanh: '', cap: 1, kinh_nghiem: 0,
   can: '', can_duoc: '', can_mat: '', duyen: '', gioi: '', menh: '', nghe: '',
   tuoi: null, tho: null, chi_so_chinh: '',
+  // Sơ yếu lý lịch
+  gioi_tinh: '', que_quan: '', noi_o: '', ton_giao: '',
+  chan_dung: null,   // { path, thumb } trong kho hình
+  cong_khai: false,  // hiện hồ sơ trong mục Nhân vật cho mọi người xem
   // Thất Khiếu
   stats: { luc: null, man: null, the: null, tri: null, tue: null, mi: null, via: null },
   thao_chong: [], ky_nang_thao: [], ky_nang_doi: [], thong_thao_khac: '',
