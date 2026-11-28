@@ -31,6 +31,7 @@ export default function People({ pack, setPack, online, role, say, path, nav }) 
   const [q, setQ] = useState('');
   const [kind, setKind] = useState('all');
   const [edit, setEdit] = useState(null); // 'new' | mã NPC
+  useEffect(() => { if (path[0] === 'them' && gm) setEdit('new'); }, [path[0], gm]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let stop = false;

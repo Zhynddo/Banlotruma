@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { config, media } from '../lib/api.js';
 import { resetPack } from '../lib/pack.js';
-import { THEMES, setTheme, getTheme } from '../lib/theme.js';
+import { THEMES, setTheme, getTheme, DOCS, setDocs, getDocs } from '../lib/theme.js';
 import { isNative, APK_URL } from '../lib/native.js';
 
 const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
@@ -60,6 +60,7 @@ export default function Settings({ pack, setPack, online, refresh, say }) {
   const [busy, setBusy] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [theme, setThemeState] = useState(getTheme);
+  const [docs, setDocsState] = useState(getDocs);
 
   const connect = async (e) => {
     e.preventDefault();
@@ -100,7 +101,11 @@ export default function Settings({ pack, setPack, online, refresh, say }) {
             </button>
           ))}
         </div>
-        <p className="muted small">Mỗi máy nhớ theme riêng.</p>
+        <h3>Kiểu tài liệu</h3>
+        <div className="chips" role="group" aria-label="Kiểu tài liệu">
+          {DOCS.map((d) => <button key={d.k} type="button" aria-pressed={docs === d.k} onClick={() => { setDocs(d.k); setDocsState(d.k); }}>{d.name}</button>)}
+        </div>
+        <p className="muted small">Giấy thật: lá bùa vàng, lá sớ, sơ yếu lý lịch giấy trắng. Chữ terminal: mọi thứ là chữ trên màn hình. Mỗi máy nhớ lựa chọn riêng.</p>
       </div>
 
       <div className="panel">

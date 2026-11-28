@@ -8,26 +8,15 @@ import Characters from './views/Characters.jsx';
 import Settings from './views/Settings.jsx';
 import Blog from './views/Blog.jsx';
 import People from './views/People.jsx';
+import Writer from './views/Writer.jsx';
+import Finder from './views/Finder.jsx';
+import Desktop from './shell/Desktop.jsx';
 import { applyTheme } from './lib/theme.js';
 import { isNative } from './lib/native.js';
 
-// [mã, tên, tên ngắn trên điện thoại, biểu tượng]
-const TABS = [
-  ['truyen', 'Truyện ma', 'Truyện', '鬼'],
-  ['tra-cuu', 'Sổ phép', 'Sổ phép', '符'],
-  ['nhan-vat', 'Nhân vật', 'Nhân vật', '人'],
-  ['phieu', 'Phiếu của tôi', 'Phiếu', '冊'],
-  ['cai-dat', 'Cài đặt', 'Cài đặt', '⚙'],
-];
-// Đường dẫn dạng #truyen/gui, #nhan-vat/pc/<mã> ...
-const route = () => {
-  const [h, ...rest] = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
-  return TABS.some(([k]) => k === h) ? { tab: h, path: rest.filter(Boolean) } : { tab: 'truyen', path: [] };
-};
 applyTheme();
 
 export default function App() {
-  const [{ tab, path }, setRoute] = useState(route);
   const [queue, setQueue] = useState(0);
   const [pack, setPack] = useState(null);
   const [online, setOnline] = useState(false);
@@ -70,10 +59,9 @@ export default function App() {
   useEffect(() => {
     const on = () => refresh(true);
     const off = () => setOnline(false);
-    const hash = () => { setRoute(route()); window.scrollTo(0, 0); };
-    addEventListener('online', on); addEventListener('offline', off); addEventListener('hashchange', hash);
+    addEventListener('online', on); addEventListener('offline', off);
     const unsub = onAuth(setUser);
-    return () => { removeEventListener('online', on); removeEventListener('offline', off); removeEventListener('hashchange', hash); unsub(); };
+    return () => { removeEventListener('online', on); removeEventListener('offline', off); unsub(); };
   }, [refresh]);
 
   // Vai trò (GM hay người chơi)
@@ -102,52 +90,37 @@ export default function App() {
   useEffect(() => {
     if (role !== 'gm' || !online) { setQueue(0); return; }
     rpc('gm_posts', { p_status: 'pending' }).then((r) => setQueue(r?.length || 0)).catch(() => {});
-  }, [role, online, tab]);
+  }, [role, online]);
 
-  const nav = (h) => { if (location.hash !== '#' + h) location.hash = h; else setRoute(route()); };
-  const ctx = { pack, setPack, index, online, user, role, say, refresh, conflicts, setConflicts, path, nav, setQueue };
+  // Mở ứng dụng hoặc trang khác: đổi địa chỉ, desktop tự mở cửa sổ tương ứng
+  const nav = useCallback((h) => {
+    if (location.hash === '#' + h) dispatchEvent(new HashChangeEvent('hashchange'));
+    else location.hash = h;
+  }, []);
+  const ctx = { pack, setPack, index, online, user, role, say, refresh, conflicts, setConflicts, nav, setQueue };
+
+  const render = (k, path) => {
+    if (!pack) return <p className="muted">ĐANG NẠP GÓI DỮ LIỆU<span className="cursor" /></p>;
+    const c = { ...ctx, path };
+    if (k === 'truyen') return <Blog {...c} />;
+    if (k === 'tim') return <Finder {...c} />;
+    if (k === 'viet') return <Writer {...c} />;
+    if (k === 'tra-cuu') return <Search {...c} />;
+    if (k === 'nhan-vat') return <People {...c} />;
+    if (k === 'phieu') return <Characters {...c} />;
+    if (k === 'cai-dat') return <Settings {...c} />;
+    return null;
+  };
 
   return (
     <>
-      <header className="top">
-        <div className="wrap top-in">
-          <a className="logo" href="#truyen">BÁN LỘ TRỪ MA</a>
-          <span className={'status ' + (online ? 'on' : 'off')} title={online ? 'Đang nối database' : 'Đang dùng dữ liệu trên máy'}>
-            {online ? 'ONLINE' : 'OFFLINE'}
-          </span>
-          <nav className="tabs" aria-label="Mục chính">
-            {TABS.map(([k, label, short, icon]) => (
-              <a key={k} href={'#' + k} className={tab === k ? 'on' : ''} aria-current={tab === k ? 'page' : undefined}>
-                <span className="tab-ic" aria-hidden="true">{icon}</span>
-                <span className="tab-long">{label}</span><span className="tab-short">{short}</span>
-                {k === 'truyen' && queue > 0 && <span className="badge" title={queue + ' bài chờ duyệt'}>{queue}</span>}
-              </a>
-            ))}
-          </nav>
-        </div>
-      </header>
-
+      <Desktop ctx={ctx} render={render} queue={queue} />
       {update && (
-        <div className="banner wrap">
-          <span>&gt; Có bản app mới.</span>
+        <div className="banner" role="status">
+          <span>*** CÓ BẢN APP MỚI.</span>
           <button type="button" className="pri" onClick={() => update.postMessage('skip-waiting')}>Tải lại để cập nhật</button>
         </div>
       )}
-
-      <main className="wrap">
-        {!pack ? <p className="muted boot">&gt; đang nạp gói dữ liệu<span className="caret" /></p> : (
-          <>
-            {tab === 'truyen' && <Blog {...ctx} />}
-            {tab === 'tra-cuu' && <Search {...ctx} />}
-            {tab === 'nhan-vat' && <People {...ctx} />}
-            {tab === 'phieu' && <Characters {...ctx} />}
-            {tab === 'cai-dat' && <Settings {...ctx} />}
-          </>
-        )}
-      </main>
-
-      <footer className="wrap foot">Bán Lộ Trừ Ma · gói {pack ? pack.entries.length : '…'} mục · {isNative ? 'app Android' : 'bản web'} · {String(typeof __BUILD__ !== 'undefined' ? __BUILD__ : '').slice(0, 10)}</footer>
-
       {toast && <div className={'toast ' + toast.kind} role="status">{toast.text}</div>}
     </>
   );

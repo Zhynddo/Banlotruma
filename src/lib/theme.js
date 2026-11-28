@@ -2,20 +2,28 @@
 import { prefs } from './store.js';
 
 export const THEMES = [
-  { k: 'bao-cao', name: 'Giấy báo cáo', note: 'giấy in sọc xanh đời cũ', bar: '#e7efdf', sw: ['#f3f6ec', '#dcebd5', '#1f4a32'] },
-  { k: 'crt', name: 'Màn hình xanh', note: 'màn hình phốt-pho, chữ phát sáng', bar: '#020b05', sw: ['#020b05', '#14532b', '#5dff8f'] },
-  { k: 'giay', name: 'Sổ giấy ngà', note: 'giấy ngà, mực nâu', bar: '#eadcc0', sw: ['#f1e7d0', '#dccaa8', '#3b2a1a'] },
-  { k: 'dem', name: 'Đêm mực', note: 'nền tối, điểm son đỏ', bar: '#121110', sw: ['#121110', '#45413b', '#d94f3d'] },
+  { k: 'crt', name: 'Phốt-pho xanh', note: 'màn hình xanh đời cũ, chữ phát sáng', bar: '#031a0a', sw: ['#020b05', '#1d6b3a', '#3dff7f'] },
+  { k: 'term', name: 'Đen trắng', note: 'terminal hiện đại', bar: '#161616', sw: ['#0c0c0c', '#4a4a4a', '#e8e8e8'] },
 ];
+const KEYS = THEMES.map((t) => t.k);
 
-export const getTheme = () => document.documentElement.dataset.theme || 'bao-cao';
+export const getTheme = () => document.documentElement.dataset.theme || 'crt';
 
 export function setTheme(k) {
   const t = THEMES.find((x) => x.k === k) || THEMES[0];
   document.documentElement.dataset.theme = t.k;
   prefs.set('theme', t.k);
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', t.bar);
+  dispatchEvent(new Event('bltm-ui'));
 }
 
-// Gọi một lần lúc mở app để thanh trạng thái điện thoại đúng màu
-export const applyTheme = () => setTheme(prefs.get('theme') || 'bao-cao');
+// Theme cũ (giấy báo cáo, giấy ngà, đêm mực) đã bỏ: đổi về xanh
+export const applyTheme = () => setTheme(KEYS.includes(prefs.get('theme')) ? prefs.get('theme') : 'crt');
+
+// Kiểu tài liệu: "paper" = giấy thật (lá bùa vàng, giấy trắng), "text" = chữ terminal
+export const DOCS = [
+  { k: 'paper', name: 'Giấy thật' },
+  { k: 'text', name: 'Chữ terminal' },
+];
+export const getDocs = () => (prefs.get('docs') === 'text' ? 'text' : 'paper');
+export function setDocs(k) { prefs.set('docs', k === 'text' ? 'text' : 'paper'); dispatchEvent(new Event('bltm-ui')); }

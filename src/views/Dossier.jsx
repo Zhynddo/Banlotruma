@@ -3,6 +3,7 @@
 import { STATS, derive, fmt } from '../lib/rules.js';
 import { normalizeSheet } from '../lib/sheet.js';
 import { Img, Gallery } from './Media.jsx';
+import { useUi } from '../shell/ui.js';
 
 const roman = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
 const has = (v) => v !== null && v !== undefined && String(v).trim() !== '' && v !== false;
@@ -33,8 +34,9 @@ function Prose({ rows, alone }) {
 }
 
 export function Paper({ kicker, title, sub, photo, children, sign, date, sealed, badge }) {
+  const { docs } = useUi();
   return (
-    <article className="cv">
+    <article className={'cv ' + (docs === 'text' ? 'doc-text' : 'doc-paper')}>
       <header className="cv-head">
         <div className="cv-org">
           <p>BÁN LỘ TRỪ MA</p>

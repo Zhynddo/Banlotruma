@@ -3,6 +3,7 @@
 //   nghi lễ → lá sớ
 //   còn lại → trang sổ chép tay
 import { Gallery } from './Media.jsx';
+import { useUi } from '../shell/ui.js';
 
 export const TYPES = {
   all: 'Tất cả', spell: 'Phép', rite: 'Nghi lễ', can: 'Căn', item: 'Pháp bảo',
@@ -151,7 +152,45 @@ function PlainPage({ e }) {
   );
 }
 
+// Bản chữ terminal: cùng nội dung, trình bày như một tệp hồ sơ trên màn hình
+function TextPage({ e }) {
+  const d = e.data || {};
+  const tinh = list(d.tinh);
+  const rows = [
+    ['Loại', TYPES[e.type] || e.type], ['Bậc', d.bac], ['Tính', tinh.join(' + ')], ['Giá', d.gia != null && d.gia !== '' ? d.gia + ' linh' : ''],
+    ['Số d20', d.d20], ['Thời gian', d.thoi_gian], ['Loại đồ', d.loai],
+    ...Object.entries(d).filter(([k, v]) => !SKIP.has(k) && !['thoi_gian', 'loai', 'd20', 'hanh_dong', 'thi', 'goc', 'ghi_chu'].includes(k) && v !== null && v !== '' && v !== false && (typeof v !== 'object' || Array.isArray(v))).map(([k, v]) => [label(k), val(v)]),
+    ['Hành động', d.hanh_dong], ['Thi', d.thi], ['Duy trì', d.duy_tri ? 'có' : ''], ['Gốc D&D', d.goc], ['Xem luật', d.muc ? '§' + d.muc : ''],
+  ].filter(([, v]) => v !== '' && v != null);
+  const st = e.type === 'rite' ? steps(e.body) : [];
+  return (
+    <article className={'tdoc ' + e.type}>
+      <header className="tdoc-head">
+        <span className="tdoc-han" aria-hidden="true">{tinh.length ? tinh.map((t) => HAN[t] || '').join('') : KIND_HAN[e.type] || '記'}</span>
+        <h2>{e.name}</h2>
+        {e.summary && <p className="tdoc-sum">{e.summary}</p>}
+      </header>
+      <dl className="tdoc-kv">{rows.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}</dl>
+      <Gallery items={Array.isArray(d.hinh) ? d.hinh : []} />
+      {e.type === 'can' ? (
+        <dl className="tdoc-kv tdoc-dm"><div><dt>ĐƯỢC</dt><dd>{d.duoc}</dd></div><div><dt>MẤT</dt><dd>{d.mat}</dd></div></dl>
+      ) : st.length > 1 ? (
+        <ol className="tdoc-steps">{st.map((x, i) => <li key={i}>{x.replace(/^(\d+[.)]|[-•])\s*/, '')}</li>)}</ol>
+      ) : (
+        <div className="tdoc-body">{paras(e.body).map((x, i) => <p key={i}>{x}</p>)}</div>
+      )}
+      {Array.isArray(d.cua) && (
+        <dl className="tdoc-kv"><div className="tdoc-cap"><dt>TÁM CỬA</dt><dd /></div>{d.cua.map((c) => <div key={c.cua}><dt>{c.cua}</dt><dd>{c.mo}</dd></div>)}</dl>
+      )}
+      {d.ghi_chu && <p className="tdoc-note">; {d.ghi_chu}</p>}
+      {((e.tags || []).length > 0 || e.source) && <p className="tdoc-foot">{(e.tags || []).map((t) => '#' + t).join(' ')}{e.source ? ' · ' + e.source : ''}</p>}
+      <p className="tdoc-end">--- HẾT TỆP ---</p>
+    </article>
+  );
+}
+
 export function EntryView({ e, onClose, onEdit }) {
+  const { docs } = useUi();
   if (!e) return <p className="muted pick-hint">Chọn một mục bên trái để mở trang sổ.</p>;
   const d = e.data || {};
   return (
@@ -167,7 +206,7 @@ export function EntryView({ e, onClose, onEdit }) {
           {onClose && <button type="button" className="ghost" onClick={onClose} aria-label="Đóng chi tiết">✕</button>}
         </div>
       </div>
-      {e.type === 'spell' ? <SpellPage e={e} /> : e.type === 'rite' ? <RitePage e={e} /> : <PlainPage e={e} />}
+      {docs === 'text' ? <TextPage e={e} /> : e.type === 'spell' ? <SpellPage e={e} /> : e.type === 'rite' ? <RitePage e={e} /> : <PlainPage e={e} />}
     </div>
   );
 }

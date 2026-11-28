@@ -37,13 +37,25 @@ python3 test/e2e.py  # cần Python + Playwright; chạy sau npm run build
 - Database tạo trước 27/11/2026 cần chạy thêm `supabase/update-01.sql` một lần.
 - Blog truyện ma, hồ sơ PC công khai và ảnh chân dung cần `supabase/update-02.sql` (chạy một lần, kể cả database mới tạo: schema → storage → seed → update-02).
 
-## Các mục trong app
+## Giao diện: desktop kiểu DOS
 
-- **Truyện ma** (`#truyen`): khách gửi bài không cần tài khoản qua hàm `submit_post` (có ô bẫy và giới hạn 3 bài/giờ mỗi IP). GM duyệt ở `#truyen/duyet`.
-- **Sổ phép** (`#tra-cuu`): phép hiện như lá bùa dán trên trang sổ chép tay, nghi lễ như lá sớ (`src/views/Folio.jsx`).
-- **Nhân vật** (`#nhan-vat`): PC người chơi tự bật công khai (ô `cong_khai` trong phiếu, đọc qua hàm `public_characters`) và NPC (mục loại `npc` trong kho).
-- **Phiếu của tôi** (`#phieu`): phiếu trình bày như sơ yếu lý lịch, có ảnh 3×4.
-- Theme: `bao-cao` (mặc định), `crt`, `giay`, `dem`. Thêm theme mới: thêm khối `[data-theme=...]` trong `styles.css` và một dòng trong `src/lib/theme.js`.
+Mở app là màn hình khởi động chạy chữ (mỗi phiên một lần, bấm phím để bỏ qua), rồi tới desktop có biểu tượng.
+Mỗi ứng dụng mở trong một cửa sổ khung kẻ đôi kiểu Turbo Vision: `[■]` đóng, `[↑]` phóng to, kéo thanh tiêu đề để dời,
+kéo góc `◢` để đổi cỡ. Trên điện thoại cửa sổ tự phóng kín màn hình. Thanh menu trên cùng và trong mỗi cửa sổ sổ xuống khi bấm.
+Code: `src/shell/` (Desktop, Window, Menu, Boot, apps.js).
+
+| Ứng dụng | Địa chỉ | Ghi chú |
+|---|---|---|
+| Truyện ma | `#truyen` | BBS: gõ số rồi Enter để đọc, phím tắt G/F/S/T/ESC; GM duyệt ở `#truyen/duyet` |
+| Tìm hồ sơ | `#tim` | tìm trong truyện, sổ phép, NPC, PC công khai; hiệu ứng dò kho rồi giải mã |
+| Gửi tệp | `#viet` | trình soạn thảo có số dòng, Ctrl+S gửi, Ctrl+X thoát; khách không cần tài khoản |
+| Sổ phép | `#tra-cuu`, `#tra-cuu/<mã>`, `#tra-cuu/them` | |
+| Nhân vật | `#nhan-vat`, `#nhan-vat/pc/<mã>`, `#nhan-vat/npc/<mã>`, `#nhan-vat/them` | |
+| Phiếu của tôi | `#phieu` | phiếu dạng sơ yếu lý lịch |
+| Cài đặt | `#cai-dat` | |
+
+Theme: `crt` (phốt-pho xanh, mặc định) và `term` (đen trắng). Kiểu tài liệu: giấy thật hoặc chữ terminal
+(menu Xem, hoặc Cài đặt). Ai bật giảm chuyển động trong máy thì không có hiệu ứng chạy chữ.
 
 ## App Android
 

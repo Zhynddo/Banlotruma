@@ -11,7 +11,7 @@ const BAC = ['Cấp thấp', 'Sơ', 'Trung', 'Cao'];
 // NPC nằm ở mục Nhân vật, không hiện trong sổ phép
 const HERE = (e) => e.type !== 'npc';
 
-export default function Search({ pack, setPack, index, online, role, say }) {
+export default function Search({ pack, setPack, index, online, role, say, path = [] }) {
   const gm = role === 'gm';
   const [edit, setEdit] = useState(null); // null | 'new' | id
   const [q, setQ] = useState(() => sessionStorage.getItem('bltm.q') || '');
@@ -29,6 +29,12 @@ export default function Search({ pack, setPack, index, online, role, say }) {
   }, [pack, gm]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => { try { sessionStorage.setItem('bltm.q', q); } catch { /* bỏ qua */ } }, [q]);
+  // #tra-cuu/them: thêm mục mới (GM); #tra-cuu/<mã mục>: mở thẳng mục đó
+  const p0 = path[0];
+  useEffect(() => {
+    if (p0 === 'them') { if (gm) setEdit('new'); }
+    else if (p0 && pack.entries.some((e) => e.id === p0)) { setSel(p0); setEdit(null); }
+  }, [p0, gm]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Có mạng thì tìm trong database (kết quả mới nhất), lỗi thì dùng kết quả trên máy
   useEffect(() => {
